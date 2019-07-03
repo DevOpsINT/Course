@@ -24,7 +24,7 @@ pipeline {
 		steps {
 			script {
 				git add .
-				git commit -m \'push new file\'
+				git commit -m 'push new file'
 				git push origin gadi
 			}
 		}
