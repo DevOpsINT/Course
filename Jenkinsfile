@@ -17,8 +17,8 @@ pipeline {
                     sh 'touch tamirnewfile'
                     sh 'git checkout tamir'
 		    sh 'git add.'
-		    sh 'git --global user.email "bla@gmail.com"
-		sh 'git --global user.name "DevOpsINT'
+		    sh 'git --global user.email "bla@gmail.com"'
+               	sh 'git --global user.name "DevOpsINT'
                     sh 'git commit -m "added new file via jenkins job"
                     sh 'git push origin tamir'
                     sh 'DevOpsINT'
