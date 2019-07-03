@@ -14,12 +14,12 @@ pipeline {
         }
         stage('shell command example') {
             steps {
-                git branch: 'master',
+                git branch: 'mops',
                     credentialsId: '95f577d1-e5ee-47ea-b766-967b233d7bf4',
                     url: 'https://github.com/DevOpsINT/Course.git'
                 
                 sh 'git branch'
-                sh 'git checkout mops'
+                
                 sh 'touch someFile'
                 sh 'git add .'
                 sh 'git commit -m "some"'
