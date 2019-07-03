@@ -17,7 +17,7 @@ pipeline {
                 sh 'git config --global user.email "relevant@example.com"'
                 sh 'git config --global user.name "DevOpsINT"'
                 sh 'git config credential.helper store'
-                sh 'git pull origin mastrer'
+                sh 'git pull origin master'
 
                 sh 'git checkout mops'
                 sh 'git add .'
