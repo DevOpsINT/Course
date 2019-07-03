@@ -16,7 +16,7 @@ pipeline {
                 
                 git(
                     url: 'https://github.com/DevOpsINT/Course/',
-                    credentialsId: 'mopsGit?Course',
+                    credentialsId: '95f577d1-e5ee-47ea-b766-967b233d7bf4',
                     branch: "${mops}"
                
                
