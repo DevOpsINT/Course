@@ -14,16 +14,13 @@ pipeline {
         stage('shell command example') {
             steps {
                 
-                sh 'git branch'
-                sh 'git checkout mops'
-                sh 'git pull origin master'
-                sh 'touch test'
-                sh 'git config --global user.email "relevant@example.com"'
-                sh 'git config --global user.name "DevOpsINT"'
-                sh 'git config credential.helper store'
-                sh 'git add .'
-                sh 'git commit -m "new file"'
-                sh 'git push origin mops'
+           git(
+       url: 'https://github.com/DevOpsINT/Course/',
+       credentialsId: 'mopsGit?Course',
+       branch: "${mops}"
+               
+               sh 'git branch'
+    )
                 
                 
             }
