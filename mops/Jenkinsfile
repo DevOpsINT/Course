@@ -16,6 +16,7 @@ pipeline {
                 
                 sh 'git branch'
                 sh 'git checkout mops'
+                sh 'git pull origin master'
                 sh 'touch test'
                 sh 'git config --global user.email "relevant@example.com"'
                 sh 'git config --global user.name "DevOpsINT"'
