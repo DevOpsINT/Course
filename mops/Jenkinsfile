@@ -13,14 +13,9 @@ pipeline {
         }
         stage('shell command example') {
             steps {
-                
-                git(
-                    url: 'https://github.com/DevOpsINT/Course/',
+                git branch: 'master',
                     credentialsId: '95f577d1-e5ee-47ea-b766-967b233d7bf4',
-                    branch: "${mops}"
-               
-               
-    )
+                    url: 'https://github.com/DevOpsINT/Course.git'
                 
                 sh 'git branch' 
             }
