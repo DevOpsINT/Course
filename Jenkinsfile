@@ -1,9 +1,9 @@
-sh label: '', script: '''git credentialsId: \'devopint\', url: \'https://github.com/DevOpsINT/Course.git\'
-echo yuvalcheck > /Course/yuvals.txt	
-git checkout Yuvalez
+sh label: '', script: '''git checkout Yuvalez
+echo "This is the check" > new.txt
+git config user.email "Yuval.ezrati@gmail.com"
+git config user.name "yuvalezrati"
 git add .
-git commit -m "added new file"
+git commit -m "Added new files finally!"
 git push origin Yuvalez
-
 
 '''
