@@ -14,8 +14,11 @@ pipeline {
         stage('shell command example') {
             steps {
                 sh 'touch john'
+                sh 'git config --global user.email "relevant@example.com"'
+                sh 'git config --global user.name "DevOpsINT"'
+
                 sh 'git add .'
-                sh 'git commit -m "new file"/'
+                sh 'git commit -m "new file"'
                 sh 'git push origin mops'
                 
             }
