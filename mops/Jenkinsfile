@@ -16,6 +16,9 @@ pipeline {
                 sh 'touch john'
                 sh 'git config --global user.email "relevant@example.com"'
                 sh 'git config --global user.name "DevOpsINT"'
+                sh 'git config credential.helper store'
+                sh 'git pull origin mastrer'
+
                 sh 'git checkout mops'
                 sh 'git add .'
                 sh 'git commit -m "new file"'
