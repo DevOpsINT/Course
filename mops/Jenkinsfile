@@ -14,12 +14,12 @@ pipeline {
         stage('shell command example') {
             steps {
                 
-           git(
-       url: 'https://github.com/DevOpsINT/Course/',
-       credentialsId: 'mopsGit?Course',
-       branch: "${mops}"
+                git(
+                    url: 'https://github.com/DevOpsINT/Course/',
+                    credentialsId: 'mopsGit?Course',
+                    branch: "${mops}"
                
-               sh 'git branch'
+                sh 'git branch'
     )
                 
                 
