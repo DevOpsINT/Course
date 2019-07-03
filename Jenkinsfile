@@ -20,6 +20,15 @@ pipeline {
                     sh 'cat gadi_file'
 		} 
             }
-        }
+	stage('push new file') {
+		steps {
+			script {
+				git add .
+				git commit -m \'push new file\'
+				git push origin gadi
+			}
+		}
+	    }
+	}
     }
 }
