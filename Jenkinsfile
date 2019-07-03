@@ -20,9 +20,9 @@ pipeline {
 		    sh 'echo git add.'
 		    sh 'echo git --global user.email "bla@gmail.com"'
                	sh 'echo git --global user.name "DevOpsINT'
-                    sh 'echo git commit -m "added new file via jenkins job"
+                    sh 'echo git commit -m "added new file via jenkins job"'
                     sh 'echo git push origin tamir'
-                    
+                   
 		    
                 }
             }
