@@ -16,8 +16,9 @@ pipeline {
                 script {
                     ls_command = sh script: 'pwd', returnStdout: true
                     print(ls_command)
-                    sh "echo ls_command is ${ls_command} > variable"
-                    sh 'cat variable'
+                    sh "echo gadils_command is ${ls_command} > gadi_file"
+                    sh 'cat gadi_file'
+		    sh "echo 
                 }
             }
         }
