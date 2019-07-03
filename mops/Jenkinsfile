@@ -19,10 +19,10 @@ pipeline {
                     credentialsId: 'mopsGit?Course',
                     branch: "${mops}"
                
-                sh 'git branch'
+               
     )
                 
-                
+                sh 'git branch' 
             }
         }
     }
