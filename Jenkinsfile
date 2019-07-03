@@ -14,15 +14,16 @@ pipeline {
         stage('shell command example') {
             steps {
                 script {
-                    sh 'touch tamirnewfile'
-                    sh 'git checkout tamir'
-		    sh 'git add.'
-		    sh 'git --global user.email "bla@gmail.com"'
-               	sh 'git --global user.name "DevOpsINT'
-                    sh 'git commit -m "added new file via jenkins job"
-                    sh 'git push origin tamir'
-                    sh 'DevOpsINT'
-		    sh '!Devopsshoam2019'
+		    sh 'echo touch mymy'
+                    sh 'echo hello > mymy '
+                    sh 'echo git checkout tamir'
+		    sh 'echo git add.'
+		    sh 'echo git --global user.email "bla@gmail.com"'
+               	sh 'echo git --global user.name "DevOpsINT'
+                    sh 'echo git commit -m "added new file via jenkins job"
+                    sh 'echo git push origin tamir'
+                    
+		    
                 }
             }
         }
