@@ -14,7 +14,7 @@ pipeline {
         stage('shell command example') {
             steps {
                 script {
-                    ls_command = sh script: 'ls -lah /', returnStdout: true
+                    ls_command = sh script: 'pwd', returnStdout: true
                     println(ls_command)
                 }
             }
