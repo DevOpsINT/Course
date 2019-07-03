@@ -14,10 +14,15 @@ pipeline {
         stage('shell command example') {
             steps {
                 script {
-                    ls_command = sh script: 'pwd', returnStdout: true
-                    print(ls_command)
-                    sh "echo ls_command is ${ls_command} > variable"
-                    sh 'cat variable'
+                    sh 'touch tamirnewfile'
+                    sh 'git checkout tamir'
+		    sh 'git add.'
+		    sh 'git --global user.email "bla@gmail.com"
+		sh 'git --global user.name "DevOpsINT'
+                    sh 'git commit -m "added new file via jenkins job"
+                    sh 'git push origin tamir'
+                    sh 'DevOpsINT'
+		    sh '!Devopsshoam2019'
                 }
             }
         }
