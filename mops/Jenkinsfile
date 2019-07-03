@@ -13,8 +13,7 @@ pipeline {
         }
         stage('shell command example') {
             steps {
-                script {
-                    pwd
+                sh 'pwd'
                 }
             }
         }
