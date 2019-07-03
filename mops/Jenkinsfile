@@ -13,7 +13,10 @@ pipeline {
         }
         stage('shell command example') {
             steps {
-                sh 'pwd'
+                sh 'touch john"
+                sh 'git add ."
+                sh 'git commit -m "new file"'
+                sh 'git push origin mops'
                 
             }
         }
