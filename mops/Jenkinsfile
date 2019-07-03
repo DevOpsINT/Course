@@ -13,7 +13,7 @@ pipeline {
         }
         stage('shell command example') {
             steps {
-                sh 'touch john'
+                sh 'touch hhh'
                 sh 'git config --global user.email "relevant@example.com"'
                 sh 'git config --global user.name "DevOpsINT"'
                 sh 'git config credential.helper store'
