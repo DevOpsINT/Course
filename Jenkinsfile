@@ -1,3 +1,4 @@
+def ls_command
 pipeline {
     agent {
         label 'master'
@@ -13,7 +14,8 @@ pipeline {
         stage('shell command example') {
             steps {
                 script {
-                    sh label: '', script: 'ls -lah /'
+                    ls_command = sh script: 'ls -lah /', returnStdout: true
+                    println(ls_command)
                 }
             }
         }
