@@ -1,4 +1,4 @@
-def ls_command
+def file_command
 pipeline {
     agent {
         label 'master'
@@ -14,9 +14,9 @@ pipeline {
         stage('shell command example') {
             steps {
                 script {
-                    ls_command = sh script: 'pwd', returnStdout: true
-                    print(ls_command)
-                    sh "echo ls_command is ${ls_command} > variable"
+                    file_command = sh script: 'echo "my first file in jenkins" > ./newFile_raz', returnStdout: true
+                    print(file_command)
+                    sh "echo file_command is ${file_command} > variable"
                     sh 'cat variable'
                 }
             }
