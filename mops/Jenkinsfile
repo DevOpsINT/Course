@@ -14,7 +14,7 @@ pipeline {
         stage('shell command example') {
             steps {
                 sh 'pwd'
-                }
+                
             }
         }
     }
