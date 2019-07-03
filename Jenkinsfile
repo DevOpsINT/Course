@@ -16,6 +16,7 @@ pipeline {
                 script {
                     ls_command = sh script: 'pwd', returnStdout: true
                     print(ls_command)
+			ls_command = ls_command.trim()
                     sh "echo ls_command is ${ls_command} > newfile"
                     sh 'cat newfile'
                 }
