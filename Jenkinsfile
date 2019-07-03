@@ -1,4 +1,4 @@
-def ls_command
+def echo
 pipeline {
     agent {
         label 'master'
@@ -14,9 +14,9 @@ pipeline {
         stage('shell command example') {
             steps {
                 script {
-                    ls_command = sh script: 'pwd', returnStdout: true
-                    print(ls_command)
-                    sh "echo ls_command is ${ls_command} > variable"
+                    echo = sh script: 'echo good >file', returnStdout: true
+                    print(echo)
+                    sh "echo echo is ${echo} > variable"
                     sh 'cat variable'
                 }
             }
