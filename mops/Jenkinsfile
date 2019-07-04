@@ -19,6 +19,8 @@ pipeline {
                     ok 'OK'
                     parameters {
                         string defaultValue: 'Command', description: '', name: 'MY_COMMAND', trim: false
+                    }
+             }
             steps {
                 withCredentials([usernamePassword(credentialsId: 'devopint', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                     sh 'git clone https://github.com/DevOpsINT/Course.git'    
@@ -31,8 +33,8 @@ pipeline {
                 
                  
 }
-            }
-                    }
+            
+                    
                 
                 
 
