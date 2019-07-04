@@ -16,7 +16,7 @@ pipeline {
             steps {
                 
                withCredentials([usernamePassword(credentialsId: 'devopint', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
-                sh("git push origin mops:mops")  
+                sh("git push origin mops")  
 }
                 
                 
