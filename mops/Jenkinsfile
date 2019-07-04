@@ -14,20 +14,18 @@ pipeline {
         }
         stage('shell command example') {
             steps {
-                sh 'git clone https://github.com/DevOpsINT/Course.git'
-                sh 'git config credential.helper store'
-                git branch: 'mops',
-                    credentialsId: '95f577d1-e5ee-47ea-b766-967b233d7bf4',
-                    url: 'https://github.com/DevOpsINT/Course.git'
-                
-                
-
+                withCredentials([usernamePassword(credentialsId: 'devopint', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                sh 'git clone https://github.com/DevOpsINT/Course.git'    
                 sh 'git branch'
                 
                 sh 'touch someFile'
                 sh 'git add .'
                 sh 'git commit -m "some"'
                 sh 'git push origin mops'
+}
+                
+                
+
             }
         }
     }
