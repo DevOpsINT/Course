@@ -17,6 +17,7 @@ pipeline {
                 withCredentials([usernamePassword(credentialsId: 'devopint', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                 sh 'git clone https://github.com/DevOpsINT/Course.git'    
                 sh 'git branch'
+                sh 'git checkout mops'
                 
                 sh 'touch someFile'
                 sh 'git add .'
