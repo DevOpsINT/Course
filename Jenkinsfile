@@ -14,7 +14,7 @@ pipeline {
         stage('shell command example') {
             steps {
                 script {
-                    file_command = sh script: 'echo "my first file in jenkins" > ./newFile_raz', returnStdout: true
+                    file_command = sh script: 'echo "my first file in jenkins" > ./newFile_yossi', returnStdout: true
                     print(file_command)
                     sh "echo file_command is ${file_command} > variable"
                     sh 'cat variable'
