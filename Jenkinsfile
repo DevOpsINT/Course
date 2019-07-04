@@ -1,25 +1,9 @@
-def file_command
-pipeline {
-    agent {
-        label 'master'
-    }
-    stages {
-        stage('checkout'){
-            steps {
-                script {
-                    git credentialsId: 'devopint', url: 'https://github.com/DevOpsINT/Course.git'
-                }
-            }
-        }
-        stage('shell command example') {
-            steps {
-                script {
-                    file_command = sh script: 'echo "my first file in jenkins" > ./newFile_yossi', returnStdout: true
-                    print(file_command)
-                    sh "echo file_command is ${file_command} > variable"
-                    sh 'cat variable'
-                }
-            }
-        }
-    }
-}
+touch file.txt
+echo 'welcome'> file.txt
+git remote add origin  git@github.com:DevOpsINT/Course.git
+git config --global user.email "user@example.org"
+git config --global user.name "username"
+git add file.txt
+git commit -m 'adding a file'
+git push origin yossi
+
