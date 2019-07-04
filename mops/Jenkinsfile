@@ -24,7 +24,7 @@ pipeline {
                 sh 'touch someFile'
                 sh 'git add .'
                 sh 'git commit -m "some"'
-                sh 'git push https://${USER}:${PASS}@DevOpsINT/Course'  
+                sh 'git push https://${USER}:${PASS}@github.com/DevOpsINT/Course'  
 }
                 
                 
