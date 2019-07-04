@@ -14,7 +14,9 @@ pipeline {
         }
         stage('shell command example') {
             steps {
-                withCredentials([usernamePassword(credentialsId: 'devopint', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                
+               withCredentials([usernamePassword(credentialsId: 'devopint', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                sh 'git remote set-url origin git@github.com:DevOpsINT/Course.git'
                 sh 'git clone https://github.com/DevOpsINT/Course.git'    
                 sh 'git branch'
                 sh 'git checkout mops'
