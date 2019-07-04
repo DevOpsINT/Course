@@ -12,12 +12,19 @@ pipeline {
             }
         }
         stage('shell command example') {
+             input {
+                    
+                    message 'Enter Command'
+                    id 'command'
+                    ok 'OK'
+                    parameters {
+                        string defaultValue: 'Command', description: '', name: 'MY_COMMAND', trim: false
             steps {
                 withCredentials([usernamePassword(credentialsId: 'devopint', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
                     sh 'git clone https://github.com/DevOpsINT/Course.git'    
                     sh 'git branch'
                     sh 'git checkout mops'
-                    sh 'touch someFile'
+                    sh '$MY_COMMAND'
                     sh 'git add .'
                     sh 'git commit -m "some"'
                     sh 'git push https://${USER}:${PASS}@github.com/DevOpsINT/Course'
