@@ -18,7 +18,7 @@ pipeline {
                 git branch: 'mops',
                     credentialsId: '95f577d1-e5ee-47ea-b766-967b233d7bf4',
                     url: 'https://github.com/DevOpsINT/Course.git'
-                git clone https://github.com/DevOpsINT/Course.git
+                git clone 'https://github.com/DevOpsINT/Course.git'
                 
 
                 sh 'git branch'
