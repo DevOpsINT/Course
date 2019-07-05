@@ -1,4 +1,3 @@
-def command_few_lines
 pipeline{
     agent{
         label 'master'
@@ -13,15 +12,20 @@ pipeline{
         }
         stage('scripting'){
             steps{
-                script{
-                    command_few_lines = sh(
-                        script: 'ls -lah', returnStdout: true
-                        ).split('\n')
-                        for(int i = 0; i < command_few_lines.size(); i++)
-                            sh "echo ${command_few_lines[i]} >> outputfile"
-                        sh "cat outputfile"
-                      
-                }
+              withCredentials([usernamePassword(credentialsId: 'DevOpsInt', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+              sh '''
+                echo Helo World > newfile
+                echo ${GIT_USERNAME}
+                git config --global user.name "devopsint"
+                git config --global user.email "devopsint@gmail.com"
+                git pull origin master
+                git checkout Lidor
+                git add .
+                git commit -m " Added new file within Jenkins file and push it to the repository"
+                git push  https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/DevOpsINT/Course.git 
+                
+              '''
+}
             }
         }
     }
