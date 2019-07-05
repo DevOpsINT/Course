@@ -1,11 +1,32 @@
-pipline {
-sh label: '', script: '''git checkout Yuvalez
-echo "This is the check" > new.txt
-git config user.email "Yuval.ezrati@gmail.com"
-git config user.name "yuvalezrati"
-git add .
-git commit -m "Added new files finally!"
-git push origin Yuvalez
-
-'''
+pipeline{
+    agent{
+        label 'master'
+    }
+    stages{
+        stage('checkout'){
+            steps{
+                script{
+                   git credentialsId: 'DevOpsInt', url: 'https://github.com/DevOpsINT/Course.git'
+                }
+            }
+        }
+        stage('scripting'){
+            steps{
+              withCredentials([usernamePassword(credentialsId: 'DevOpsInt', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+              sh '''
+                echo Helo World > newfile
+                echo ${GIT_USERNAME}
+                git config --global user.name "devopsint"
+                git config --global user.email "devopsint@gmail.com"
+                git pull origin master
+                git checkout Lidor
+                git add .
+                git commit -m " Added new file within Jenkins file and push it to the repository"
+                git push  https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/DevOpsINT/Course.git 
+                
+              '''
+}
+            }
+        }
+    }
 }
