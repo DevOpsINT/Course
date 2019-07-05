@@ -11,7 +11,7 @@ pipeline {
                 }
             }
         }
-        stage('shell command example') {
+        stage('Push Changes To Your Branch') {
              input {
                     
                     message 'Enter Command'
