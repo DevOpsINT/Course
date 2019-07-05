@@ -1,4 +1,4 @@
-def command_one_line_output
+def command_few_lines
 pipeline{
     agent{
         label 'master'
@@ -14,10 +14,11 @@ pipeline{
         stage('scripting'){
             steps{
                 script{
-                    command_one_line_output = sh(
-                        script: 'pwd', returnStdout: true
-                        ).trim()
-                        sh  "echo ${command_one_line_output} > outputfile"
+                    command_few_lines = sh(
+                        script: 'ls -lah', returnStdout: true
+                        ).split('\n')
+                        for(int i = 0; i < command_few_lines.size(); i++)
+                            sh "echo ${command_few_lines[i]} >> outputfile"
                         sh "cat outputfile"
                       
                 }
