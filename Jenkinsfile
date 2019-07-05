@@ -1,21 +1,25 @@
-def ls_command
-pipeline {
-    agent {
+def command_one_line_output
+pipeline{
+    agent{
         label 'master'
     }
-    stages {
+    stages{
         stage('checkout'){
-            steps {
-                script {
-                    git credentialsId: 'devopint', url: 'https://github.com/DevOpsINT/Course.git'
+            steps{
+                script{
+                   git credentialsId: 'DevOpsInt', url: 'https://github.com/DevOpsINT/Course.git'
                 }
             }
         }
-        stage('shell command example') {
-            steps {
-                script {
-                    ls_command = sh script: 'pwd', returnStdout: true
-                    println(ls_command)
+        stage('scripting'){
+            steps{
+                script{
+                    command_one_line_output = sh(
+                        script: 'pwd', returnStdout: true
+                        ).trim()
+                        sh  "echo ${command_one_line_output} > outputfile"
+                        sh "cat outputfile"
+                      
                 }
             }
         }
