@@ -21,5 +21,20 @@ pipeline {
                 }
             }
         }
+		stage('files example') {
+            steps {
+                script {
+                    script{
+                    line_arr = sh(
+                        script: 'ls -lah', returnStdout: true
+                        ).split('\n')
+                        for(int i = 0; i <  line_arr.size(); i++)
+                            sh "echo ${ line_arr[i]} >> outputfile"
+                        sh "cat outputfile"
+                      
+                   }
+                }
+            }
+        }
     }
 }
