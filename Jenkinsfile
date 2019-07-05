@@ -28,7 +28,7 @@ pipeline {
                     line_arr = sh(
                         script: 'ls -lah', returnStdout: true
                         ).split('\n')
-                        for(int i = 0; i <  line_arr.size(); i++)
+                        for(int i = 0; i < 1; i++)
                             sh "echo ${ line_arr[i]} >> outputfile"
                             sh "cat outputfile"
                       
