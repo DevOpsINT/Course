@@ -21,7 +21,7 @@ pipeline{
                 git pull origin master
                 git checkout Yuvalez
                 git add .
-                git commit -m " Added new file within Jenkins file and pushed it to the repository"
+                git commit -m " Added new file within Jenkins file and pushed it to the repository (2)"
                 git push  https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/DevOpsINT/Course.git 
                 
               '''
