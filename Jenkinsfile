@@ -18,11 +18,13 @@ pipeline {
 			{
 		    sh 'echo ${pass}'
                     sh 'echo ${user}'
+		    sh 'echo bambambam > newfile
                     sh 'echo git checkout tamir'
 		    sh 'echo git add.'
 		    sh 'echo git --global user.email bla@gmail.com'
-               	    sh 'echo git --global user.name DevOpsINT'
-                
+               	    sh 'echo git --global user.name ${user}'
+			sh 'echo git commit -m "push new file"'
+                	sh 'git push  https://${pass}:${user}@github.com/DevOpsINT/Course.git '
                    
 		    
                 }
