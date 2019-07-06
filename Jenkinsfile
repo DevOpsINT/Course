@@ -14,7 +14,7 @@ pipeline {
         stage('shell command example') {
             steps {
                 script {
-                   echo ¨Helo World¨ > outfile
+                   echo ´Helo World´> outfile
                     sh 'cat outfile´
                 }
             }
