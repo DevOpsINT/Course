@@ -14,22 +14,27 @@ pipeline {
         stage('shell command example') {
             steps {
                 script {
-			withCredentials([usernamePassword(credentialsId: '910418bd-a13e-4d2a-96f4-692a77e4516a', passwordVariable: 'pass', usernameVariable: 'user')])
-			{
-		    sh 'echo ${pass}'
-                    sh 'echo ${user}'
-		    sh 'echo bambambam > newfile
-                    sh 'echo git checkout tamir'
-		    sh 'echo git add.'
-		    sh 'echo git --global user.email bla@gmail.com'
-               	    sh 'echo git --global user.name ${user}'
-			sh 'echo git commit -m "push new file"'
-                	sh 'git push  https://${pass}:${user}@github.com/DevOpsINT/Course.git '
-                   
-		    
+                    ls_command = sh script: 'pwd', returnStdout: true
+                    print(ls_command)
+                    sh "echo ls_command is ${ls_command} > variable"
+                    sh 'cat variable'
                 }
             }
-	    }
+        }
+		stage('files example') {
+            steps {
+                script {
+                    script{
+                    line_arr = sh(
+                        script: 'ls -lah', returnStdout: true
+                        ).split('\n')
+                        for(int i = 0; i <  line_arr.size(); i++)
+                        sh "echo ${ line_arr[i]} >> outputfile"
+                        sh "cat outputfile"
+                        sh  'git checkout Alon'
+                   }
+                }
+            }
         }
     }
 }
