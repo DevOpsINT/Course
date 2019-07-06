@@ -6,7 +6,7 @@ pipeline{
         stage('checkout'){
             steps{
                 script{
-                   git credentialsId: 'DevOpsInt', url: 'https://github.com/DevOpsINT/Course.git'
+                   git credentialsId: 'DevOpsINT', url: 'https://github.com/DevOpsINT/Course.git'
                 }
             }
         }
