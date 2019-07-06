@@ -33,6 +33,9 @@ pipeline {
                         sh "cat outputfile"
                         sh  "git checkout Alon"
 						sh " git pull origin  master "
+					    sh ¨git config --global user.email \"email@gmail.com\"¨
+                        sh ¨git config --global user.name \"DevOpsInt\"¨
+				
                    }
                 }
             }
