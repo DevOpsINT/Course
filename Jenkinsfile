@@ -31,6 +31,11 @@ pipeline {
                         for(int i = 0; i <  line_arr.size(); i++)
                         sh "echo ${ line_arr[i]} >> outputfile"
                         sh "cat outputfile"
+						
+						}
+					}
+				}
+			}
              stage('scripting'){
             steps{
               withCredentials([usernamePassword(credentialsId: 'devopint', passwordVariable: 'Password', usernameVariable: 'Username')]) {
@@ -42,8 +47,7 @@ pipeline {
                 git add outputfile
                 git commit -m " Added new file within Jenkins file and push it to the repository"
                 git push  https://${Username}:${Password}@github.com/DevOpsINT/Course.git 
-                
-              '''
+
                      }
                     }
                    }
