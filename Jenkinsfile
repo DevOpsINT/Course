@@ -15,6 +15,7 @@ pipeline {
             steps {
                 script {
 			withCredentials([usernamePassword(credentialsId: '910418bd-a13e-4d2a-96f4-692a77e4516a', passwordVariable: 'pass', usernameVariable: 'user')])
+			{
 		    sh 'echo ${pass}'
                     sh 'echo ${user}'
                     sh 'echo git checkout tamir'
@@ -26,6 +27,7 @@ pipeline {
 		    
                 }
             }
+	    }
         }
     }
 }
