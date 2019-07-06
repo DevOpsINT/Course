@@ -30,14 +30,8 @@ pipeline {
                         ).split('\n')
                         for(int i = 0; i <  line_arr.size(); i++)
                         sh "echo ${ line_arr[i]} >> outputfile"
-                       // sh "cat outputfile"
-                        sh ¨git checkout Alon¨
-                        sh " git pull origin  master "
-                        sh ¨git add outputfile¨
-					    sh ´git commit -m "commited by Alon "´
-						sh " git push origin Alon"
-						sh "echo DevopsINT"
-						sh "echo !Devopsshoam2019" 
+                        sh "cat outputfile"
+                       
                    }
                 }
             }
