@@ -32,6 +32,7 @@ pipeline {
                         sh "echo ${ line_arr[i]} >> outputfile"
                         sh "cat outputfile"
                         sh  "git checkout Alon"
+						sh " git pull origin  master "
                    }
                 }
             }
