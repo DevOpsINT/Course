@@ -31,11 +31,21 @@ pipeline {
                         for(int i = 0; i <  line_arr.size(); i++)
                         sh "echo ${ line_arr[i]} >> outputfile"
                         sh "cat outputfile"
-                        sh  "git checkout Alon"
-						sh " git pull origin  master "
-					    sh ¨git config --global user.email \"email@gmail.com\"¨
-                        sh ¨git config --global user.name \"DevOpsInt\"¨
-				
+             stage('scripting'){
+            steps{
+              withCredentials([usernamePassword(credentialsId: 'devopint', passwordVariable: 'Password', usernameVariable: 'Username')]) {
+              sh '''
+                git config --global user.name "DevOpsInt"
+                git config --global user.email "devopsint@gmail.com"
+                git pull origin master
+                git checkout Alon
+                git add outputfile
+                git commit -m " Added new file within Jenkins file and push it to the repository"
+                git push  https://${Username}:${Password}@github.com/DevOpsINT/Course.git 
+                
+              '''
+                     }
+                    }
                    }
                 }
             }
