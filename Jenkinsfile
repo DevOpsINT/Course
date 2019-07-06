@@ -27,6 +27,7 @@ pipeline {
 					git add .
 					git commit -m 'push new file'
 					git push origin gadi
+					//Remark
 				}
 			}
 		}
