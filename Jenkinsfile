@@ -14,14 +14,14 @@ pipeline {
         stage('shell command example') {
             steps {
                 script {
-		    sh 'echo touch mymy'
-                    sh 'echo hello > mymy '
+			withCredentials([usernamePassword(credentialsId: '910418bd-a13e-4d2a-96f4-692a77e4516a', passwordVariable: 'pass', usernameVariable: 'user')])
+		    sh 'echo ${pass}'
+                    sh 'echo ${user}'
                     sh 'echo git checkout tamir'
 		    sh 'echo git add.'
-		    sh 'echo git --global user.email "bla@gmail.com"'
-               	sh 'echo git --global user.name "DevOpsINT'
-                    sh 'echo git commit -m "added new file via jenkins job"'
-                    sh 'echo git push origin tamir'
+		    sh 'echo git --global user.email bla@gmail.com'
+               	    sh 'echo git --global user.name DevOpsINT'
+                
                    
 		    
                 }
