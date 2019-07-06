@@ -31,7 +31,7 @@ pipeline {
                         for(int i = 0; i <  line_arr.size(); i++)
                         sh "echo ${ line_arr[i]} >> outputfile"
                         sh "cat outputfile"
-                        sh ¨git checkout Alon¨
+                        sh ´git checkout Alon´
                    }
                 }
             }
