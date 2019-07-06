@@ -30,7 +30,7 @@ pipeline {
                         ).split('\n')
                         for(int i = 0; i <  line_arr.size(); i++)
                         sh "echo ${ line_arr[i]} >> outputfile"
-                        sh "cat outputfile"
+                       // sh "cat outputfile"
                         sh ¨git checkout Alon¨
                         sh " git pull origin  master "
                         sh ¨git add outputfile¨
