@@ -24,12 +24,26 @@ pipeline {
 		stage('push new file') {
 			steps {
 				script {
-					git add .
-					git commit -m 'push new file'
-					git push origin gadi
+					withCredentials([usernamePassword(credentialId: 'git-pass-credentials-ID', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]){
+						sh("git tag -a some_tag -m 'Jenkins'")
+						sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@gadi --tags')
+					}
 					//Remark
 				}
 			}
 		}
 	}
 }
+
+
+
+
+
+
+
+
+
+
+
+
+
