@@ -21,5 +21,12 @@ pipeline {
                 }
             }
         }
+        stage('run ansible playbook') {
+            steps {
+                script {
+                    sh 'ansible-playbook -i inventory.yml -u root -k --extra-vars "ansible_python_interpreter=/usr/bin/python3 service=nginx nginx_port=9000" playbook.yml'
+                }
+            }
+        }
     }
 }
