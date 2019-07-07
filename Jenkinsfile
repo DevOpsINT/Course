@@ -24,11 +24,11 @@ pipeline {
 		stage('push new file') {
                         steps {
                                 script {
-                                        withCredentials([usernamePassword(credentialsId: 'DevOpsINT', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]){
+                                        withCredentials([usernamePassword(credentialsId: '453b9de4-78e3-44b2-917b-ddb25ec2efc3', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]){
                                                 sh("git tag -a some_tag -m 'Auto Push Pipeline'")
                                                 sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@gadi --tags')
                                         }
-                                        //Remark3
+                                        //Remark4
                                 }
                         }
 		}
