@@ -1,24 +1,31 @@
-def ls_command
-pipeline {
-    agent {
+pipeline{
+    agent{
         label 'master'
     }
-    stages {
+    stages{
         stage('checkout'){
-            steps {
-                script {
-                    git credentialsId: 'devopint', url: 'https://github.com/DevOpsINT/Course.git'
+            steps{
+                script{
+                   git credentialsId: 'DevOpsInt', url: 'https://github.com/DevOpsINT/Course.git'
                 }
             }
         }
-        stage('shell command example') {
-            steps {
-                script {
-                    ls_command = sh script: 'pwd', returnStdout: true
-                    print(ls_command)
-                    sh "echo ls_command is ${ls_command} > variable"
-                    sh 'cat variable'
-                }
+        stage('scripting'){
+            steps{
+              withCredentials([usernamePassword(credentialsId: 'DevOpsInt', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+              sh '''
+                echo Helo World > newfile
+                echo ${GIT_USERNAME}
+                git config --global user.name "devopsint"
+                git config --global user.email "devopsint@gmail.com"
+                git pull origin master
+                git checkout Lidor
+                git add .
+                git commit -m " Added new file within Jenkins file and push it to the repository"
+                git push  https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/DevOpsINT/Course.git 
+                
+              '''
+}
             }
         }
     }
