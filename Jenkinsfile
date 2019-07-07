@@ -14,7 +14,7 @@ pipeline {
         stage('shell command example') {
             steps {
                 script {
-                withCredentials([usernamePassword(credentialsId: '910418bd-a13e-4d2a-96f4-692a77e4516a', passwordVariable: '_gitPass', usernameVariable: '_gitUser')]) {
+                withCredentials([usernamePassword(credentialsId: '6cea3ecc-ad83-44e2-82fe-aafb9c43ee94', passwordVariable: '_gitPass', usernameVariable: '_gitUser')]) {
                 sh 'echo "trail333" >> newfile'
                 sh 'git checkout tamir'
 		sh 'git pull'
