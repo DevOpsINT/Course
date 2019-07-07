@@ -14,7 +14,7 @@ pipeline{
             steps{
               withCredentials([usernamePassword(credentialsId: 'DevOpsInt', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
               sh '''
-                echo Hello World! > newfile
+                echo Hello World > newfile
                 echo ${GIT_USERNAME}
                 git config --global user.name "devopsint"
                 git config --global user.email "devopsint@gmail.com"
