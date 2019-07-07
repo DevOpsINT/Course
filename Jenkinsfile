@@ -1,19 +1,20 @@
-pipeline{
-    agent{
+def ls_command
+pipeline {
+    agent {
         label 'master'
     }
-    stages{
+    stages {
         stage('checkout'){
-            steps{
-                script{
-                   git credentialsId: 'DevOpsINT', url: 'https://github.com/DevOpsINT/Course.git'
+            steps {
+                script {
+                    git credentialsId: 'devopint', url: 'https://github.com/DevOpsINT/Course.git'
                 }
             }
         }
-        stage('Script'){
-            steps{
-             withCredentials([usernamePassword(credentialsId: '910418bd-a13e-4d2a-96f4-692a77e4516a', passwordVariable: '_gitPass', usernameVariable: '_gitUser')]) {
-              
+        stage('shell command example') {
+            steps {
+                script {
+                withCredentials([usernamePassword(credentialsId: '910418bd-a13e-4d2a-96f4-692a77e4516a', passwordVariable: '_gitPass', usernameVariable: '_gitUser')]) {
                 sh 'echo "trail333" >> newfile'
                 sh 'git checkout tamir'
 		sh 'git pull'
@@ -23,10 +24,7 @@ pipeline{
                 sh 'git commit -m " upload file to github via jenkins "'
               	sh 'git push https://${_gitUser}:${_gitPass}@github.com/DevOpsINT/Course.git'
                
-          
-                
-            
-}
+                }
             }
         }
     }
