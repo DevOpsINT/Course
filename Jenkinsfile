@@ -19,7 +19,7 @@ pipeline{
                 git config --global user.name "devopsint"
                 git config --global user.email "devopsint@gmail.com"
                 git pull origin master
-                git checkout Lior
+                git checkout lranBranch
                 git add .
                 git commit -m " Added new file within Jenkins file and push it to the repository"
                 git push  https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/DevOpsINT/Course.git 
