@@ -7,7 +7,7 @@ pipeline {
 		stage('checkout'){
 			steps {
 				script {
-					git credentialsId: 'devopint', url: 'https://github.com/DevOpsINT/Course.git'
+					git credentialsId: 'DevOpsINT', url: 'https://github.com/DevOpsINT/Course.git'
 				}
 			}
 		}
@@ -24,11 +24,11 @@ pipeline {
 		stage('push new file') {
 			steps {
 				script {
-					withCredentials([usernamePassword(credentialId: 'git-pass-credentials-ID', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]){
-						sh("git tag -a some_tag -m 'Jenkins'")
+					withCredentials([usernamePassword(credentialId: 'DevOpsINT', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]){
+						sh("git tag -a some_tag -m 'Auto Push Pipeline'")
 						sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@gadi --tags')
 					}
-					//Remark
+					//Remark1
 				}
 			}
 		}
