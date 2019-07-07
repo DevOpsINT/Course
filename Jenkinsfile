@@ -21,8 +21,7 @@ pipeline {
 				} 
 			}
 		}
-*/
-		stage('push new file') {
+/*		stage('push new file') {
 			steps {
 				script {
 					withCredentials([usernamePassword(credentialId: 'DevOpsINT', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]){
@@ -32,8 +31,7 @@ pipeline {
 					//Remark1
 				}
 			}
-		}
-*/
+*/		}
 	}
 }
 
