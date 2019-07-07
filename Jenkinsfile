@@ -12,7 +12,7 @@ pipeline{
         }
         stage('scripting'){
             steps{
-              withCredentials([usernamePassword(credentialsId: 'DevOpsInt', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
+              withCredentials([usernamePassword(credentialsId: 'devopint', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
               sh '''
                 echo Hello World > newfile
                 echo ${GIT_USERNAME}
