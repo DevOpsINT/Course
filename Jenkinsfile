@@ -21,6 +21,7 @@ pipeline {
 				} 
 			}
 		}
+*/
 		stage('push new file') {
 			steps {
 				script {
@@ -32,6 +33,7 @@ pipeline {
 				}
 			}
 		}
+/*
 	}
 }
 
