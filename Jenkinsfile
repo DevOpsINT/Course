@@ -36,7 +36,7 @@ pipeline {
 					}
 				}
 			}
-             stage('scripting'){
+             stage('github  actions'){
             steps{
               withCredentials([usernamePassword(credentialsId: 'devopint', passwordVariable: 'Password', usernameVariable: 'Username')]) {
               sh '''
