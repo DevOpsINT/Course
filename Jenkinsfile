@@ -23,7 +23,7 @@ pipeline {
             steps {
                 script {
                     sh "sudo su"
-                    sh "ansible-playbook -i "$TARGET," -u ubuntu -b --private-key=my.pem playbook.yaml"
+                    sh "ansible-playbook -i "${TARGET}," -u ubuntu -b --private-key=my.pem playbook.yaml"
                 }
             }
         }
