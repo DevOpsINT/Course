@@ -16,14 +16,14 @@ pipeline {
                     id 'Host'
                     ok 'OK'
                     parameters {
-                        string defaultValue: 'Host', description: '', name: 'TARGET', trim: false
+                        string defaultValue: 'Host', description: '', name: 'HOST', trim: false
                     }
              }
                 
             steps {
                 script {
-                    sh "cd ansible/"
-                    sh "ansible-playbook -i "${TARGET}," -u ubuntu -b --private-key=my.pem playbook.yaml"
+                    sh "cd /&& cd /var/jenkins_home/ansible&& ls"
+                    sh "ansible-playbook -i $HOST,  -u ubuntu -b --private-key=/var/jenkins_home/ansible/my.pem /var/jenkins_home/ansible/playbook.yaml"
                 }
             }
         }
