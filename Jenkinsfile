@@ -5,6 +5,14 @@ pipeline {
     }
     stages {
         stage('checkout'){
+            input{
+                message 'Enter Host'
+                    id 'Host'
+                    ok 'OK'
+                    parameters {
+                        string defaultValue: 'Host', description: '', name: 'TARGET', trim: false
+                    }
+                
             steps {
                 script {
                     git credentialsId: 'devopint', url: 'https://github.com/DevOpsINT/Course.git'
@@ -14,10 +22,8 @@ pipeline {
         stage('shell command example') {
             steps {
                 script {
-                    ls_command = sh script: 'pwd', returnStdout: true
-                    print(ls_command)
-                    sh "echo ls_command is ${ls_command} > variable"
-                    sh 'cat variable'
+                    sh "sudo su"
+                    sh "ansible-playbook -i "$TARGET," -u ubuntu -b --private-key=my.pem playbook.yaml"
                 }
             }
         }
