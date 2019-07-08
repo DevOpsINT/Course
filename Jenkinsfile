@@ -1,4 +1,3 @@
-def ls_command
 pipeline {
     agent {
         label 'master'
@@ -19,6 +18,7 @@ pipeline {
                     parameters {
                         string defaultValue: 'Host', description: '', name: 'TARGET', trim: false
                     }
+             }
                 
             steps {
                 script {
