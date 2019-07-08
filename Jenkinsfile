@@ -5,7 +5,14 @@ pipeline {
     }
     stages {
         stage('checkout'){
-            input{
+            steps {
+                script {
+                    git credentialsId: 'devopint', url: 'https://github.com/DevOpsINT/Course.git'
+                }
+            }
+        }
+        stage('Ansible Playbook') {
+             input{
                 message 'Enter Host'
                     id 'Host'
                     ok 'OK'
@@ -13,13 +20,6 @@ pipeline {
                         string defaultValue: 'Host', description: '', name: 'TARGET', trim: false
                     }
                 
-            steps {
-                script {
-                    git credentialsId: 'devopint', url: 'https://github.com/DevOpsINT/Course.git'
-                }
-            }
-        }
-        stage('shell command example') {
             steps {
                 script {
                     sh "sudo su"
