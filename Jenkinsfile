@@ -16,7 +16,7 @@ pipeline {
 				script {
 					ls_command = sh script: 'pwd', returnStdout: true
 					print(ls_command)
-					sh 'echo "echo command is: This Is Your New File" > gadi_file'
+					sh 'echo "echo command is: Gadi This Is Your New File" > gadi_file'
 					sh 'cat gadi_file'
 				} 
 			}
@@ -40,4 +40,3 @@ pipeline {
 
 	}
 }
-
