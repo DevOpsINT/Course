@@ -29,10 +29,10 @@ pipeline {
 						sh('git config --global user.email "gadigamburg@gmail.com"')
 						sh('git pull')
 						sh('git add .')
-						sh('git commit -m 'Auto Push Pipeline')
+						sh("'git commit -m 'Auto Push Pipeline'")
                                                 sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/DevOpsINT/Course.git')
                                         }
-                                        //Remark6
+                                        //Remark7
 				} 
 			} 
 		}
