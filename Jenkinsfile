@@ -1,7 +1,7 @@
 def ls_command
 pipeline {
 	agent {
-		label 'master'
+		label 'gadi'
 	}
 	stages {
 		stage('checkout'){
@@ -28,12 +28,11 @@ pipeline {
 						sh('git config --global user.name "Gadi"')
 						sh('git config --global user.email "gadigamburg@gmail.com"')
 						sh('git pull origin master')
-						sh('git branch gadi')
 						sh('git add .')
 						sh('git commit -m "Auto Push Pipeline"')
                                                 sh('git push https://${Username}:${Password}@github.com/DevOpsINT/Course.git')
                                         }
-                                        //Remark15
+                                        //Remark16
 				} 
 			} 
 		}
