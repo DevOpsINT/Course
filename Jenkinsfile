@@ -27,12 +27,12 @@ pipeline {
                                         withCredentials([usernamePassword(credentialsId: 'DevOpsINT', passwordVariable: '!Devopsshoam2019', usernameVariable: 'DevOpsInt')]){
 						sh('git config --global user.name "Gadi"')
 						sh('git config --global user.email "gadigamburg@gmail.com"')
-						sh('git pull origine master')
+						sh('git pull origin master')
 						sh('git add .')
 						sh("'git commit -m 'Auto Push Pipeline'")
                                                 sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/DevOpsINT/Course.git')
                                         }
-                                        //Remark8
+                                        //Remark9
 				} 
 			} 
 		}
