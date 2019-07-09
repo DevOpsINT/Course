@@ -30,10 +30,10 @@ pipeline {
 						sh('git pull origin master')
 						sh('git checkout gadi')
 						sh('git add .')
-						sh('git commit -m "Auto Push Pipeline"')
+						sh('git commit -m "Auto Push Pipeline gadi_file"')
                                                 sh('git push https://${Username}:${Password}@github.com/DevOpsINT/Course.git@gadi')
                                         }
-                                        //Remark22
+                                        //Remark23
 				}
 			} 
 		}
