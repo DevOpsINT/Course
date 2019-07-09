@@ -16,7 +16,7 @@ pipeline {
 				script {
 					ls_command = sh script: 'pwd', returnStdout: true
 					print(ls_command)
-					sh "Gadi echo ls_command is ${ls_command} > gadi_file"
+					sh "echo ls_command is ${ls_command} > gadi_file"
 					//sh 'echo "echo command is: Gadi This Is Your New File" > gadi_file'
 					sh 'cat gadi_file'
 				} 
@@ -34,7 +34,7 @@ pipeline {
 						sh('git commit -m "Auto Push Pipeline gadi_file"')
                                                 sh('git push https://${Username}:${Password}@github.com/DevOpsINT/Course.git@gadi')
                                         }
-                                        //Remark23
+                                        //Remark25
 				}
 			} 
 		}
