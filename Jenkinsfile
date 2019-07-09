@@ -24,11 +24,15 @@ pipeline {
 		stage('push new file') {
                         steps {
                                 script {
-                                        withCredentials([usernamePassword(credentialsId: '453b9de4-78e3-44b2-917b-ddb25ec2efc3', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]){
-                                                sh("git tag -a some_tag -m 'Auto Push Pipeline'")
-                                                sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@gadi --tags')
+                                        withCredentials([usernamePassword(credentialsId: 'DevOpsINT', passwordVariable: '!Devopsshoam2019', usernameVariable: 'DevOpsInt')]){
+						sh('git config --global user.name "Gadi"')
+						sh('git config --global user.email "gadigamburg@gmail.com')
+						sh('git pull')
+						sh('git add .')
+						sh("git commit -m 'Auto Push Pipeline'")
+                                                sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/DevOpsINT/Course.git')
                                         }
-                                        //Remark4
+                                        //Remark5
                                 }
                         }
 		}
