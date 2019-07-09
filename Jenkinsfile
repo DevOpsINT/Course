@@ -28,11 +28,12 @@ pipeline {
 						sh('git config --global user.name "Gadi"')
 						sh('git config --global user.email "gadigamburg@gmail.com"')
 						sh('git pull origin master')
+						sh('git checkout gadi')
 						sh('git add .')
 						sh("'git commit -m 'Auto Push Pipeline'")
                                                 sh('git push https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/DevOpsINT/Course.git')
                                         }
-                                        //Remark9
+                                        //Remark10
 				} 
 			} 
 		}
