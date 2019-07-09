@@ -31,9 +31,9 @@ pipeline {
 						sh('git pull origin master')
 						sh('git add .')
 						sh('git commit -m "Auto Push Pipeline"')
-                                                sh('git push https://${Username}:${Password}@github.com/DevOpsINT/Course.git')
+                                                sh('git push https://${Username}:${Password}@github.com/DevOpsINT/Course.git@gadi')
                                         }
-                                        //Remark20
+                                        //Remark21
 				}
 			} 
 		}
