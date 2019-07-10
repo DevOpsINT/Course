@@ -35,7 +35,7 @@ pipeline {
 							sh('git config --global user.email "gadigamburg@gmail.com"')
 							sh('git checkout gadi')
 							sh('git pull')
-							sh('ifconfig > ifconfig.file')
+							sh('echo testing > ifconfig.file')
 							sh('git add .')
 							sh('git commit -m "Auto Push Pipeline gadi_file"')
                                                 	sh('git push https://${Username}:${Password}@github.com/DevOpsINT/gadi/Course.git')
