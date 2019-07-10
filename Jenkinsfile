@@ -6,9 +6,11 @@ pipeline {
 	stages {
 		stage('checkout'){
 			steps {
+			dir('Course') {
 				script {
 					git credentialsId: 'DevOpsINT', url: 'https://github.com/DevOpsINT/Course.git'
 				}
+			}
 			}
 		}
 		stage('shell command example') {
