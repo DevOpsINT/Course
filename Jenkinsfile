@@ -7,7 +7,6 @@ pipeline {
             steps {
                 script {
                     git credentialsId: 'devopint', url: 'https://github.com/DevOpsINT/Course.git'
-                    sh "ansible-playbook -i hosts  -u ubuntu -b --private-key=/var/jenkins_home/ansible/my.pem /var/jenkins_home/ansible/playbook.yaml"
                 }
             }
         }
