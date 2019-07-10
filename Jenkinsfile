@@ -6,7 +6,7 @@ pipeline {
         stage('checkout'){
             steps {
                 script {
-                    deleteDir()
+                    cleanWS()
                     git credentialsId: 'devopint', url: 'https://github.com/DevOpsINT/Course.git'
                     sh 'ls'
                 }
