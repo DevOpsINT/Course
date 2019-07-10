@@ -22,8 +22,12 @@
       path: /opt/jenkins
       state: directory
 
-  - name: Change owner of folder
-    shell: chown -R 1000:1000 /opt/jenkins
+  - name: Change Owner
+    file:
+      path: /opt/jenkins
+      owner: 1000
+      group: 1000
+
 
   - name: Start Jenkins container
     docker_container:
