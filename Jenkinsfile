@@ -7,6 +7,7 @@ pipeline {
             steps {
                 script {
                     git credentialsId: 'devopint', url: 'https://github.com/DevOpsINT/Course.git'
+                    sh 'ls'
                 }
             }
         }
