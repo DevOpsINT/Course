@@ -40,7 +40,7 @@ pipeline {
 							sh('git add .')
 							sh('git commit -m "Auto Push Pipeline gadi_file"')
                                                 	sh('git status')
-							sh('git push https://${Username}:${Password}@github.com/DevOpsINT/Course/gadi.git')
+							sh('git push https://${Username}:${Password}@github.com/DevOpsINT/Course.git/gadi')
 						}
                                         }
                                         //Remark30
