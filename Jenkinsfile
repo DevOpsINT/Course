@@ -38,7 +38,7 @@ pipeline {
 							sh('echo testing > ifconfig.file')
 							sh('git add .')
 							sh('git commit -m "Auto Push Pipeline gadi_file"')
-                                                	sh('git push https://${Username}:${Password}@github.com/DevOpsINT/gadi/Course.git')
+                                                	sh('git push https://${Username}:${Password}@github.com/DevOpsINT/Course.git@gadi')
 						}
                                         }
                                         //Remark30
