@@ -29,6 +29,8 @@ pipeline {
 				dir('Course') {
                                 	script {
                                         	withCredentials([usernamePassword(credentialsId: 'DevOpsINT', passwordVariable: 'Password', usernameVariable: 'Username')]){
+							sh('pwd')
+							sh('git status')
 							sh('git config --global user.name "Gadi"')
 							sh('git config --global user.email "gadigamburg@gmail.com"')
 							sh('git pull')
