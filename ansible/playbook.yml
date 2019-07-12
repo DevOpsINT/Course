@@ -1,0 +1,29 @@
+---
+- name: This is a playbook
+  hosts: all
+  gather_facts: false
+  pre_tasks: 
+  - raw: sudo apt -qqy update&& sudo apt install -qy python3  
+  - setup:
+
+  tasks:
+  - name: install "{{ service }}"
+    apt:
+      name: "{{ service }}"
+      state: present
+
+  - name: "stop {{ service }} service"
+    service:
+      name: "{{ service }}"
+      state: stopped
+
+  - name: copy config file
+    template:
+      src: default.conf
+      dest: "/etc/{{ service }}"
+
+  - name: start "{{ service }}" service
+    service: 
+      name: "{{ service }}"
+      state: started
+
