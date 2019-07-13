@@ -1,5 +1,5 @@
 // Variable for input
-def inputIP
+def userInput
 
 pipeline {
 	agent {
@@ -22,21 +22,30 @@ pipeline {
 				script {
 					// Get the input
 					def userInput = input(
-							id: 'Host', message: 'Please Enter Remote Machine IP:',
+							id: 'userInput', message: 'Please Enter Remote Machine IP:',
 							parameters: [
-								string(defaultValue: 'None',
-								description: 'IP of Machine',
+								string(defaultValue: '192.168.1.151',
+								description: 'IP of the machine to procced the pipeline connabds',
 								name: 'IP'),
 							])
 
-					// Save to variable. Default to empty string if not found.
-					inputIP = Host.IP?:''
 
 					// Echo to console
-					echo("Entered IP Is: ${inputIP}")
+					echo("Entered IP Is: ${userInput}")
 		    		} 
 			}
 		}
+		stage('Save Input Value Into Hosts File'){
+			steps {
+				script {
+					//Save userInput value
+					sh "cd /&& cd /var/jenkins_home/ansible&& ls"
+					sh "echo $userInput >> hosts"
+					sh "pwd"
+				}
+			}
+		}
+
 /*		stage('push new file') {
                         steps {
 				dir('Course') {
