@@ -40,7 +40,7 @@ pipeline {
 			steps {
 				script {
 					//Save userInput value
-					sh "cd /&& cd /opt/jenkins_home/ansible"
+//					sh "cd /&& cd /opt/jenkins_home/ansible"
 					sh "pwd"
 					sh "ls"
 //					sh "cd ansible&& ls"
