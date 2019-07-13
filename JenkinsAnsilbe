@@ -43,6 +43,8 @@ pipeline {
 					sh "pwd"
 					sh "ls"
 					sh "cd ansible&& ls"
+					sh "cat hosts"
+					sh "rm hosts"
 					sh "echo $userInput >> hosts"
 					sh "cat hosts"
 					sh "pwd"
@@ -54,12 +56,12 @@ pipeline {
 			steps{
 				script{
 					//Run Ansible Playbook
-					sh 'pwd'
-					sh 'ls'
+					sh "pwd"
+					sh "ls"
 					sh "cd ansible"
-					sh 'pwd'
-					sh 'ls'
-					sh 'ansible-playbook -u root -k playbook.yml'
+					sh "pwd"
+					sh "ls"
+					sh "ansible-playbook -u root -k playbook.yml"
 				}
 			}
 		}
