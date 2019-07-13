@@ -54,6 +54,11 @@ pipeline {
 			steps{
 				script{
 					//Run Ansible Playbook
+					sh 'pwd'
+					sh 'ls'
+					sh 'cd ansible'
+					sh 'pwd'
+					sh 'ls'
 					sh 'ansible-playbook -u root -k playbook.yml'
 				}
 			}
