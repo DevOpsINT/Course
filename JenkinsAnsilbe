@@ -50,6 +50,17 @@ pipeline {
 			}
 		}
 
+		stage('Run Ansible Pipeline'){
+			steps{
+				script{
+					//Run Ansible Playbook
+					sh 'ansible-playbook -u root -k playbook.yml'
+				}
+			}
+		}
+
+
+
 /*		stage('push new file') {
                         steps {
 				dir('Course') {
