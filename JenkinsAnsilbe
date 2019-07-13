@@ -38,7 +38,7 @@ pipeline {
 		}
 		stage('Save Input Value Into Hosts File'){
 			steps {
-				dir(ansible') {
+				dir('ansible') {
 					script {
 						//Save userInput value
 //						sh "cd /&& cd /opt/jenkins_home/ansible"
