@@ -1,3 +1,4 @@
+def command_one_line_output
 pipeline{
     agent{
         label 'master'
@@ -12,20 +13,26 @@ pipeline{
         }
         stage('scripting'){
             steps{
-              withCredentials([usernamePassword(credentialsId: 'DevOpsInt', passwordVariable: 'GIT_PASSWORD', usernameVariable: 'GIT_USERNAME')]) {
-              sh '''
-                echo Helo World > newfile
-                echo ${GIT_USERNAME}
-                git config --global user.name "devopsint"
-                git config --global user.email "devopsint@gmail.com"
-                git pull origin master
-                git checkout Lidor
-                git add .
-                git commit -m " Added new file within Jenkins file and push it to the repository"
-                git push  https://${GIT_USERNAME}:${GIT_PASSWORD}@github.com/DevOpsINT/Course.git 
-                
-              '''
-}
+                script{
+                    command_one_line_output = sh(
+                        script: 'pwd', returnStdout: true
+                        ).trim()
+                        sh  "echo ${command_one_line_output} > outputfile"
+                        sh "cat outputfile"
+                      
+                }
+            }
+        }
+        stage('running ansible playbook'){
+            steps{
+                script{
+                    sh "echo [hosts] > $ansible_hosts_path"
+                    sh "echo $private_ip >> $ansible_hosts_path"
+                    sh'''
+                      ansible-playbook  -e "service=docker jenkins_path=/opt/jenkins user=lidor port=8080" --private-key=~/.ssh/id_rsa  ~/playbook.yml 
+                      
+                    '''
+                }
             }
         }
     }
