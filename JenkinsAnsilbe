@@ -41,10 +41,8 @@ pipeline {
 				dir('ansible') {
 					script {
 						//Save userInput value
-//						sh "cd /&& cd /opt/jenkins_home/ansible"
 						sh "pwd"
 						sh "ls"
-//						sh "cd ansible&& ls"
 						sh "cat hosts"
 						sh "rm hosts"
 						sh "echo $userInput >> hosts"
@@ -57,14 +55,13 @@ pipeline {
 
 		stage('Run Ansible Pipeline'){
 			steps{
-				script{
-					//Run Ansible Playbook
-					sh "pwd"
-					sh "ls"
-					sh "cd ansible&& ls"
-					sh "pwd"
-					sh "ls"
-					sh "ansible-playbook -u root -k playbook.yml"
+			dir('ansible') {
+					script{
+						//Run Ansible Playbook
+						sh "pwd"
+						sh "ls"
+						sh "ansible-playbook -u root -k playbook.yml"
+					}
 				}
 			}
 		}
