@@ -21,7 +21,7 @@ pipeline {
 			steps {
 				script {
 					// Get the input
-					def userInput = input(
+					userInput = input(
 							id: 'userInput', message: 'Please Enter Remote Machine IP:',
 							parameters: [
 								string(defaultValue: '192.168.1.151',
