@@ -1,4 +1,3 @@
-def ls_command
 pipeline {
     agent {
         label 'master'
@@ -11,19 +10,22 @@ pipeline {
                 }
             }
         }
-        stage('shell command example') {
+        stage('Ansible Playbook') {
+             input{
+                message 'Enter Host'
+                    id 'Host'
+                    ok 'OK'
+                    parameters {
+                        string defaultValue: 'Host', description: '', name: 'HOST', trim: false
+                    }
+             }
+                
             steps {
                 script {
-                withCredentials([usernamePassword(credentialsId: '6cea3ecc-ad83-44e2-82fe-aafb9c43ee94', passwordVariable: '_gitPass', usernameVariable: '_gitUser')]) {
-                sh 'echo "trail333" >> newfile'
-                sh 'git checkout tamir'
-		sh 'git pull'
-		sh 'gid add .'
-                sh' git config --global user.name "DevOpsINT"'
-                sh 'git config --global user.email "blabla@gmail.com"'
-                sh 'git commit -m " upload file to github via jenkins "'
-              	sh 'git push https://${_gitUser}:${_gitPass}@github.com/DevOpsINT/Course.git'
-               
+                    sh "cd /etc/ansible"
+                    sh "echo $HOST >> hosts"
+                    sh "ansible-playbook -i hosts  -u root -b --private-key=./ssh/id_rsa /var/jenkins_home/playbook.yaml"
+                    
                 }
             }
         }
