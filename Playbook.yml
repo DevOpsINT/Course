@@ -38,4 +38,4 @@
         - "8080:8080"
         - "50000:50000"
       volumes:
-- /opt/jenkins:/var/jenkins_home
+- /opt/jenkins_home:/var/jenkins_home
