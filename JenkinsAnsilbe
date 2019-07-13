@@ -39,7 +39,7 @@ pipeline {
 			steps {
 				script {
 					//Save userInput value
-					sh "cd /&& cd /var/jenkins_home/ansible&& ls"
+					sh "cd /&& cd /var/jenkins_home/&& ls"
 					sh "echo $userInput >> hosts"
 					sh "pwd"
 				}
