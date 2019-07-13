@@ -42,7 +42,7 @@ pipeline {
 					//Save userInput value
 					sh "pwd"
 					sh "ls"
-					sh "cd /&& cd /var/jenkins_home/ansible/&& ls"
+					sh "cd ansible&& ls"
 					sh "echo $userInput >> hosts"
 					sh "cat hosts"
 					sh "pwd"
