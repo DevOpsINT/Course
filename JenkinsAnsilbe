@@ -6,7 +6,7 @@ pipeline {
 		label 'master'
 	}
 	stages {
-		stage('checkout'){
+		stage('Checkout'){
 			steps {
 			dir('Course') {
 			deleteDir()
@@ -37,7 +37,7 @@ pipeline {
 		    		} 
 			}
 		}
-		stage('push new file') {
+/*		stage('push new file') {
                         steps {
 				dir('Course') {
                                 	script {
@@ -55,10 +55,9 @@ pipeline {
 							sh('git push https://${Username}:${Password}@github.com/DevOpsINT/Course.git gadi')
 						}
                                         }
-                                        //Remark30
 				}
 			} 
-		}
+*/		}
 
 	}
 }
