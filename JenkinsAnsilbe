@@ -21,14 +21,15 @@ pipeline {
 			steps {
 				script {
 					// Get the input
-					userInput = input(
+					userInput = '192.168.1.151'
+/*					userInput = input(
 							id: 'userInput', message: 'Please Enter Remote Machine IP:',
 							parameters: [
 								string(defaultValue: '192.168.1.151',
 								description: 'IP of the machine to procced the pipeline connabds',
 								name: 'IP'),
 							])
-
+*/
 
 					// Echo to console
 					echo("Entered IP Is: ${userInput}")
