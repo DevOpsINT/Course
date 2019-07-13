@@ -3,6 +3,11 @@ pipeline{
     agent{
         label 'master'
     }
+    parameters {
+        string(defaultValue: "192.168.1.3", description: 'HOST IP:', name: 'private_ip')
+        string(defaultValue: "/etc/ansible/hosts", description: 'Ansible HOSTS PATH:', name: 'ansible_hosts_path')
+
+    }
     stages{
         stage('checkout'){
             steps{
@@ -13,12 +18,12 @@ pipeline{
         }
         stage('scripting'){
             steps{
-                script{
+                 script{
                     command_one_line_output = sh(
                         script: 'pwd', returnStdout: true
                         ).trim()
-                        sh  "echo ${command_one_line_output} > outputfile"
-                        sh "cat outputfile"
+                       sh "echo \"${command_one_line_output}\" > outputfile"
+                       sh "cat outputfile"
                       
                 }
             }
