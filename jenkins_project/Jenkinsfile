@@ -1,5 +1,3 @@
-[200~def targetIP = 'string'
-def ipList
 pipeline {
     options {
         timeout(time: 5, unit: 'MINUTES')
@@ -12,7 +10,8 @@ pipeline {
             steps {
                 script {
                     git credentialsId: 'devopint', url: 'https://github.com/DevOpsINT/Course.git'
-                    ipsList = sh script: 'cat jenkins_project/ips', returnStdout: true
+                    _ipsList = sh script: 'cat jenkins_project/ips', returnStdout: true
+                    println(_ipsList)
                 }
             }
         }
@@ -20,12 +19,23 @@ pipeline {
             steps {
                     dir('jenkins_project/ansible') {  
                     script {
-                        targetIP = input(id: 'userInput', message: 'choose ip address', parameters: ipsList)
+                        // choices parameter
+                        targetIP = input message: 'Please choose ip address from the list below',
+                        ok: 'confirm',
+                        parameters: [choice(name: '', choices: "${_ipsList}", description: '')]
                         println(targetIP)
+                        //string
+                        targetIPstring = input(
+                            id: 'userInput', message: 'ip add',
+                            parameters: [
+                                string(defaultValue: '0.0.0.0',
+                                       description: 'ip address',
+                                       name: 'IP')])
+                        println(targetIPstring)
                         //sh "sed -i 's/IP_ADDRESS/${targetIP}/g' hosts"
                         //sh "echo ansible-playbook -i hosts playbook.yml"
                     }
-                    }
+                }
             }
         }
    }
