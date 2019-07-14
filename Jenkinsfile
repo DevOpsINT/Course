@@ -23,6 +23,13 @@ pipeline {
              }
                 
             steps {
+                dir('ansible') {
+         script {
+           def targetIP = input(
+                            id: 'userInput', message: 'Please provide IP address',
+                            parameters: [string(defaultValue: 'None', description: 'ip address of the remote host')]
+          sh "sed -i 's/IP_ADDRESS/${targetIP}/g' hosts"
+          sh "ansible-playbook -i hosts playbook.yml"
                 script {
                     sh "cd /&& cd /var/jenkins_home/ansible&& ls"
                     sh "echo $HOST >> hosts"
