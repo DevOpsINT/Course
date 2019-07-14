@@ -1,0 +1,44 @@
+pipeline {
+    agent {
+        label 'master'
+    }
+    stages {
+        stage('checkout'){
+            steps {
+                script {
+                    deleteDir()
+                    git credentialsId: 'devopint', url: 'https://github.com/DevOpsINT/Course.git'
+                }
+            }
+        }
+        stage('Push Changes To Your Branch') {
+             input {
+                    
+                    message 'Enter Command'
+                    id 'command'
+                    ok 'OK'
+                    parameters {
+                        string defaultValue: 'Command', description: '', name: 'MY_COMMAND', trim: false
+                    }
+             }
+            steps {
+                withCredentials([usernamePassword(credentialsId: 'devopint', passwordVariable: 'PASS', usernameVariable: 'USER')]) {
+                    sh 'git clone https://github.com/DevOpsINT/Course.git'    
+                    sh 'git branch'
+                    sh 'git checkout mops'
+                    sh '$MY_COMMAND'
+                    sh 'git add .'
+                    sh 'git commit -m "some"'
+                    sh 'git push https://${USER}:${PASS}@github.com/DevOpsINT/Course'
+                
+                 
+}
+            
+                    
+                
+                
+
+            }
+        }
+    }
+}
