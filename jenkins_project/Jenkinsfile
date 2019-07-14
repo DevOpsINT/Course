@@ -1,4 +1,4 @@
-[200~def targetIP = 'string'
+def targetIP = 'string'
 def ipList
 pipeline {
     options {
