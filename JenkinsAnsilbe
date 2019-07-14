@@ -59,8 +59,7 @@ pipeline {
 						//Run Ansible Playbook
 						sh "pwd"
 						sh "ls"
-//						sh "ansible --version"
-						sh "systemctl | grep ansible"
+						sh "which ansible"
 						sh "ansible-playbook -u root -k playbook.yml"
 					}
 				}
