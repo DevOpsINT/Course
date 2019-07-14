@@ -1,0 +1,30 @@
+pipeline {
+  options {
+    timeout(time: 5, unit: 'MINUTES')
+  }
+  agent {
+   label 'master'
+  }
+  stages {
+    stage('Checkout') {
+	steps {
+	  script {
+            //checkout
+ 	  }
+ 	}
+     }
+     stage('Provide IP address') {
+       steps {
+       dir('ansible') {
+         script {
+           def targetIP = input(
+                            id: 'userInput', message: 'Please provide IP address',
+                            parameters: [string(defaultValue: 'None', description: 'ip address of the remote host')]
+          sh "sed -i 's/IP_ADDRESS/${targetIP}/g' hosts"
+          sh "ansible-playbook -i hosts playbook.yml"
+         }
+       }
+       }
+     }
+   }
+}
