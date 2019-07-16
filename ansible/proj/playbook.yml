@@ -1,0 +1,35 @@
+---
+- name: Docker module
+  hosts: all
+  remote_user: "{{ user }}"
+  become: yes
+  pre_tasks:
+      - raw: apt update && apt install python-pip  && pip install docker-py 
+  tasks:
+     - name: Install docker
+       apt:
+           name: "{{ service }}.io"
+           state: latest
+     - name: Start docker service
+       service:
+           name: "{{ service }}"
+           state: started
+     - name: Create jenkins folder
+       file:
+         path: "{{ jenkins_path }}"
+         state: directory
+     - name: Assign ownership to jenkins user
+       file:
+         path:  "{{ jenkins_path }}"
+         state: directory
+         recurse: yes
+         owner: "{{ user }}"
+     - name: Create a docker container
+       docker_container:
+         name: jenkins
+         state: started
+         image: jenkins/jenkins
+         volumes:
+          - "{{ jenkins_path }}:/var/jenkins_home"
+         ports:
+          -  "{{ port }}:{{ port }}"
