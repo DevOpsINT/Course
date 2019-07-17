@@ -9,7 +9,7 @@ pipeline {
 			dir('Course') {
 			deleteDir()
 				script {
-					git credentialsId: 'DevOpsINT', url: 'https://github.com/DevOpsINT/Course.git'
+					git credentialsId: 'DevOpsINT', url: 'https://github.com/DevOpsINT/Course.git gadi'
 				}
 			}
 			}
