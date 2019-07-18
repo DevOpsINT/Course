@@ -4,7 +4,7 @@
   remote_user: "{{ user }}"
   become: yes
   pre_tasks:
-      - raw: apt update && apt install python-pip  && pip install docker-py 
+      - raw: apt update && apt install -y python-pip  && pip install docker-py 
   tasks:
      - name: Install docker
        apt:
