@@ -1,0 +1,95 @@
+// Variable for input
+def userInput
+
+pipeline {
+	agent {
+		label 'master'
+	}
+	stages {
+		stage('Checkout'){
+			steps {
+			dir('Course') {
+			deleteDir()
+				script {
+					git credentialsId: 'DevOpsINT', url: 'https://github.com/DevOpsINT/Course.git'
+					sh 'ls'
+				}
+			}
+			}
+		}
+		stage('Interactive_Input') {
+			steps {
+				script {
+					// Get the input
+					userInput = '192.168.1.151'
+/*					userInput = input(
+							id: 'userInput', message: 'Please Enter Remote Machine IP:',
+							parameters: [
+								string(defaultValue: '192.168.1.151',
+								description: 'IP of the machine to procced the pipeline connabds',
+								name: 'IP'),
+							])
+*/
+
+					// Echo to console
+					echo("Entered IP Is: ${userInput}")
+		    		} 
+			}
+		}
+		stage('Save Input Value Into Hosts File'){
+			steps {
+				dir('ansible') {
+					script {
+						//Save userInput value
+						sh "pwd"
+						sh "ls"
+						sh "cat hosts"
+						sh "rm hosts"
+						sh "echo $userInput >> hosts"
+						sh "cat hosts"
+						sh "pwd"
+					}
+				}
+			}
+		}
+		stage('Run Ansible Pipeline'){
+			steps{
+			dir('ansible') {
+					script{
+						//Run Ansible Playbook
+						sh "pwd"
+						sh "ls"
+						sh "which ansible"
+						sh "ansible-playbook -u root -k playbook.yml"
+					}
+				}
+			}
+		}
+
+
+
+/*		stage('push new file') {
+                        steps {
+				dir('Course') {
+                                	script {
+                                        	withCredentials([usernamePassword(credentialsId: 'DevOpsINT', passwordVariable: 'Password', usernameVariable: 'Username')]){
+							sh('pwd')
+							sh('git status')
+							sh('git config --global user.name "Gadi"')
+							sh('git config --global user.email "gadigamburg@gmail.com"')
+							sh('git checkout gadi')
+							sh('git pull')
+							sh('echo testing > ifconfig.file')
+							sh('git add .')
+							sh('git commit -m "Auto Push Pipeline gadi_file"')
+                                                	sh('git status')
+							sh('git push https://${Username}:${Password}@github.com/DevOpsINT/Course.git gadi')
+						}
+                                        }
+				}
+			} 
+		}*/
+
+	}
+}
+
