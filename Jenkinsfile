@@ -1,22 +1,31 @@
 def ls_command
-pipeline {
-	agent {
+pipeline 
+{
+	agent 
+	{
 		label 'master'
 	}
-	stages {
-		stage('checkout'){
-			steps {
-			dir('Course') {
-			deleteDir()
-				script {
-					git credentialsId: 'DevOpsINT', url: 'https://github.com/DevOpsINT/Course.git gadi'
+	stages 
+	{
+		stage('checkout')
+		{
+			steps 
+			{
+				dir('Course') 
+				{
+					script 
+					{	
+						git credentialsId: 'DevOpsINT', url: 'https://github.com/DevOpsINT/Course.git gadi'
+					}
 				}
 			}
-			}
 		}
-		stage('shell command example') {
-			steps {
-				script {
+		stage('shell command example') 
+		{
+			steps 
+			{
+				script 
+				{
 					ls_command = sh script: 'pwd', returnStdout: true
 					print(ls_command)
 					sh "echo ls_command is ${ls_command} > gadi_file"
@@ -25,11 +34,16 @@ pipeline {
 				} 
 			}
 		}
-		stage('push new file') {
-                        steps {
-				dir('Course') {
-                                	script {
-                                        	withCredentials([usernamePassword(credentialsId: 'DevOpsINT', passwordVariable: 'Password', usernameVariable: 'Username')]){
+		stage('push new file') 
+		{
+                        steps 
+			{
+				dir('Course') 
+				{
+                                	script 
+					{
+                                        	withCredentials([usernamePassword(credentialsId: 'DevOpsINT', passwordVariable: 'Password', usernameVariable: 'Username')])
+						{
 							sh('pwd')
 							sh('git status')
 							sh('git config --global user.name "Gadi"')
@@ -43,7 +57,6 @@ pipeline {
 							sh('git push https://${Username}:${Password}@github.com/DevOpsINT/Course.git gadi')
 						}
                                         }
-                                        //Remark30
 				}
 			} 
 		}
