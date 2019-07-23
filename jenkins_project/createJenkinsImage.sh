@@ -4,4 +4,4 @@ cd docker
 \cp Dockerfile-centos Dockerfile
 ### Insert anywhere before ENTRYPOINT
 echo 'RUN yum -y install ansible' >> Dockerfile
-docker build .
+docker build -t jenk-ans .
