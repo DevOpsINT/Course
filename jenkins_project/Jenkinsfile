@@ -1,32 +1,38 @@
-[200~def targetIP = 'string'
-def ipList
 pipeline {
-    options {
-        timeout(time: 5, unit: 'MINUTES')
-    }
     agent {
         label 'master'
     }
+       options {
+  timeout(5)
+       }
     stages {
-        stage('Checkout') {
-            steps {
-                script {
-                    git credentialsId: 'devopint', url: 'https://github.com/DevOpsINT/Course.git'
-                    ipsList = sh script: 'cat jenkins_project/ips', returnStdout: true
+            stage('checkout') {
+              steps{
+                script{
+                    git branch: 'Lidor', credentialsId: 'dcacc4ee-0dab-4a7f-b781-ad2b883bfe68', url: 'https://github.com/DevOpsINT/Course.git'
+                }
+            
+              }
+            }
+            stage('running ansible playbook'){
+                steps{
+                    script{
+                    ip_list = sh(
+                    script: 'cat ./ansible/proj/ip_list', returnStdout: true)
+                    def target_ip = input message: 'Please choose host ip:', parameters: [ choice(name: '', choices: ip_list, description: 'host ip to run playbook')]
+                    dir('ansible/proj'){
+                        sh "sed -i 's/IP_ADDR/$target_ip/' hosts"
+                              sh '''
+                              ansible-playbook -vvvvv -i hosts  -e "service=docker jenkins_path=/opt/jenkins user=ubuntu port=8080" --private-key=/var/jenkins_home/.ssh/pr.pem playbook.yml
+                              '''
+                    }
+                     
+                  
                 }
             }
-        }
-        stage('Provide IP address') {
-            steps {
-                    dir('jenkins_project/ansible') {  
-                    script {
-                        targetIP = input(id: 'userInput', message: 'choose ip address', parameters: ipsList)
-                        println(targetIP)
-                        //sh "sed -i 's/IP_ADDRESS/${targetIP}/g' hosts"
-                        //sh "echo ansible-playbook -i hosts playbook.yml"
-                    }
-                    }
-            }
-        }
-   }
+    }
+  }
 }
+
+    
+
