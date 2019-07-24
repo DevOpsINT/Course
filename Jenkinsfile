@@ -49,7 +49,7 @@ pipeline
 						{
 							sh('pwd')
 							sh('git status')
-							sh('git checkout gadi')
+							sh('git checkout -f gadi')
 							sh('git status')
 							sh('git pull')
 							sh('git config --global user.name "Gadi"')
