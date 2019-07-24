@@ -77,12 +77,12 @@ pipeline
 						sh "pwd"
 						sh "ls"
 						sh "which ansible"
-						sh "ansible-playbook -u root -i hosts playbook.yml"
+						sh "ansible-playbook -i hosts playbook.yml"
 					}
 				}
 			}
 		}
-/*		stage('push new file')
+/*		stage('push new fil½He')
 		{
                         steps
 			{
