@@ -24,13 +24,16 @@ pipeline
 		{
 			steps
 			{
-				script
+				dir('Course')
 				{
-					ls_command = sh script: 'pwd', returnStdout: true
-					print(ls_command)
-					sh "echo ls_command is ${ls_command} > gadi_file"
-					sh label: '', script: 'echo "echo command is: Gadi This Is Your New File" > gadi_file'
-					sh 'cat gadi_file'
+					script
+					{
+						ls_command = sh script: 'pwd', returnStdout: true
+						print(ls_command)
+						sh "echo ls_command is ${ls_command} > gadi_file"
+						sh label: '', script: 'echo "echo command is: Gadi This Is Your New File" > gadi_file'
+						sh 'cat gadi_file'
+					}
 				} 
 			}
 		}
@@ -46,11 +49,12 @@ pipeline
 						{
 							sh('pwd')
 							sh('git status')
+							sh('git checkout -f gadi')
+							sh('git status')
+							sh('git pull')
 							sh('git config --global user.name "Gadi"')
 							sh('git config --global user.email "gadigamburg@gmail.com"')
-							sh('git checkout gadi')
-							sh('git pull')
-							sh('echo testing > ifconfig.file')
+							sh('echo testing > testing.file')
 							sh('git add .')
 							sh('git commit -m "Auto Push Pipeline gadi_file"')
                                                 	sh('git status')
