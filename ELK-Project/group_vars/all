@@ -1,0 +1,5 @@
+elk_host: host_ip
+slave_ip: metric_ip
+
+
+
