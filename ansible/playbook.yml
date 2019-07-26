@@ -2,6 +2,7 @@
 - name: Gadi First Playbook (Install Python, Install Docker & Run, Install Jenkins & run)
   hosts: all
   gather_facts: no
+  become_user: root
   pre_tasks: 
   - raw: sudo apt -qqy update&& sudo apt install -qy python3  
   - setup:
