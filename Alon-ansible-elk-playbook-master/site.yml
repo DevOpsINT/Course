@@ -8,6 +8,7 @@
   become_user: root
   roles:
   - { role: java }
+  - { role: Docker }  
   - { role: elasticsearch }
   - { role: kibana }
   - { role: metricbeat }
