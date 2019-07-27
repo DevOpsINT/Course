@@ -17,7 +17,7 @@ pipeline
 				{
 					script
 					{
-						git branch: 'gadi', git credentialsId: 'DevOpsINT', url: 'https://github.com/DevOpsINT/Course.git'
+						git credentialsId: 'DevOpsINT', url: 'https://github.com/DevOpsINT/Course.git' , branch: 'gadi'
 						sh 'ls'
 					}
 				}
