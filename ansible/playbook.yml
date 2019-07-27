@@ -1,59 +1,23 @@
 ---
 - name: Elasticsearch module
   hosts: all
+  vars:
+      package_url: https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-7.2.0-amd64.deb
+      es_private_ip: 192.168.1.4
   remote_user: "{{ user }}"
   become: yes
   pre_tasks:
      - raw: apt update && apt install -y python-pip  && pip install docker-py 
   tasks:
-     - debug:
-            msg: "{{ ansible_ssh_host }}"
-     - name: Install docker
-       apt:
-           name: "{{ service }}.io"
-           state: latest
-     - name: Start docker service
-       service:
-           name: "{{ service }}"
-           state: started
-     - name: Create ES data folder
-       file:
-         path: "{{ elastic_host_path }}"
-         state: directory
-     - name: Create kibana configuration folder
-       file:
-         path: "{{ kibana_host_path }}"
-         state: directory
-     - name: Create temp kibana container
-       docker_container:
-             name: kibana 
-             state: started
-             image: kibana:7.2.0
-     - name: Copy kibana configuration file from container to host and change default configuration
+     - name: Install and configure metricbeat in remote host
        shell: |
-             docker cp kibana:/usr/share/kibana/config/kibana.yml "{{ kibana_host_path }}/kibana.yml"        
-             chown 1000:1000 -R "{{ kibana_host_path }}" && chown -R 1000:1000 "{{ elastic_host_path }}"
-             sed  -i "s/\(elasticsearch.hosts:\)\s\{1,\}\(.*\)/\1 [ """\""http:\/\/{{ ansible_ssh_host }}:9200"""\"" ] /" /opt/kibana/kibana.yml
-             sed  -i 's/\(server.host:\)\s\{1,\}\(.*\)/\1 "0.0.0.0"/' "{{ kibana_host_path }}/kibana.yml" 
-             docker rm -f kibana
-     - name: Create ES container
-       docker_container:
-             name: elasticsearch
-             state: started
-             image: docker.elastic.co/elasticsearch/elasticsearch:7.2.0
-             volumes:
-              -  "{{ elastic_host_path }}:{{  elastic_container_path }}"
-             ports:
-              -  "{{ es_pr_port }}:{{ es_pr_port }}"
-              -  "{{ es_leg_port }}:{{ es_leg_port }}"
-             env:
-                discovery.type: "single-node"     
-     - name: Create kibana container
-       docker_container:
-              name: kibana
-              state: started
-              image: kibana:7.2.0
-              ports:
-              - "{{ kibana_port }}:{{ kibana_port }}"
-              volumes:
-              - "{{ kibana_host_path }}:{{ kibana_container_path }}" 
+         curl -L -O "{{ package_url }}"
+         dpkg -i  "/home/{{ user }}/{{ package_url.split('/')[6] }}"
+         sed  -i "s/\(hosts:\)\s\{1,\}\(.*\)/\1 [ """\""{{ es_private_ip }}:9200"""\"" ] /" /etc/metricbeat/metricbeat.yml
+         metricbeat setup --dashboards -e -E output.elasticsearch.hosts=['{{ es_private_ip }}:9200'] -E setup.kibana.host="{{ es_private_ip}}:5601"
+     - name: Enable metricbeat service if is disabled
+       systemd:
+         state: started
+         name: metricbeat    
+          
+

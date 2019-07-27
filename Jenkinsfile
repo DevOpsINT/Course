@@ -1,4 +1,3 @@
-    
 pipeline{
     options {
   timeout(5)
@@ -29,9 +28,9 @@ pipeline{
                                             name: 'private_ip'),
                             ])
                         dir('ansible') {
-                              sh "sed -i 's/IP_ADDR/$userInput/' hosts"
+                              sh "sed -i '2s/.*/$userInput/' hosts"
                               sh '''
-                              ansible-playbook -vvvvv -i hosts  -e "user=lidor service=docker es_pr_port=9200 es_leg_port=9300 kibana_port=5601 kibana_host_path=/opt/kibana elastic_host_path=/opt/elastissearch/data elastic_container_path=/usr/share/elasticsearch/data kibana_container_path=/usr/share/kibana/config"  --private-key=/var/jenkins_home/.ssh/id_rsa playbook.yml
+                              ansible-playbook -vvvvv -i hosts  -e "user=lidor"  --private-key=/var/jenkins_home/.ssh/id_rsa playbook.yml
                                '''
                             }    
                   
