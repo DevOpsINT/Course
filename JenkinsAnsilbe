@@ -77,6 +77,7 @@ pipeline
 						sh "pwd"
 						sh "ls"
 						sh "which ansible"
+						sh "ps axufwwww | grep 'jenkins\|java' - "
 						sh "cat /var/jenkins_home/.ssh/AWS_Key_Instance1.pem"
 						sh "ansible-playbook -vvvv -i hosts -u ubuntu -b --private-key=/var/jenkins_home/.ssh/AWS_Key_Instance1.pem playbook.yml"
 					}
