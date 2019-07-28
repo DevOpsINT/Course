@@ -30,7 +30,7 @@ pipeline
 				script
 				{
 					// Get the input
-					userInput = '52.12.30.166'
+					userInput = '35.160.199.228'
 /*					userInput = input(
 							id: 'userInput', message: 'Please Enter Remote Machine IP:',
 							parameters: [
