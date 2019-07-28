@@ -1,4 +1,4 @@
-def ls_command
+
 pipeline 
 {
 	agent 

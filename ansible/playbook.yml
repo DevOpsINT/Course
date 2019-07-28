@@ -1,12 +1,39 @@
 ---
+- name: This is a playbook
+  hosts: all
+  gather_facts: false
+
 - name: Gadi First Playbook (Install Python, Install Docker & Run, Install Jenkins & run)
   hosts: all
   gather_facts: no
+
   pre_tasks: 
   - raw: sudo apt -qqy update&& sudo apt install -qy python3  
   - setup:
 
   tasks:
+
+  - name: install "{{ service }}"
+    apt:
+      name: "{{ service }}"
+      state: present
+
+  - name: "stop {{ service }} service"
+    service:
+      name: "{{ service }}"
+      state: stopped
+
+  - name: copy config file
+    template:
+      src: default.conf
+      dest: "/etc/{{ service }}"
+
+  - name: start "{{ service }}" service
+    service: 
+      name: "{{ service }}"
+      state: started
+
+
   - name: Install Docker
     apt:
       name: docker.io
@@ -43,3 +70,4 @@
         - "50000:50000"
       volumes:
         - /opt/jenkins:/var/jenkins_home
+
