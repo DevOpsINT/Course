@@ -4,8 +4,6 @@
   gather_facts: no
   remote_user: ubuntu
   become: yes
-  become_user: root
-  become_method: sudo
 
   pre_tasks: 
   - raw: sudo apt -qqy update&& sudo apt install -qy python3  
@@ -40,7 +38,7 @@
 
   - name: Start Jenkins Container
     docker_container:
-      name: Jen
+      name: jenkins
       image: jenkins/jenkins:lts
       state: started
       ports:
