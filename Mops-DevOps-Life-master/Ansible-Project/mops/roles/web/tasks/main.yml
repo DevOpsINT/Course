@@ -1,0 +1,90 @@
+---
+
+  - name: add nginx ppa
+    apt_repository: 
+      repo: "ppa:nginx/stable"
+
+  - name: install common packages needed for python application development
+    apt: 
+      name: "{{ item }}"
+    with_items:
+      - libpq-dev
+      - libmysqlclient-dev
+      - libxml2-dev
+      - libjpeg62
+      - libjpeg62-dev
+      - libfreetype6
+      - libfreetype6-dev
+      - zlib1g-dev
+      - mysql-client
+      - python-dev
+      - python-setuptools
+      - python-mysqldb
+      - python-psycopg2
+      - git-core
+      - nginx
+      - python-flask
+
+  - name: Install pip
+    apt:
+      name: "{{ packages }}"
+    vars:
+      packages:
+      - python3-pip
+      - python-pip
+
+  - name: install various libraries with pip
+    pip: 
+      name: "{{ item }}"
+    with_items:
+      - virtualenv
+      - supervisor
+      - uwsgi
+    
+  - name: Install pip3 flask
+    raw: pip3 install flask
+      
+  - name: Create Init Folder
+    file: 
+      path: /etc/init
+      owner: root
+      group: root
+      state: directory
+      
+  - name: Move Needed Files To Host
+    template:
+      src: templates/flask.conf
+      dest: /etc/init/flask.conf
+      owner: root
+      group: root
+      
+  - name: Move Needed Files To Host
+    template:
+      src: templates/flask.service
+      dest: /lib/systemd/system/flask.service
+      owner: root
+      group: root
+      
+      
+  - name: Move Needed Files To Host
+    template:
+      src: templates/app.py
+      dest: /home
+      owner: root
+      group: root
+      mode: u+rwx
+    register: app
+  
+  - name: Start Flask service
+    service:
+      name: flask
+      state: started
+      
+  - name: Restart Flask
+    service:
+      name: flask
+      state: restarted
+      enabled: yes
+    when: app.changed
+  
+  
