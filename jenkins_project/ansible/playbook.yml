@@ -1,0 +1,35 @@
+---
+  - name: Spin up a jenkins container
+    hosts: all
+    gather_facts: false
+
+    tasks:
+      - name: Create /opt/jenkins folder
+        file:
+          path: /opt/jenkins
+          state: directory
+          owner: '1000'
+          group: '1000'
+          recurse: yes
+
+      - name: install docker package
+        apt:
+          name: docker.io
+          state: present
+          update_cache: yes
+
+      - name: start docker service
+        service:
+          name: docker
+          state: started
+
+      - name: Create a data container
+        docker_container:
+          name: jenkins
+          image: jenkinsci/jenkins
+          volumes:
+           - /opt/jenkins:/var/jenkins_home
+          ports:
+           - "8080:8080"
+
+
