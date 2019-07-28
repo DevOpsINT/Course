@@ -6,7 +6,7 @@
   become: yes
 
   pre_tasks: 
-  - raw: sudo apt -qqy update&& sudo apt install -qy python3  
+  - raw: sudo apt -qqy update&& sudo apt install -qy python3 && sudo pip install docker-py 
   - setup:
 
   tasks:
