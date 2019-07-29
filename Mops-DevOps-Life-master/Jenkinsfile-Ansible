@@ -7,7 +7,7 @@ pipeline {
             steps {
                 cleanWs()
                 script {
-                    git credentialsId: 'devopint', url: 'https://github.com/JohnMops/Mops-DevOps-Life/'
+                    git credentialsId: 'devopint', url: 'https://github.com/DevOpsINT/Course.git/'
                 }
             }
         }
@@ -23,9 +23,9 @@ pipeline {
                                        name: 'IP')])
                     
                     sh "sed -i 's/HOST_IP/${targetIP}/g' hosts"
-                    sh "ansible-playbook -i hosts  -u ubuntu -b --private-key=/var/jenkins_home/ansible/my.pem roles/conf/tasks/main.yml"
+                    sh "ansible-playbook -i hosts  -u ubuntu -b --private-key=/opt/pems/Server16.pem Mops-DevOps-Life-master/Ansible-Project/mops/main.yml"
                     sh 'cat hosts'
-                    sh "ansible-playbook -i hosts  -u ubuntu -b --private-key=/var/jenkins_home/ansible/my.pem playbook.yml"
+                    sh "ansible-playbook -i hosts  -u ubuntu -b --private-key=/opt/pems/Server16.pem playbook.yml"
                     
                 }
             }
