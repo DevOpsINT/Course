@@ -1,9 +1,0 @@
-FROM jenkins/jenkins:lts
-USER root
-RUN apt -y update
-RUN echo 'deb http://ppa.launchpad.net/ansible/ansible/ubuntu trusty main' >> /etc/apt/sources.list
-RUN apt-key adv --keyserver keyserver.ubuntu.com --recv-keys 93C4A3FD7BB9C367
-RUN apt -y update
-RUN apt -y install ansible
-USER jenkins
-ENTRYPOINT ["/sbin/tini", "--", "/usr/local/bin/jenkins.sh"]
