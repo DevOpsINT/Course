@@ -26,8 +26,8 @@ pipeline {
                     sh "sed -i 's/host_ip/${targetIP}/g' group_vars/all"
                     sh 'cat hosts'
                     sh 'cat group_vars/all'
-                    sh "ansible-playbook -i hosts  -u ubuntu -b  --private-key=/opt/pems/Server16.pem roles/Configure/tasks/main.yml"
-                    sh "ansible-playbook -i hosts  -u ubuntu -b  --private-key=/opt/pems/Server16.pem playbook.yml"
+                    sh "ansible-playbook -i hosts  -u ubuntu -b  --private-key=/opt/pems/Server16.pem Mops-DevOps-Life-master/ELK-Project/roles/elk/tasks/main.yml"
+                    sh "ansible-playbook -i hosts  -u ubuntu -b  --private-key=/opt/pems/Server16.pem  playbook.yml"
                     
                 }
             }
