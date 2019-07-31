@@ -59,8 +59,6 @@ pipeline
 						//Save userInput value
 						sh "pwd"
 						sh "ls"
-						sh "cat hosts"
-						sh "rm hosts"
 						sh "echo $userInput >> hosts"
 						sh "cat hosts"
 						sh "pwd"
