@@ -31,9 +31,7 @@ pipeline
 				{
 					// Get the input
 //					userInput = '35.160.199.228'
-					userInput = input
-							(
-								id: 'userInput', message: 'Please Enter Remote Machine IP:',
+					userInput = input (id: 'userInput', message: 'Please Enter Remote Machine IP:',
 								parameters: 
 								[
 									string
@@ -43,7 +41,7 @@ pipeline
 										name: 'IP'
 									),
 								]
-							)
+							  )
 
 
 					// Echo to console
