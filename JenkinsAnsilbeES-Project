@@ -84,10 +84,10 @@ pipeline
 						println(_ModulesList)
 
 						//Choices parameter
-						ChoosenModule = input message: 'Please choose which module to install from the list below',
+						_ChoosenModuleName = input message: 'Please choose which module to install from the list below',
 						ok: 'confirm',
 						parameters: [choice(name: '', choices: "${_ModulesList}", description: '')]
-						println(ChoosenModule)
+						println(_ChoosenModuleName)
 					}
 				}
 			}
@@ -107,14 +107,8 @@ pipeline
 						sh "ps axufwwww | grep 'jenkins | java' - "
 						sh "cat /var/jenkins_home/.ssh/AWS_Key_Instance1.pem"
 
-						//Install ElasticSearch
-						sh "ansible-playbook -v -i hosts -u ubuntu -b --private-key=/var/jenkins_home/.ssh/AWS_Key_Instance1.pem --extra-vars "role=  main.yml"
-
-						//Install Kibana
-						sh "ansible-playbook -v -i hosts -u ubuntu -b --private-key=/var/jenkins_home/.ssh/AWS_Key_Instance1.pem --extra-vars "role=  main.yml"
-
-						//Install Metricbeat
-						sh "ansible-playbook -v -i hosts -u ubuntu -b --private-key=/var/jenkins_home/.ssh/AWS_Key_Instance1.pem --extra-vars "role=  main.yml"
+						//Install Selected Module
+						sh "ansible-playbook -v -i hosts -u ubuntu -b --private-key=/var/jenkins_home/.ssh/AWS_Key_Instance1.pem --extra-vars ModuleName=_ChoosenModuleName  main.yml"
 					}
 				}
 			}
