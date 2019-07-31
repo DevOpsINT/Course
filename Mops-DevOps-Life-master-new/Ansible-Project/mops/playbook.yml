@@ -1,0 +1,7 @@
+---
+
+- name: Configure Host
+  hosts: all
+  roles:
+    - web
+  

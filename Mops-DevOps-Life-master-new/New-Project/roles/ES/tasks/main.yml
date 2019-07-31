@@ -1,0 +1,84 @@
+---
+
+- name: Increase memory
+  raw: sysctl -w vm.max_map_count=262144
+  
+- name: Ensure group "elasticsearch" group exists
+  group:
+    name: elasticsearch
+    state: present
+    
+- name: Add the user 'es' with a specific uid and a primary group of 'elasticsearch'
+  user:
+    name: es
+    uid: 1001
+    group: elasticsearch
+
+- name: Create ES folder
+  file:
+    path: "{{ item }}"
+    owner: 1001
+    group: elasticsearch
+    state: directory
+    mode: "0777"
+  with_items:
+    - /opt/elasticsearch-{{ es_version }}/data
+    - /opt/elasticsearch-{{ es_version }}/config
+    
+- name: Change Owner config
+  file:
+    path: /opt/elasticsearch-{{ es_version }}/config
+    recurse: yes
+    mode: "0777"
+    owner: 1001
+    group: elasticsearch
+    
+- name: Change Owner data 
+  file:
+    path: /opt/elasticsearch-{{ es_version }}/data
+    recurse: yes
+    mode: "0777"
+    owner: 1001
+    group: elasticsearch
+    
+- name: Move elasticsearch.yml templates
+  template:
+    src: elasticsearch.yml
+    dest: /opt/elasticsearch-{{ es_version }}/config/elasticsearch.yml
+    owner: 1001
+    group: elasticsearch
+    
+- name: Move jvm.options templates
+  template:
+    src: jvm.options
+    dest: /opt/elasticsearch-{{ es_version }}/config/jvm.options
+    owner: 1001
+    group: elasticsearch
+    
+- name: Move log4j2.properties templates
+  template:
+    src: "{{ item }}"
+    dest: /opt/elasticsearch-{{ es_version }}/config/{{ item }}
+  with_items:
+    - log4j2.properties
+    - jvm.options
+    - elasticsearch.yml
+    owner: 1001
+    group: elasticsearch
+
+
+- name: Run Elasticsearch Docker
+  docker_container:
+    name: elasticsearch
+    hostname: elasticsearch
+    image: docker.elastic.co/elasticsearch/elasticsearch:{{ es_version }}
+    state: started
+    volumes:
+      - /opt/elasticsearch-{{ es_version }}/data:/usr/share/elasticsearch/data
+      - /opt/elasticsearch-{{ es_version }}/config:/usr/share/elasticsearch/config
+    ports:
+     - "9200:9200"
+     - "9300:9300"
+    #restart: yes
+    
+

@@ -1,0 +1,43 @@
+pipeline {
+    agent {
+        label 'master'
+    }
+    stages {
+        stage('checkout'){
+            steps {
+                deleteDir()
+                script {
+                    git credentialsId: 'devopint', url: 'https://github.com/DevOpsINT'
+                }
+            }
+        }
+        stage('Ansible Playbook') {
+            steps {
+                dir ('New-Project/'){
+                script {
+                targetIP = input(
+                            id: 'userInput', message: 'ip add',
+                            parameters: [
+                                string(defaultValue: '0.0.0.0',
+                                       description: 'ip address',
+                                       name: 'IP')])
+                                       
+                roleIn = input (
+                id: 'userInput', message: 'Choose Role',
+                parameters: [choice(name: 'Role', choices: "Docker\nES\nJenkins\nKibana\nMetric\nTerraform", description: 'What role do you want to run?')]
+)
+                    
+                    sh "sed -i 's/host/${targetIP}/g' hosts"
+                    sh "sed -i 's/host_ip/${targetIP}/g' group_vars/all"
+                    sh "sed -i 's/roleIn/${roleIn}/g' playbook.yml"
+                    sh 'cat hosts'
+                    sh 'cat group_vars/all'
+                    sh "ansible-playbook -i hosts -u ubuntu -b  --extra-vars role=${RoleIn} --private-key=/opt/pems/Server16.pem playbook.yml"
+
+                }
+            }
+
+        }
+    }
+}
+}
