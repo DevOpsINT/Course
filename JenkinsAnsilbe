@@ -30,15 +30,21 @@ pipeline
 				script
 				{
 					// Get the input
-					userInput = '35.160.199.228'
-/*					userInput = input(
-							id: 'userInput', message: 'Please Enter Remote Machine IP:',
-							parameters: [
-								string(defaultValue: '192.168.1.151',
-								description: 'IP of the machine to procced the pipeline connabds',
-								name: 'IP'),
-							])
-*/
+//					userInput = '35.160.199.228'
+					userInput = input
+							(
+								id: 'userInput', message: 'Please Enter Remote Machine IP:',
+								parameters: 
+								[
+									string
+									(
+										defaultValue: '192.168.1.151',
+										description: 'IP of the machine to procced the pipeline connabds',
+										name: 'IP'
+									),
+								]
+							)
+
 
 					// Echo to console
 					echo("Entered IP Is: ${userInput}")
@@ -49,7 +55,7 @@ pipeline
 		{
 			steps
 			{
-				dir('ansible')
+				dir('ansible_jenkins_first')
 				{
 					script
 					{
@@ -69,7 +75,7 @@ pipeline
 		{
 			steps
 			{
-				dir('ansible')
+				dir('ansible_jenkins_first')
 				{
 					script
 					{

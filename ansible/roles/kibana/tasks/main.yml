@@ -1,0 +1,30 @@
+---
+
+- name: Create Kiabana folder
+  file:
+    path: /opt/kibana-{{ es_version }}
+    state: directory
+
+  - name: Change Directory Owner & Group
+    file:
+      path: /opt/kibana-{{ es_version }}
+      owner: 1000
+      group: 1000
+
+- name: Move kibana.yml templates
+  template:
+    src: kibana.yml
+    dest: /opt/kibana-{{ es_version }}/kibana.yml
+    group: kibana
+
+- name: Run Kibana Container
+  docker_container:
+    name: kibana
+    image: kibana/kibana:{{ es_version }}
+    state: started
+    ports:
+      - "5601:5601"
+    restart: yes
+    volumes:
+      - /opt/kibana-{{ es_version }}/kibana.yml:/usr/share/kibana/config/kibana.yml
+
