@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Ansible Playbook') {
             steps {
-                dir ('New-Project/'){
+                dir ('Mops-DevOps-Life-master-new/New-Project/'){
                 script {
                 targetIP = input(
                             id: 'userInput', message: 'ip add',
