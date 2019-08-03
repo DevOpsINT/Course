@@ -1,19 +1,17 @@
 ---
 
+- name: Main playbook, running roles to install selected module
   hosts: "{{ hosts }}"
   gather_facts: no
+  remote_user: ubuntu
+  become: yes
+
   pre_tasks:
     - raw: sudo apt -qy update&& sudo apt install -qy python3&& sudo apt install -qy python&& sudo apt install -qy python-pip&& sudo pip install docker-py
     - setup:
 
 
-
   tasks:
-   - name: Install common roles
-     role:
-      - "{{ docker, become: yes }}"
-
-
-   - name: Install role
+   - name: Install Requested Module
      role:
       - "{{ {{ ModuleName }}, become: yes }}"
