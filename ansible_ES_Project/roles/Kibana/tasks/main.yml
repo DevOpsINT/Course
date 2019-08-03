@@ -5,11 +5,11 @@
     path: /opt/kibana-{{ es_version }}
     state: directory
 
-  - name: Change Directory Owner & Group
-    file:
-      path: /opt/kibana-{{ es_version }}
-      owner: 1000
-      group: 1000
+- name: Change Directory Owner & Group
+  file:
+    path: /opt/kibana-{{ es_version }}
+    owner: 1000
+    group: 1000
 
 - name: Move kibana.yml templates
   template:
