@@ -14,4 +14,4 @@
     - name: Install Requested Module
       become: yes
       roles:
-        - "{{ ModuleName }}"
+        - {role: "{{ ModuleName }}" }
