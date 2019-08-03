@@ -1,6 +1,6 @@
 ---
 
-  hosts: "{{ hosts }}"
+# hosts: "{{ hosts }}"
   gather_facts: no
   remote_user: ubuntu
   become: yes
@@ -11,5 +11,7 @@
 
             #- name: Install Requested Module
             #become: yes
+
+  hosts: "{{ hosts }}"
   roles:
-    -"{{ ModuleName }}"
+    -role: "{{ ModuleName }}"
