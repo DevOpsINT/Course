@@ -11,7 +11,7 @@
     - setup:
 
 
-  tasks:
    - name: Install Requested Module
-     role:
-      - "{{ {{ ModuleName }}, become: yes }}"
+     become: yes
+     roles:
+      - "{{ ModuleName }}"

@@ -80,7 +80,7 @@ pipeline
 
 						//Choices parameter
 						_ChoosenModuleName = input message: 'Please choose which module to install from the list below',
-						ok: 'confirm',
+						ok: 'Confirm',
 						parameters: [choice(name: '', choices: "${_ModulesList}", description: '')]
 						println(_ChoosenModuleName)
 					}
