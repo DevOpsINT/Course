@@ -1,7 +1,6 @@
 ---
 -  gather_facts: no
    remote_user: ubuntu
-   roles:
    become: yes
 
    pre_tasks:
