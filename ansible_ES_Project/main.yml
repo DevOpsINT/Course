@@ -1,6 +1,8 @@
 ---
 -  gather_facts: no
+   hosts: "{{ hosts }}"
    remote_user: ubuntu
+   roles:
    become: yes
 
    pre_tasks:
@@ -10,6 +12,5 @@
             #- name: Install Requested Module
             #become: yes
 
-   hosts: "{{ hosts }}"
    roles:
     - role: "{{ ModuleName }}"
