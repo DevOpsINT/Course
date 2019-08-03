@@ -2,7 +2,7 @@
 
   - name: Install Jenkins
     apt:
-      name: Jenkins:jenkins:lts
+      name: jenkins:jenkins:lts
       state: present
 
   - name: Create Working Folder For Jenkisn
