@@ -1,6 +1,5 @@
 ---
 
-- name: Main playbook, running roles to install selected module
   hosts: "{{ hosts }}"
   gather_facts: no
   remote_user: ubuntu
