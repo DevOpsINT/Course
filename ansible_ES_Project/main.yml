@@ -1,17 +1,15 @@
 ---
+-  gather_facts: no
+   remote_user: ubuntu
+   become: yes
 
-- name: Install Selected
-  gather_facts: no
-  remote_user: ubuntu
-  become: yes
-
-  pre_tasks:
+   pre_tasks:
     - raw: sudo apt -qy update&& sudo apt install -qy python3&& sudo apt install -qy python&& sudo apt install -qy python-pip&& sudo pip install docker-py
     - setup:
 
             #- name: Install Requested Module
             #become: yes
 
-  hosts: "{{ hosts }}"
-  roles:
-    -role: "{{ ModuleName }}"
+   hosts: "{{ hosts }}"
+   roles:
+    - role: "{{ ModuleName }}"
