@@ -15,7 +15,6 @@
   template:
     src: kibana.yml
     dest: /opt/kibana-{{ es_version }}/kibana.yml
-    group: kibana
 
 - name: Run Kibana Container
   docker_container:
