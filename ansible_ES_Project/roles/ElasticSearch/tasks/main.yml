@@ -5,7 +5,6 @@
     name: "{{ item }}"
     state: directory
     mode: 755
-    owner: 1000:1000
   with_items:
   - "/opt/elasticsearch{{ es_version }}"
   - "/opt/elasticsearch_config{{ es_version }}"
