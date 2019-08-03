@@ -6,6 +6,12 @@
 - name: DPKG Metricbeat
   raw: dpkg -i metricbeat-{{ es_version }}-amd64.deb
 
+- name: Create Working Folder For Metricbeat
+  file:
+    name: /etc/metricbeat{{ es_version }}
+    state: directory
+    mode: 755
+
 - name: Create metricbeat configuration file
   template:
     src: metricbeat.yml
