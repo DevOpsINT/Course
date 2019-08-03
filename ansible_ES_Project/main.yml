@@ -1,6 +1,5 @@
 ---
 -  gather_facts: no
-   hosts: "{{ hosts }}"
    remote_user: ubuntu
    roles:
    become: yes
