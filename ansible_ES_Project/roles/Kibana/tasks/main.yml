@@ -19,7 +19,7 @@
 - name: Run Kibana Container
   docker_container:
     name: kibana
-    image: kibana/kibana:{{ es_version }}
+    image: docker.elastic.co/kibana/kibana:{{ es_version }}
     state: started
     ports:
       - "5601:5601"
