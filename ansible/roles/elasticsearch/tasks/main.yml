@@ -1,0 +1,36 @@
+---
+- name: Create data and config folder for elasticsearch container  
+  file:
+      path: "{{ item }}"
+      state: directory
+      owner: 1000
+      group: 1000
+      recurse: yes
+  with_items:
+      - "{{ elasticsearch_shared_path }}{{ elk_version }}/config"
+      - "{{ elasticsearch_shared_path }}{{ elk_version }}/data"
+- name: Create config file for elasticsearch container
+  template:
+      src:  "{{ es_container_name }}.jinja2"
+      dest: "{{ elasticsearch_shared_path }}{{ elk_version }}/config/{{ es_container_name }}.yml"
+- name: Create config file for jvm for elasticsearch
+  template:
+      src:  "jvm.jinja2"
+      dest: "{{ elasticsearch_shared_path }}{{ elk_version }}/config/jvm.options"
+- name: Setting virtual memory settings for production usage
+  shell: sysctl -w vm.max_map_count=262144
+- name: Run elasticsearch container
+  docker_container:
+      image: "{{ es_container_name }}:{{ elk_version }}"
+      name: "{{ es_container_name }}"
+      recreate: yes
+      state: started
+      volumes:
+        - "{{ elasticsearch_shared_path }}{{ elk_version }}/config/{{ es_container_name }}.yml:{{ es_container_config_path }}/{{ es_container_name }}.yml"
+        - "{{ elasticsearch_shared_path }}{{ elk_version }}/config/jvm.options:{{ es_container_config_path }}/jvm.options"
+        - "{{ elasticsearch_shared_path }}{{ elk_version }}/data:{{ es_container_data_path }}"
+      ports:
+        - "{{ es_primary }}:{{es_primary}}"
+        - "{{ es_leg }}:{{ es_leg }}"
+      env:
+        discovery.type: "{{ discovery_type }}"

@@ -1,0 +1,36 @@
+---
+# tasks file for metricbeat
+- name: Collect packages information
+  package_facts:
+     manager: auto
+- name: Install and configure metricbeat in remote host
+  shell: |
+       curl -L -O "{{ package_url }}"
+       dpkg -i  "/home/{{ ansible_user }}/{{ package_url.split('/')[6] }}" 
+  when: "'{{ service_name }}' not in ansible_facts.packages"
+- name: Metricbeat configuration
+  template:
+         src: "{{ service_name }}.jinja2"
+         dest: "{{ config_path }}/{{ service_name }}.yml"
+- name: Waiting for elasticsearch connection
+  uri:
+     url:  "http://{{ groups['elasticsearch_hosts'][0] }}:{{ es_primary }}"
+  retries: 10
+  delay: 10
+  register: result
+  until: ('status' in result) and (result.status == 200)
+- name: Waiting for kibana connection
+  uri:
+     url:  "http://{{ groups['elasticsearch_hosts'][0] }}:{{ kibana_primary_port }}/api/status"
+  retries: 10
+  delay: 10
+  register: result
+  until: ('status' in result) and (result.status == 200)
+- name: Setup dashboard
+  shell: |
+     "{{ service_name }}" setup 
+- name: Enable metricbeat service
+  systemd:
+         state: restarted
+         name: "{{ service_name }}"
+

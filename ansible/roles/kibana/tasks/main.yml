@@ -1,0 +1,38 @@
+---
+# tasks file for kibana
+- name: Tracking on kibana container path
+  debug:
+          msg: "{{ kibana_shared_path }}{{ elk_version }}:{{ kibana_container_data_path }}"
+- name: Create data folder for kibana container
+  file:
+        path: "{{ item }}"
+        owner: 1000
+        group: 1000
+        state: directory
+  with_items:
+           - "{{ kibana_shared_path }}{{ elk_version }}"
+           - "{{ kibana_shared_path }}{{ elk_version }}/config"
+- name: Create config file for kibana container
+  template: 
+           src:  "{{ kibana_container_name }}.jinja2"
+           dest: "{{ kibana_shared_path }}{{ elk_version }}/config/{{ kibana_container_name }}.yml"
+- name: Create kibana container
+  docker_container:
+        name: "{{ kibana_container_name }}"
+        state: started
+        image: "{{ kibana_container_name }}:{{ elk_version }}"
+        ports:
+           - "{{ kibana_primary_port }}:{{ kibana_primary_port }}"
+        volumes:
+                 
+                # -  "{{ kibana_shared_path }}{{ elk_version }}:{{ kibana_container_data_path }}"
+                -  "{{ kibana_shared_path }}{{ elk_version }}/config/{{ kibana_container_name }}.yml:{{ kibana_container_config_path }}/{{ kibana_container_name }}.yml"
+                    
+                     
+
+
+              
+        
+
+
+

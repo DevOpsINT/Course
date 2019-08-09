@@ -1,0 +1,12 @@
+---
+# vars file for elasticsearch
+amount_of_RAM: 2g
+es_leg: 9300
+es_remote_hosts: 0.0.0.0
+es_container_name: elasticsearch
+discovery_type: "single-node"
+es_container_config_path: "/{{ base_container_path }}/{{ es_container_name }}/config"
+es_container_data_path: "/{{ base_container_path }}/{{ es_container_name }}/data"
+elasticsearch_shared_path: "/opt/elasticsearch"
+
+

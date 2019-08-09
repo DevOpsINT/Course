@@ -1,0 +1,5 @@
+---
+# vars file for metricbeat
+config_path: /etc/metricbeat
+service_name: "metricbeat"
+package_url: "https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-{{ elk_version }}-amd64.deb"

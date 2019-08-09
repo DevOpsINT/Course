@@ -1,0 +1,3 @@
+server.name: kibana
+server.host: "{{ kibana_accessible_from }}" 
+elasticsearch.hosts: ["http://{{ groups['elasticsearch_hosts'][0] }}:{{ es_primary }}"]

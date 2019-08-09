@@ -1,0 +1,8 @@
+---
+# vars file for kibana
+kibana_accessible_from: 0.0.0.0
+kibana_container_name: kibana
+elasticsearch_host: groups['elasticsearch_hosts'][0]  
+kibana_container_data_path: "{{ base_container_path }}/{{ kibana_container_name }}/data"
+kibana_container_config_path: "{{ base_container_path }}/{{ kibana_container_name }}/config"
+kibana_shared_path: "/opt/{{ kibana_container_name }}"

@@ -1,0 +1,10 @@
+---
+# tasks file for docker
+      - name: Install docker
+        apt:
+          name: "{{default_package_name }}"
+          state: latest
+      - name: Start docker service
+        service:
+            name: "{{ default_package_name.split('.')[0] }}"
+            state: started
