@@ -83,8 +83,8 @@ pipeline
 						parameters: [choice(name: '', choices: "${_ModulesList}", description: '')]
 						//_ChosenModuleName = sh script: 'cut -d : -f1 <<< ' "${_ChosenModule}", returnStdout: true
         				//_ChosenModuleVer = sh script: 'cut -d : -f2 <<< ' "${_ChosenModule}", returnStdout: true
-        				_ChosenModuleName = sh script: 'cut -d : -f1 <<< ' _ChosenModule
-        				_ChosenModuleVer = sh script: 'cut -d : -f2 <<< ' _ChosenModule
+        				_ChosenModuleName = _ChosenModule.split(/:/)[0]
+        				_ChosenModuleVer = _ChosenModule.split(/:/)[1]
 						println(_ChosenModuleName)
 						println(_ChosenModuleVer)
 					}
