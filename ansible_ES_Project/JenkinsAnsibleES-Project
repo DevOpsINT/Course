@@ -82,9 +82,18 @@ pipeline
 						ok: 'Confirm',
 						parameters: [choice(name: '', choices: "${_ModulesList}", description: '')]
         				_ChosenModuleName = _ChosenModule
-        				_ChosenModuleVer = _ChosenModule.split(/:/)[1]
 						println(_ChosenModuleName)
-						println(_ChosenModuleVer)
+
+                        if(_ChosenModuleName.indexOf(":")!=-1)
+                        {
+                           	_ChosenModuleVer = _ChosenModule.split(/:/)[1]
+                           	println(_ChosenModuleVer)
+                        }
+                        else
+                        {
+                           	_ChosenModuleVer = ""
+                           	println(_ChosenModuleVer)
+                        }
 					}
 				}
 			}
