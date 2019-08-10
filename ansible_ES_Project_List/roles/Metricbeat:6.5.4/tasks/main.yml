@@ -1,0 +1,21 @@
+---
+
+- name: Download Metricbeat
+  raw: curl -L -O https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-{{ _SelectedVersion }}-amd64.deb
+
+- name: DPKG Metricbeat
+  raw: dpkg -i metricbeat-{{ _SelectedVersion }}-amd64.deb
+
+- name: Create Working Folder For Metricbeat
+  file:
+    name: /etc/metricbeat{{ _SelectedVersion }}
+    state: directory
+    mode: 755
+
+- name: Create metricbeat configuration file
+  template:
+    src: metricbeat.yml
+    dest: /etc/metricbeat{{ _SelectedVersion }}/metricbeat.yml
+
+- name: Start Metricbeat
+  raw: service metricbeat start

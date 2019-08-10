@@ -1,0 +1,30 @@
+---
+
+- name: create data directory
+  file:
+    name: "{{ item }}"
+    state: directory
+    mode: 755
+  with_items:
+  - "/opt/elasticsearch{{ _SelectedVersion }}"
+  - "/opt/elasticsearch_config{{ _SelectedVersion }}"
+
+- name: increase virtual memory
+  shell: sysctl -w vm.max_map_count=262144
+
+- name: create es configuration file
+  template:
+    src: elasticsearch.j2
+    dest: "/opt/elasticsearch_config{{ _SelectedVersion }}/elasticsearch.yml"
+
+- name: Run elasticsearch container
+  docker_container:
+    image: elasticsearch:{{ _SelectedVersion }}
+    name: elasticsearch
+    state: started
+    volumes:
+     - "/opt/elasticsearc{{ _SelectedVersion }}:/usr/share/elasticsearch/data"
+     - "/opt/elasticsearch_config{{ _SelectedVersion }}/elasticsearch.yml:/usr/share/elasticsearch/config/elasticsearch.yml"
+    ports:
+     - "9200:9200"
+     - "9300:9300"

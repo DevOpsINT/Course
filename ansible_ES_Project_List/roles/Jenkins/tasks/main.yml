@@ -1,0 +1,24 @@
+---
+
+  - name: Create Working Folder For Jenkisn
+    file:
+      path: /opt/jenkins
+      state: directory
+
+  - name: Change Directory Owner & Group
+    file:
+      path: /opt/jenkins
+      owner: 1000
+      group: 1000
+
+  - name: Start Jenkins Container
+    docker_container:
+      name: jenkins
+      image: jenkins/jenkins:lts
+      state: started
+      ports:
+        - "8080:8080"
+        - "50000:50000"
+      volumes:
+        - /opt/jenkins:/var/jenkins_home
+
