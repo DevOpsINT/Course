@@ -74,7 +74,7 @@ pipeline
 					script
 					{
 						//Read AvailibleModules File
-						_ModulesList = sh script: 'cat AvailibleModules', returnStdout: true
+						_ModulesList = sh script: 'ls roles', returnStdout: true
 						println(_ModulesList)
 
 						//Choices parameter
