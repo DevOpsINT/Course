@@ -3,6 +3,7 @@ def userInput
 def optionList = []
 def optionFinal = []
 
+// Function For Multi Choose Stage
 def createBooleanParameter(String value, String desc)
 {
     return [$class: 'BooleanParameterDefinition', defaultValue: false, name: value, description: desc]
@@ -34,7 +35,7 @@ pipeline
 				}
 			}
 		}
-		stage('Interactive_Input')
+		stage('Interactive IP Input')
 		{
 			steps
 			{
@@ -76,40 +77,6 @@ pipeline
 				}
 			}
 		}
-/*		stage('Choose Requested Module And Version From Dir List (ls)')
-		{
-			steps
-			{
-				dir('ansible_ES_Project_CheckBox')
-				{
-					script
-					{
-						//Read AvailibleModules File
-						_ModulesList = sh script: 'ls roles', returnStdout: true
-						println(_ModulesList)
-
-						//Choices parameter
-						_ChosenModule = input message: 'Please choose which module to install from the list below',
-						ok: 'Confirm',
-						parameters: [choice(name: '', choices: "${_ModulesList}", description: '')]
-        				_ChosenModuleName = _ChosenModule
-						println(_ChosenModuleName)
-
-                        if(_ChosenModuleName.indexOf(":")!=-1)
-                        {
-                           	_ChosenModuleVer = _ChosenModule.split(/:/)[1]
-                           	println(_ChosenModuleVer)
-                        }
-                        else
-                        {
-                           	_ChosenModuleVer = ""
-                           	println(_ChosenModuleVer)
-                        }
-					}
-				}
-			}
-		}*/
-
         stage ('Choose Requested Module And Version From Dir Roles List (ls)')
         {
             steps
@@ -145,6 +112,7 @@ pipeline
                                 optionFinal.add(option)
                             }
                         }
+                    // Print All Selected Modules
                     println(optionFinal)
                 }
             }
@@ -161,9 +129,10 @@ pipeline
 						//Run Ansible Playbook
 						sh "pwd"
 						sh "ls"
-						sh "which ansible"
-						sh "ps axufwwww | grep 'jenkins | java' - "
-						sh "cat /var/jenkins_home/.ssh/AWS_Key_Instance1.pem"
+						// Check Java Version
+						//sh "ps axufwwww | grep 'jenkins | java' - "
+						// Show PEM Content File
+						//sh "cat /var/jenkins_home/.ssh/AWS_Key_Instance1.pem"
 
                         //Execute Each Selected Module In Chosen Array Options
                         for ( finalOption in optionFinal )
