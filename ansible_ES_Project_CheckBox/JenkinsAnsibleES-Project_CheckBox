@@ -183,7 +183,7 @@ pipeline
                                 _ChosenModuleVer = ""
                                	println(_ChosenModuleVer)
                             }
-                            println 'Executing: ' (finalOption)
+                            echo("Executing: ${finalOption}")
 
 						    //Install Selected Modul${_ChosenModuleName}e
 						    sh "ansible-playbook -vv -u ubuntu -i hosts -b --private-key=/var/jenkins_home/.ssh/AWS_Key_Instance1.pem -e hosts=${userInput} -e ModuleName=${_ChosenModuleName} -e _SelectedVersion=${_ChosenModuleVer}  main.yml"
