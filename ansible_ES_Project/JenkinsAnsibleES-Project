@@ -44,7 +44,7 @@ pipeline
 
 					// Echo to console
 					echo("Entered IP Is: ${userInput}")
-		    		} 
+		    	}
 			}
 		}
 		stage('Save Input Value Into Hosts File')
@@ -65,7 +65,7 @@ pipeline
 				}
 			}
 		}
-		stage('Choose Requested Module From List')
+		stage('Choose Requested Module And Version From Dir List (ls)')
 		{
 			steps
 			{
@@ -78,10 +78,13 @@ pipeline
 						println(_ModulesList)
 
 						//Choices parameter
-						_ChoosenModuleName = input message: 'Please choose which module to install from the list below',
+						_ChoosenModule = input message: 'Please choose which module to install from the list below',
 						ok: 'Confirm',
 						parameters: [choice(name: '', choices: "${_ModulesList}", description: '')]
+						_ChoosenModuleName = cut -d':' -f1 <<< _ChoosenModule
+						_ChoosenModuleVer = cut -d':' -f2 <<< _ChoosenModule
 						println(_ChoosenModuleName)
+						println(_ChoosenModuleVer)
 					}
 				}
 			}
@@ -101,21 +104,21 @@ pipeline
 						sh "ps axufwwww | grep 'jenkins | java' - "
 						sh "cat /var/jenkins_home/.ssh/AWS_Key_Instance1.pem"
 
-						//Install Selected Module
-						sh "ansible-playbook -vvvv -u ubuntu -i hosts -b --private-key=/var/jenkins_home/.ssh/AWS_Key_Instance1.pem -e hosts=${userInput} -e ModuleName=${_ChoosenModuleName} -e es_version='6.5.4'  main.yml"
+						//Install Selected Modul${_ChoosenModuleName}e
+						sh "ansible-playbook -vvvv -u ubuntu -i hosts -b --private-key=/var/jenkins_home/.ssh/AWS_Key_Instance1.pem -e hosts=${userInput} -e ModuleName=${_ChoosenModuleName} -e _SelectedVersion=${_ChoosenModuleVer}  main.yml"
 					}
 				}
 			}
 		}
 /*		stage('push new file')
 		{
-                        steps
+        steps
 			{
 				dir('Course')
 				{
-                                	script
+                    script
 					{
-                                        	withCredentials([usernamePassword(credentialsId: 'DevOpsINT', passwordVariable: 'Password', usernameVariable: 'Username')])
+                        withCredentials([usernamePassword(credentialsId: 'DevOpsINT', passwordVariable: 'Password', usernameVariable: 'Username')])
 						{
 							sh('pwd')
 							sh('git status')
@@ -126,10 +129,10 @@ pipeline
 							sh('echo testing > ifconfig.file')
 							sh('git add .')
 							sh('git commit -m "Auto Push Pipeline gadi_file"')
-                                                	sh('git status')
+                            sh('git status')
 							sh('git push https://${Username}:${Password}@github.com/DevOpsINT/Course.git gadi')
 						}
-                                        }
+                    }
 				}
 			}
 		}*/
