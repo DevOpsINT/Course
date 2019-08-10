@@ -81,8 +81,10 @@ pipeline
 						_ChosenModule = input message: 'Please choose which module to install from the list below',
 						ok: 'Confirm',
 						parameters: [choice(name: '', choices: "${_ModulesList}", description: '')]
-						_ChosenModuleName = sh script: 'cut -d : -f1 <<< "${_ChosenModule}"', returnStdout: true
-        				_ChosenModuleVer = sh script: 'cut -d : -f2 <<< "${_ChosenModule}"', returnStdout: true
+						//_ChosenModuleName = sh script: 'cut -d : -f1 <<< "${_ChosenModule}"', returnStdout: true
+        				//_ChosenModuleVer = sh script: 'cut -d : -f2 <<< "${_ChosenModule}"', returnStdout: true
+        										_ChosenModuleName = cut -d : -f1 <<< "${_ChosenModule}"
+                                				_ChosenModuleVer = cut -d : -f2 <<< "${_ChosenModule}"
 						println(_ChosenModuleName)
 						println(_ChosenModuleVer)
 					}
