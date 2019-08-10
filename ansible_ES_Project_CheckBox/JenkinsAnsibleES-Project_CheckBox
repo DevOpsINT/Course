@@ -76,9 +76,9 @@ pipeline
 				}
 			}
 		}
-		stage('Choose Requested Module And Version From Dir List (ls)')
+/*		stage('Choose Requested Module And Version From Dir List (ls)')
 		{
-/*			steps
+			steps
 			{
 				dir('ansible_ES_Project_CheckBox')
 				{
@@ -107,8 +107,8 @@ pipeline
                         }
 					}
 				}
-			}*/
-		}
+			}
+		}*/
 
         stage ('Choose Requested Module And Version From Dir Roles List (ls)')
         {
