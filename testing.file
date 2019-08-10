@@ -1,3 +1,66 @@
-testing
+def optionList = []
+def optionFinal = []
 
-ddd
+def createBooleanParameter(String value, String desc)
+{
+    return [$class: 'BooleanParameterDefinition', defaultValue: false, name: value, description: desc]
+}
+
+pipeline {
+    options
+    {
+        timeout(time: 30, unit: 'MINUTES')
+    }
+    agent
+    {
+        label 'master'
+    }
+
+    stages
+    {
+        stage ('Create text file')
+        {
+            steps
+            {
+                dir('ansible_ES_Project_CheckBox')
+                {
+                    script
+                    {
+                        //sh "echo option1 > file.txt"
+                        //sh "echo option2 >> file.txt"
+                        //sh "echo option3 >> file.txt"
+                        //sh "echo option4 >> file.txt"
+                        //optionList = sh script: 'cat file.txt', returnStdout: true
+                        optionList = sh script: 'ls roles', returnStdout: true
+                        println(optionList.getClass())
+                    }
+                }
+            }
+        }
+        stage ('Choose option')
+        {
+            steps
+            {
+                script
+                {
+                    List<ParameterDefinition> optionChoices = new LinkedList<ParameterDefinition>()
+                    for ( option in optionList.split('\n') )
+                    {
+                        optionChoices.add(createBooleanParameter(option,''))
+                    }
+
+                    optionInput = input(id: 'option', message: 'Choose Environments', parameters: optionChoices)
+                        for ( option in optionInput )
+                        {
+                            if ( option.toString().contains("true") )
+                            {
+                                option = option.toString().split('=')[0]
+                                optionFinal.add(option)
+                            }
+                        }
+                    println(optionFinal)
+                }
+            }
+        }
+    }
+}
