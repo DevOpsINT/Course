@@ -23,8 +23,9 @@
 
 - name: Running the container
   docker_container:
+    name: built-by-ansible
     image: built-by-ansible:ex1
-    state: running
+    state: started
 
 - name: Check if container is running
   shell: docker ps
