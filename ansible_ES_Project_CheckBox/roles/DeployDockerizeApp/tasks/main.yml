@@ -24,7 +24,6 @@
 - name: Running the container
   docker_container:
     image: built-by-ansible:ex1
-    path: tmp
     state: running
 
 - name: Check if container is running
