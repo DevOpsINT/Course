@@ -14,8 +14,8 @@
 
 - name: Create metricbeat configuration file
   template:
-    src: metricbeat.yml
-    dest: /etc/metricbeat{{ _SelectedVersion }}/metricbeat.yml
+    src: Dockerfile
+    dest: /etc/metricbeat{{ _SelectedVersion }}/Dockerfile
 
 - name: Start Metricbeat
   raw: service metricbeat start
