@@ -1,4 +1,5 @@
 FROM python:2
 WORKDIR /usr/scr/app
-COPY ./ ./ ./ ./App_UT/ .
+RUN echo pwd
+COPY ./ ./ ./ ./App_UT/*.py .
 CMD [ "python", ".Experiment.py" ]
