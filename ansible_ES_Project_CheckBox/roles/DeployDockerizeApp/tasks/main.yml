@@ -3,8 +3,8 @@
 - name: Copy Dockerfile from files folder
   file:
     src: Dockerfile
-    dest: /tmp/Dockerfile
+    dest: tmp/Dockerfile
 
 - name: Build Docker Image
-  raw: /tmp/docker build .
+  raw: tmp/docker build .
 
