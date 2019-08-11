@@ -2,7 +2,7 @@
 
 - name: Create Working Folder For Dockerfile
   file:
-    name: tmp/Dockerfile
+    name: tmp
     state: directory
     mode: 755
 
