@@ -1,5 +1,11 @@
 ---
 
+- name: Create Working Folder For Dockerfile
+  file:
+    name: tmp/Dockerfile
+    state: directory
+    mode: 755
+
 - name: Copy Dockerfile from files folder
   copy:
     src: files/Dockerfile
