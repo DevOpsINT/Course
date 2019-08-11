@@ -9,7 +9,7 @@
 - name: Copy Dockerfile from files folder
   copy:
     src: files/Dockerfile
-    dest: /usr/scr/app/Dockerfile
+    dest: Dockerfile
     owner: root
     group: root
     mode: '0755'
@@ -18,13 +18,13 @@
   docker_image:
     name: built-by-ansible
     tag: ex1
-    path: /usr/scr/app
+    path: docker
     state: present
 
 - name: Running the container
   docker_container:
     image: built-by-ansible:ex1
-    path: /usr/scr/app
+    path: docker
     state: running
 
 - name: Check if container is running
