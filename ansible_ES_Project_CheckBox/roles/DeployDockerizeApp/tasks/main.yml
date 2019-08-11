@@ -28,6 +28,6 @@
     state: running
 
 - name: Check if container is running
-    shell: docker ps
+  shell: docker ps
 
 
