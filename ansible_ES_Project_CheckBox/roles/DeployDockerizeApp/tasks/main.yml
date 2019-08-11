@@ -14,6 +14,20 @@
     group: root
     mode: '0755'
 
-- name: Build Docker Image
-  raw: tmp/docker build .
+- name: Build Docker image from Dockerfile
+  docker_image:
+    name: built-by-ansible
+    tag: ex1
+    path: tmp
+    state: build
+
+- name: Running the container
+  docker_container:
+    image: built-by-ansible:ex1
+    path: tmp
+    state: running
+
+- name: Check if container is running
+    shell: docker ps
+
 
