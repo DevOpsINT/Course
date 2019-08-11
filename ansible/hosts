@@ -1,4 +1,4 @@
-192.168.1.150
+10.14.8.113
 # This is the default ansible 'hosts' file.
 #
 # It should live in /etc/ansible/hosts
