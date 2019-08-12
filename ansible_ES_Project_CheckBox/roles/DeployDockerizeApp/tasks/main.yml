@@ -25,7 +25,6 @@
   docker_image:
     name: built-by-ansible
     tag: ex1
-    path: tmp
     state: present
 
 - name: Running the container
