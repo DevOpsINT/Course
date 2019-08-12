@@ -1,4 +1,4 @@
 FROM python:2
 WORKDIR /usr/scr/app
 ADD ../../../../App_UT/*.py /
-CMD [ "python", "app/Experiment.py" ]
+CMD [ "python", "Experiment.py" ]
