@@ -14,6 +14,12 @@
     group: root
     mode: '0755'
 
+- name: Remove Old Image Version
+  docker_image:
+    state: absent
+    name: built-by-ansible
+    tag: ex1
+
 - name: Build Docker image from Dockerfile
   docker_image:
     name: built-by-ansible
