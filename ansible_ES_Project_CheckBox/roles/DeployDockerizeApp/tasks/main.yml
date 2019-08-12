@@ -17,6 +17,7 @@
 - name: Remove Old Image Version
   docker_image:
     state: absent
+    force: yes
     name: built-by-ansible
     tag: ex1
 
