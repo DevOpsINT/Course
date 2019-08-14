@@ -28,9 +28,16 @@ pipeline {
                             println("Unit Test failed for ${BuildVersion}")
                             currentBuild.result = 'UNSTABLE'
                         }
+                      stash includes: '*', name: 'assign2_files', useDefaultExcludes: false
                     }
                 }
             }
         }
     }
+  agent { label 'assignment2' }
+  stages {
+    stage('docker build') {
+      steps {
+        dir('/home/jenkins') {
+          unstash 'assign2_files'
 }
