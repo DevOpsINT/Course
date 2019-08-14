@@ -15,14 +15,15 @@
 
 - name: Copy files from files & App_UT folders
   copy:
-    src: "{{ item }}"
+    src: "files/{{ item }}"
     dest: tmp/Dockerfile
     owner: root
     group: root
     mode: '0755'
   with_items:
-    - "../files/Dockerfile"
-    - "/App_UT/*"
+    - Dockerfile
+    - Experiment.py
+    - ExperimentTests.py
 
 - name: Build Docker image from Dockerfile
   docker_image:

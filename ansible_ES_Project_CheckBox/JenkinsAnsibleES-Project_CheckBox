@@ -66,6 +66,21 @@ pipeline
                 }
             }
         }
+		stage ('Copy Unit Test Files To Ansible Folder')
+		{
+            steps
+            {
+				dir('ansible_ES_Project_CheckBox')
+				{
+                    script
+                    {
+                        sh 'pwd'
+                        sh 'cp /APP_UT /DeployDockerizeApp/files'
+                        sh 'ls /DeployDockerizeApp/files'
+                    }
+                }
+            }
+        }
 
 		stage('Interactive IP Input')
 		{
