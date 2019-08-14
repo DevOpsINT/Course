@@ -1,5 +1,7 @@
 [docker_hosts]
 IP_ADDR_docker
+[dockerize_hosts]
+IP_ADDR_dockerize
 [elasticsearch_hosts]
 IP_ADDR_elasticsearch
 [kibana_hosts]

@@ -1,27 +1,30 @@
 ---
-#- name: check var
-  # hosts: docker_hosts
-
-  #  tasks:
-  # - debug:
-  #      msg: "{{ choices }}"
 - hosts: all
   name: Install requirements to run playbook properly
   gather_facts: false
   pre_tasks:
-   - raw: timedatectl  set-timezone Asia/Jerusalem && ntpdate ntp.ubuntu.com && apt update && apt install -y python-pip  && pip install docker-py
+   - raw: timedatectl  set-timezone Asia/Jerusalem && ntpdate ntp.ubuntu.com && apt update && apt install -y python-pip && pip install docker
      ignore_unreachable: true
+     ignore_errors: true
 - hosts: docker_hosts
+  ignore_unreachable: true
   roles:
-          - { role: docker, when: " 'docker' in choices" }
+          - { role: docker, when: " 'docker' in choices "}
+- hosts: dockerize_hosts
+  pre_tasks:
+    - raw: apt update && apt install -y jq
+  ignore_unreachable: true
+  roles:
+          - { role: dockerize, when: " 'dockerize' in choices  " }
 - hosts: elasticsearch_hosts
+  ignore_unreachable: true
   roles:
           - { role: elasticsearch, when: " 'elasticsearch' in choices" }
-- hosts: kibana_hosts 
+- hosts: kibana_hosts
+  ignore_unreachable: true
   roles:
           - { role: kibana, when: " 'kibana' in choices" }
 - hosts: metricbeat_hosts
+  ignore_unreachable: true
   roles:
           - { role: metricbeat, when: " 'metricbeat' in choices" }
-
-

@@ -1,0 +1,37 @@
+---
+# tasks file for dockerize
+- name: Run container to check dockerize
+  docker_container:
+    image: "{{ image_name }}"
+    name: "{{ image_name.split(':')[1] }}"
+    recreate: yes
+    state: started
+  register: result
+  retries: 5
+  until: result is succeeded
+- name: Check running of module in remote container
+  shell: "docker logs {{ image_name.split(':')[1] }} "
+  register: result
+- name: remove container
+  docker_container:
+    name: "{{ image_name.split(':')[1] }}"
+    state: absent
+- name: Remove image  in remote computer
+  docker_image:
+    state: absent
+    name: "{{ image_name.split(':')[0] }}"
+    tag: "{{ image_name.split(':')[1] }}"
+    force_absent: yes
+- name: Remove image from docker_hub if running module is failed
+  shell: |
+    TOKEN=`curl -s -H "Content-Type: application/json" -X POST -d '{"username": "{{  docker_username }}", "password": "{{ docker_password }}"}' https://hub.docker.com/v2/users/login/ | jq -r .token`
+    curl "https://hub.docker.com/v2/repositories/{{ docker_username }}/{{ image_name.split(':')[0].split('/')[1] }}/tags/{{ image_name.split(':')[1] }}/" \
+    -X DELETE \
+    -H "Authorization: JWT ${TOKEN}"
+  when: " '{{ string_to_check }}' not in result.stdout"
+- name: fail the play if the previous command did not succeed
+  fail:
+    msg: "The running module in remote host is failed"
+  when: " '{{ string_to_check }}' not in result.stdout"
+
+
