@@ -6,6 +6,13 @@
     state: directory
     mode: 755
 
+- name: Remove Old Image Version
+    docker_image:
+      name: built-by-ansible
+      tag: ex1
+      force: yes
+      state: absent
+
 - name: Copy Dockerfile from files folder
   copy:
     src: files/Dockerfile
