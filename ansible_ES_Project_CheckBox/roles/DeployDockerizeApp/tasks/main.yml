@@ -16,7 +16,7 @@
 - name: Copy files from files & App_UT folders
   copy:
     src: "files/{{ item }}"
-    dest: tmp/Dockerfile
+    dest: tmp
     force: yes
     owner: root
     group: root
