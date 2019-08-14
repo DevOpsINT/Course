@@ -77,7 +77,7 @@ pipeline
                         sh 'pwd'
                         sh 'ls -ltr'
                         sh 'ls ../App_UT'
-                        sh 'cp ../App_UT roles/DeployDockerizeApp/files'
+                        sh 'cp -Rr ../App_UT roles/DeployDockerizeApp/files'
                         sh 'ls roles/DeployDockerizeApp/files'
                     }
                 }
