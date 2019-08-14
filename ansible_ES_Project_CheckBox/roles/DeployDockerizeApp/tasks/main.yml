@@ -17,6 +17,7 @@
   copy:
     src: "files/{{ item }}"
     dest: tmp/Dockerfile
+    force: yes
     owner: root
     group: root
     mode: '0755'
