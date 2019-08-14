@@ -13,13 +13,16 @@
     force: yes
     state: absent
 
-- name: Copy Dockerfile from files folder
+- name: Copy files from files & App_UT folders
   copy:
-    src: files/Dockerfile
+    src: "{{ item }}"
     dest: tmp/Dockerfile
     owner: root
     group: root
     mode: '0755'
+  with_items:
+    - "../files/Dockerfile"
+    - "../../../App_UT/*"
 
 - name: Build Docker image from Dockerfile
   docker_image:

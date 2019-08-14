@@ -1,0 +1,221 @@
+// Variable for input
+def userInput
+def optionList = []
+def optionFinal = []
+def _CurrentGitVersion
+def _NextGitVersion
+def _CurrentCommitIdShort
+def _BuildVersion
+
+// Function For Multi Choose Stage
+def createBooleanParameter(String value, String desc)
+{
+    return [$class: 'BooleanParameterDefinition', defaultValue: false, name: value, description: desc]
+}
+
+pipeline 
+{
+    options
+    {
+        timeout(time: 30, unit: 'MINUTES')
+    }
+	agent
+	{
+		label 'master'
+	}
+	stages
+	{
+		stage('Checkout From GIT')
+		{
+			steps
+			{
+				dir('Course')
+				{
+					script
+					{
+						git credentialsId: 'DevOpsINT', url: 'https://github.com/DevOpsINT/Course.git' , branch: 'gadi'
+						_CurrentGitVersion = sh script:"git tag | sort -r | head -1", returnStdout: true
+                        _CurrentGitVersion = _CurrentGitVersion.trim()
+                        _NextGitVersion = _CurrentGitVersion + 1
+                        _CurrentCommitIdShort = sh script:"git rev-parse HEAD | cut -c1-10", returnStdout: true
+                        _BuildVersion = "${_CurrentGitVersion}_${_CurrentCommitIdShort}"
+						sh 'ls'
+					}
+				}
+			}
+		}
+		stage ('Unit Test')
+		{
+            steps
+            {
+				dir('App_UT')
+				{
+                    script
+                    {
+                        try
+                        {
+                            //Run UniTest
+                            sh 'python ExperimentTests.py'
+                        }
+                        catch (err)
+                        {
+                            println("Unit Test failed for ${_BuildVersion}")
+                            currentBuild.result = 'UNSTABLE'
+                        }
+                    }
+                }
+            }
+        }
+
+		stage('Interactive IP Input')
+		{
+			steps
+			{
+				script
+				{
+					// Get the input
+					userInput = input (id: 'userInput', message: 'Please Enter Remote Machine IP:',
+								parameters: 
+								[
+									string
+									(
+										defaultValue: '35.160.199.228',
+										description: 'IP of the machine to procced the pipeline connabds',
+										name: 'IP'
+									),
+								]
+							  )
+
+					// Echo to console
+					echo("Entered IP Is: ${userInput}")
+		    	}
+			}
+		}
+		stage('Save Input Value Into Hosts File')
+		{
+			steps
+			{
+				dir('ansible_ES_Project_CheckBox')
+				{
+					script
+					{
+						//Save userInput value
+						sh "pwd"
+						sh "ls"
+						sh "echo $userInput >> hosts"
+						sh "cat hosts"
+						sh "pwd"
+					}
+				}
+			}
+		}
+        stage ('Choose Requested Module And Version From Dir Roles List (ls)')
+        {
+            steps
+            {
+                dir('ansible_ES_Project_CheckBox')
+                {
+                    script
+                    {
+                        optionList = sh script: 'ls roles', returnStdout: true
+                        println(optionList.getClass())
+                    }
+                }
+            }
+        }
+        stage ('Choose option')
+        {
+            steps
+            {
+                script
+                {
+                    List<ParameterDefinition> optionChoices = new LinkedList<ParameterDefinition>()
+                    for ( option in optionList.split('\n') )
+                    {
+                        optionChoices.add(createBooleanParameter(option,''))
+                    }
+
+                    optionInput = input(id: 'option', message: 'Please Choose Desirable Modules To Execute', parameters: optionChoices)
+                        for ( option in optionInput )
+                        {
+                            if ( option.toString().contains("true") )
+                            {
+                                option = option.toString().split('=')[0]
+                                optionFinal.add(option)
+                            }
+                        }
+                    // Print All Selected Modules
+                    println(optionFinal)
+                }
+            }
+        }
+
+		stage('Run Ansible Pipeline')
+		{
+			steps
+			{
+				dir('ansible_ES_Project_CheckBox')
+				{
+					script
+					{
+						//Run Ansible Playbook
+						sh "pwd"
+						sh "ls"
+						// Check Java Version
+						//sh "ps axufwwww | grep 'jenkins | java' - "
+						// Show PEM Content File
+						//sh "cat /var/jenkins_home/.ssh/AWS_Key_Instance1.pem"
+
+                        //Execute Each Selected Module In Chosen Array Options
+                        for ( finalOption in optionFinal )
+                        {
+                            _ChosenModuleName = finalOption
+
+                            if(finalOption.indexOf(":")!=-1)
+                            {
+                           	    _ChosenModuleVer = finalOption.split(/:/)[1]
+                               	println(_ChosenModuleVer)
+                            }
+                            else
+                            {
+                                _ChosenModuleVer = ""
+                               	println(_ChosenModuleVer)
+                            }
+                            echo("Executing: ${_ChosenModuleName}")
+
+						    //Install Selected Module
+						    sh "ansible-playbook -vvvv -u ubuntu -i hosts -b --private-key=/var/jenkins_home/.ssh/AWS_Key_Instance1.pem -e hosts=${userInput} -e ModuleName=${_ChosenModuleName} -e _SelectedVersion=${_ChosenModuleVer}  main.yml"
+						}
+					}
+				}
+			}
+		}
+/*		stage('push new file')
+		{
+        steps
+			{
+				dir('Course')
+				{
+                    script
+					{
+                        withCredentials([usernamePassword(credentialsId: 'DevOpsINT', passwordVariable: 'Password', usernameVariable: 'Username')])
+						{
+							sh('pwd')
+							sh('git status')
+							sh('git config --global user.name "Gadi"')
+							sh('git config --global user.email "gadigamburg@gmail.com"')
+							sh('git checkout gadi')
+							sh('git pull')
+							sh('echo testing > ifconfig.file')
+							sh('git add .')
+							sh('git commit -m "Auto Push Pipeline gadi_file"')
+                            sh('git status')
+							sh('git push https://${Username}:${Password}@github.com/DevOpsINT/Course.git gadi')
+						}
+                    }
+				}
+			}
+		}*/
+	}
+}
+
