@@ -75,8 +75,8 @@ pipeline
                     script
                     {
                         sh 'pwd'
-                        sh 'cp APP_UT /roles/DeployDockerizeApp/files'
-                        sh 'ls DeployDockerizeApp/files'
+                        sh 'cp ./APP_UT /roles/DeployDockerizeApp/files'
+                        sh 'ls ./DeployDockerizeApp/files'
                     }
                 }
             }
