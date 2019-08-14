@@ -1,4 +1,4 @@
 FROM python:2
 WORKDIR /tmp
-ADD ../../../../App_UT/*.py /
+COPY . .
 CMD [ "python", "app/Experiment.py" ]
