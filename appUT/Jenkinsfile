@@ -3,13 +3,13 @@ pipeline {
       timeout(time: 30, unit: 'MINUTES')
   }
     agent {
-        label 'master'
+        label 'ora'
     }
     stages {
         stage ('Checkout') {
             steps {
                 script {
-                    checkout([$class: 'GitSCM', branches: [[name: '*/yuri']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/DevOpsINT/Course.git']]])
+                    checkout([$class: 'GitSCM', branches: [[name: '*/ora']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/DevOpsINT/Course.git']]])
                     CurrentVersion = sh script:"git tag | sort -r | head -1", returnStdout: true
                     CurrentVersion = CurrentVersion.trim()
                     nextVersion = CurrentVersion + 1
