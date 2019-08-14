@@ -27,7 +27,7 @@
     - ExperimentTests.py
 
 - name: Execute the command in remote shell; stdout goes to the specified file on the remote.
-  shell: docker build -t built-by-ansible:ex1 ./tmp/Dockerfile
+  shell: docker build -t built-by-ansible:ex1 ./tmp
 
 #- name: Build Docker image from Dockerfile
 #  docker_image:
