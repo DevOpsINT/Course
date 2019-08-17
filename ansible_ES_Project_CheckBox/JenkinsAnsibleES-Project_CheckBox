@@ -210,7 +210,7 @@ pipeline
                             echo("Executing: ${_ChosenModuleName}")
 
 						    //Install Selected Module
-						    sh "ansible-playbook -vvvv -u ubuntu -i hosts -b --private-key=/var/jenkins_home/.ssh/AWS_Key_Instance1.pem -e hosts=${_userInput} -e buildVersion=${_BuildVersion} -e ModuleName=${_ChosenModuleName} -e _SelectedVersion=${_ChosenModuleVer}  main.yml"
+						    sh "ansible-playbook -v -u ubuntu -i hosts -b --private-key=/var/jenkins_home/.ssh/AWS_Key_Instance1.pem -e hosts=${_userInput} -e buildVersion=${_BuildVersion} -e ModuleName=${_ChosenModuleName} -e _SelectedVersion=${_ChosenModuleVer}  main.yml"
 						}
 					}
 				}
