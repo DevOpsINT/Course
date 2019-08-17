@@ -38,11 +38,10 @@
 - name: Save Docker Log Into Register
   shell: docker logs {{ buildVersion }}
   register: docker_log
+
 - debug:
-  var: docker_log.stdout
-  verbosity: 4
-
-
+    var: docker_log.stdout
+    verbosity: 4
 
 
 
