@@ -44,6 +44,7 @@
 
 - name: Check contents of docker_logs
   debug:
+    var: docker_logs
     msg: "Hello World Not Found In Docker Log"
   when: docker_logs.stdout.find == "Hello World"
 
