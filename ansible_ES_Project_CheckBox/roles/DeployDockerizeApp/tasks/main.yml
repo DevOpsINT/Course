@@ -44,11 +44,11 @@
 
 - set_fact:
         stop_enabled: true
-  when: "'Hello worldddd!' == docker_log.stdout"
+  when: "'Hello world!' == docker_log.stdout"
 
 - fail:
     msg: "The Conteiner Log Not Equal To Check String."
-  when: "'Hello worldddd!' != docker_log.stdout"
+  when: "'Hello world!' != docker_log.stdout"
 
 
 
