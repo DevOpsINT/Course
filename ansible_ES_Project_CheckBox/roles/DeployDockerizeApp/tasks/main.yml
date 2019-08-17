@@ -35,12 +35,14 @@
     image: "built-by-ansible:{{ buildVersion }}"
     state: started
 
-- name: Check if container is running correctly
+- name: Save Docker Log Into Register
   shell: docker logs {{ buildVersion }}
   register: docker_log
-  debug:
-    var: docker_log.stdout
-    verbosity: 4
-  failed_when: Hello world! not in docker_log
+- debug:
+  var: docker_log.stdout
+  verbosity: 4
+
+
+
 
 
