@@ -29,7 +29,6 @@
 - name: Execute the command in remote shell; stdout goes to the specified file on the remote.
   shell: docker build -t "built-by-ansible:{{ buildVersion }}" ./tmp
 
-
 - name: Running the container
   docker_container:
     name: "{{ buildVersion }}"
@@ -44,6 +43,6 @@
     var: docker_logs
     verbosity: 3
     msg: "Hello World Not Found In Docker Log"
-  when: docker_logs.stdout.find == "Hello World"
+  when: docker_logs.stdout.find == "Hello Worldddd"
 
 
