@@ -42,5 +42,9 @@
 - debug:
     var: docker_log.stdout
 
+- set_fact:
+        stop_enabled: true
+  when: "'Hello world!' == docker_log.stdout"
+
 
 
