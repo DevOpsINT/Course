@@ -34,11 +34,18 @@ pipeline
 					script
 					{
 						git credentialsId: 'DevOpsINT', url: 'https://github.com/DevOpsINT/Course.git' , branch: 'gadi'
+
 						_CurrentGitVersion = sh script:"git tag | sort -r | head -1", returnStdout: true
                         _CurrentGitVersion = _CurrentGitVersion.trim()
+                        echo("CurrentGitVersion Is: ${_CurrentGitVersion}")
+
                         _NextGitVersion = _CurrentGitVersion + 1
+
                         _CurrentCommitIdShort = sh script:"git rev-parse HEAD | cut -c1-10", returnStdout: true
+                        echo("CurrentCommitIdShort Is: ${_CurrentCommitIdShort}")
+
                         _BuildVersion = "${_CurrentGitVersion}_${_CurrentCommitIdShort}"
+                        echo("BuildVersion Is: ${_BuildVersion}")
 						sh 'ls'
 					}
 				}
@@ -201,7 +208,7 @@ pipeline
                             echo("Executing: ${_ChosenModuleName}")
 
 						    //Install Selected Module
-						    sh "ansible-playbook -v -u ubuntu -i hosts -b --private-key=/var/jenkins_home/.ssh/AWS_Key_Instance1.pem -e hosts=${userInput} -e ModuleName=${_ChosenModuleName} -e _SelectedVersion=${_ChosenModuleVer}  main.yml"
+						    sh "ansible-playbook -v -u ubuntu -i hosts -b --private-key=/var/jenkins_home/.ssh/AWS_Key_Instance1.pem -e hosts=${userInput} -e buildVersion=${_BuildVersion} -e ModuleName=${_ChosenModuleName} -e _SelectedVersion=${_ChosenModuleVer} main.yml"
 						}
 					}
 				}

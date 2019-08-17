@@ -27,22 +27,24 @@
     - ExperimentTests.py
 
 - name: Execute the command in remote shell; stdout goes to the specified file on the remote.
-  shell: docker build -t built-by-ansible:ex1 ./tmp
+  shell: docker build -t "built-by-ansible:{{ buildVersion }}" ./tmp
 
-#- name: Build Docker image from Dockerfile
-#  docker_image:
-#    name: built-by-ansible
-#    tag: ex1
-#    path: tmp
-#    state: present
 
 - name: Running the container
   docker_container:
-    name: built-by-ansible
-    image: built-by-ansible:ex1
+    name: "{{ buildVersion }}"
+    image: "built-by-ansible:{{ buildVersion }}"
     state: started
 
-- name: Check if container is running
-  shell: docker ps
+- name: Check if container is running correctly
+  shell: docker logs {{ buildVersion }}
+  register: docker_logs
+  - debug:
+    var: docker_logs
+
+- name: Check contents of docker_logs
+  debug:
+    msg: "Hello World Not Found In Docker Log"
+  when: docker_logs.stdout.find == "Hello World"
 
 
