@@ -69,7 +69,7 @@ pipeline
                         catch (err)
                         {
                             println("Unit Test failed for ${_BuildVersion}")
-                            currentBuild.result = 'UNSTABLE'
+                            currentBuild.result = 'Fail'
                         }
                     }
                 }

@@ -38,11 +38,7 @@
 - name: Check if container is running correctly
   shell: docker logs {{ buildVersion }}
   register: docker_logs
+  failed_when: "Hello Worlddd" not in result.stdout
 
-- debug:
-    var: docker_logs
-    verbosity: 3
-    msg: "Hello World Not Found In Docker Log"
-  when: docker_logs.stdout.find == "Hello Worldddd"
 
 
