@@ -39,12 +39,10 @@
 - name: Check if container is running correctly
   shell: docker logs {{ buildVersion }}
   register: docker_logs
-  debug:
-    var: docker_logs
 
-- name: Check contents of docker_logs
-  debug:
+- debug:
     var: docker_logs
+    verbosity: 3
     msg: "Hello World Not Found In Docker Log"
   when: docker_logs.stdout.find == "Hello World"
 
