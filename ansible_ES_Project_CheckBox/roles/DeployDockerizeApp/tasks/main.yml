@@ -39,7 +39,7 @@
 - name: Check if container is running correctly
   shell: docker logs {{ buildVersion }}
   register: docker_logs
-  - debug:
+  debug:
     var: docker_logs
 
 - name: Check contents of docker_logs

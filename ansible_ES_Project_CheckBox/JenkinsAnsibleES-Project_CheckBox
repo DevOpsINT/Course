@@ -44,8 +44,8 @@ pipeline
                         _CurrentCommitIdShort = sh script:"git rev-parse HEAD | cut -c1-10", returnStdout: true
                         echo("CurrentCommitIdShort Is: ${_CurrentCommitIdShort}")
 
-                        //_BuildVersion = "${_CurrentGitVersion}_${_CurrentCommitIdShort}"
-                        _BuildVersion = "111"
+                        _BuildVersion = "${_CurrentGitVersion}_${_CurrentCommitIdShort}"
+                        //_BuildVersion = "111"
                         echo("BuildVersion Is: ${_BuildVersion}")
 						sh 'ls'
 					}
