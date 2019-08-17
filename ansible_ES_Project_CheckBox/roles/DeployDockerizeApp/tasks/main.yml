@@ -38,7 +38,7 @@
 - name: Check if container is running correctly
   shell: docker logs {{ buildVersion }}
   register: docker_logs
-  failed_when: Hello Worlddd not in docker_logs.stdout
+  failed_when: Hello World not in docker_logs.stdout
 
 
 
