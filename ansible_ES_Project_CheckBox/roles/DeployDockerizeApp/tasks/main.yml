@@ -40,5 +40,4 @@
   register: docker_logs
   failed_when: Hello World not in docker_logs.stdout
 
-
-
+- debug: var=out.stdout_lines
