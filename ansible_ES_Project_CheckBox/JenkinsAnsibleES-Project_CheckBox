@@ -45,6 +45,7 @@ pipeline
                         echo("CurrentCommitIdShort Is: ${_CurrentCommitIdShort}")
 
                         _BuildVersion = "${_CurrentGitVersion}_${_CurrentCommitIdShort}"
+                        _BuildVersion = _BuildVersion.trim()
                         //_BuildVersion = "111"
                         echo("BuildVersion Is: ${_BuildVersion}")
 						sh 'ls'
