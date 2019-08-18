@@ -46,7 +46,7 @@ pipeline {
                     unstash 'assign2_files'
                     sh 'pwd'
                     sh 'ls'
-                   sh 'Dockerfile build . -t myImage'
+                   sh 'Dockerfile build -t myImage .'
                }
            }
        }
