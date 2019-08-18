@@ -34,8 +34,9 @@ pipeline {
             }
         }
     }
+
   agent { label 'assignment2' }
-  stages {
+  stages { 
     stage('docker build') {
       steps {
         dir('/home/jenkins') {
@@ -43,6 +44,7 @@ pipeline {
           sh 'Dockerfile build . -t BuildVersion' 
           }
         }
-     }
+    }
   }
-}
+     
+   
