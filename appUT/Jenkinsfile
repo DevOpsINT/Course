@@ -39,7 +39,7 @@ pipeline {
               steps {
                  dir('/home/jenkins') {
                     unstash 'assign2_files'
-                    sh 'Dockerfile build . -t BuildVersion' 
+                    sh 'Dockerfile build .' 
                }
            }
    
