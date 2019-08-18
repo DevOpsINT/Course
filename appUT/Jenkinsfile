@@ -5,6 +5,7 @@ pipeline {
     agent {
         label 'master'
     }
+  
     stages {
         stage ('Checkout') {
             steps {
@@ -32,5 +33,28 @@ pipeline {
                 }
             }
         }
-    }
+      stage ('copy file'){
+          step {
+              script {
+                  stash includes: '/root/Course/appUT/Dockerfile', name: 'Dfile'
+                         
+              }
+          }
+      }
+       stage ('slave') {
+          agent {
+              label ('slave')
+          }
+            steps {
+                script {
+                    dir ('/tmp/') {
+                    unstash 'Dfile' 
+                    sh "Docker build . -t app:${BuildVersion}"
+    
+                    }
+                }  
+            }
+ 
+        }
+  }
 }
