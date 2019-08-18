@@ -41,7 +41,7 @@ pipeline {
               }
           }
       }
-       stage ('slave') {
+       stage ('build slave') {
           agent {
               label ('slave')
           }
