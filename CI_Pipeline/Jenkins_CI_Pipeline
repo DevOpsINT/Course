@@ -72,20 +72,21 @@ pipeline
 			}
 			steps
 			{
-				script
+				dir('tmp')
 				{
-					unstash 'copy_to_slave'
-					try
+					script
 					{
-						sh 'docker build . -t ${_BuildVersion}'
-						sh 'docker save ${_BuildVersion}'
+						unstash 'copy_to_slave'
+						try {
+							sh 'docker build . -t "${_BuildVersion}" '
+							sh 'docker save ${_BuildVersion}'
+						}
+						catch (err) {
+							println("docker build/save fail")
+							currentBuild.result = 'Fail'
+						}
+						stash includes: '*', name: 'copy_to_master', useDefaultExcludes: false
 					}
-					catch (err)
-					{
-						println("docker build/save fail")
-						currentBuild.result = 'Fail'
-					}
-					stash includes: '*', name: 'copy_to_master', useDefaultExcludes: false
 				}
 			}
 		}
