@@ -36,15 +36,17 @@ pipeline {
     }
 
   agent { label 'assignment2' }
-  stages { 
-    stage('docker build') {
-      steps {
-        dir('/home/jenkins') {
-          unstash 'assign2_files'
-          sh 'Dockerfile build . -t BuildVersion' 
-          }
-        }
+    stages { 
+         stage('docker build') {
+              steps {
+                dir('/home/jenkins') {
+                   unstash 'assign2_files'
+                   sh 'Dockerfile build . -t BuildVersion' 
+               }
+           }
+       }
     }
-  }
+   
+}
      
    
