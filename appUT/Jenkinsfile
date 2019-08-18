@@ -25,7 +25,7 @@ pipeline {
                     dir ('./appUT') {
                         try {
                             sh 'python ExperimentTests.py'
-                        } catch (err) {t.sh: Dockerfile: not found}
+                        } catch (err) {//{t.sh: Dockerfile: not found}
                             println("Unit Test failed for ${BuildVersion}")
                             currentBuild.result = 'UNSTABLE'
                         }
@@ -33,6 +33,7 @@ pipeline {
                     }
                 }
             }
+        }
         
 
        stage('docker build') {
