@@ -1,0 +1,36 @@
+---
+- name: Create Working Folder For Dockerfile
+  file:
+    name: tmp
+    state: directory
+    mode: 755
+
+- name: build the image
+   docker_image: 
+     name: built-by-ansible
+     tag: ex1
+     path: tmp
+        state: present
+    - name: run the site in a docker container
+      docker:
+    - name: site1
+      image: "built-by-ansible:ex1"
+      state: reloaded
+      publish_all_ports: yes
+
+    - name: Copy files from files & App_UT folders
+      copy:
+        src: "files/{{ item }}"
+        dest: tmp
+        force: yes
+        owner: root
+        group: root
+        mode: '0755'
+      with_items:
+        - Dockerfile
+        - Experiment.py
+        - ExperimentTests.py
+
+- name: Execute the command in remote shell; stdout goes to the specified file on the remote.
+  shell: docker build -t "built-by-ansible:{{ buildVersion }}" ./tmp
+---
