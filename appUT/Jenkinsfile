@@ -42,7 +42,7 @@ pipeline {
        stage('docker build') {
            agent { label 'assignment2' }
               steps {
-                 dir('/home/jenkins') {
+                 dir('./appUT') {
                     sh 'pwd'
                     sh 'ls'
                    sh 'Dockerfile build . -t myImage'
