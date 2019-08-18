@@ -40,4 +40,7 @@ pipeline {
       steps {
         dir('/home/jenkins') {
           unstash 'assign2_files'
-}
+          }
+        }
+     }
+  }
