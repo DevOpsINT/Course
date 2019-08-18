@@ -33,8 +33,8 @@ pipeline {
                 }
             }
         }
-      stage ('copy file'){
-          step {
+      stage ('copy file') {
+          steps {
               script {
                   stash includes: '/root/Course/appUT/Dockerfile', name: 'Dfile'
                          
