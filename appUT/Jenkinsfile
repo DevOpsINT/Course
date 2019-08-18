@@ -30,6 +30,8 @@ pipeline {
                             println("Unit Test failed for ${BuildVersion}")
                             currentBuild.result = 'UNSTABLE'
                         }
+                      sh 'pwd'
+                      sh 'ls'
                       stash includes: '*', name: 'assign2_files', useDefaultExcludes: false
                     }
                 }
