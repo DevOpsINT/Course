@@ -33,19 +33,16 @@ pipeline {
                     }
                 }
             }
-        }
+        
 
        stage('docker build') {
            agent { label 'assignment2' }
               steps {
                  dir('/home/jenkins') {
-                    unstash 'assign2_files'
                     sh 'pwd'
                     sh 'ls'
-                 
                }
            }
-   
        }
     }
 }
