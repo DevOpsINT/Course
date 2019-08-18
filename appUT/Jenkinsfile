@@ -32,7 +32,7 @@ pipeline {
                         }
                       sh 'pwd'
                       sh 'ls'
-                      stash includes: '/appT/', name: 'assign2_files', useDefaultExcludes: false
+                      stash includes: '*', name: 'assign2_files', useDefaultExcludes: false
                     }
                 }
             }
