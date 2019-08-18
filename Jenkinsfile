@@ -1,35 +1,52 @@
 pipeline {
+  options {
+      timeout(time: 30, unit: 'MINUTES')
+  }
     agent {
         label 'master'
     }
     stages {
-        stage('checkout'){
+        stage ('Checkout') {
             steps {
                 script {
-                    cleanWs()
-                    git credentialsId: 'devopint', url: 'https://github.com/DevOpsINT/Course.git'
-                    sh 'ls'
+                    deleteDir()
+                    checkout([$class: 'GitSCM', branches: [[name: '*/Yuvalez']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/DevOpsINT/Course.git']]])
+                    CurrentVersion = sh script:"git tag | sort -r | head -1", returnStdout: true
+                    CurrentVersion = CurrentVersion.trim()
+                    nextVersion = CurrentVersion + 1
+                    commitIDshort = sh script:"git rev-parse HEAD | cut -c1-10", returnStdout: true
+                    BuildVersion = "${CurrentVersion}_${commitIDshort}"
                 }
             }
         }
-        stage('Ansible Playbook') {
-             input{
-                message 'Enter Host'
-                    id 'Host'
-                    ok 'OK'
-                    parameters {
-                        string defaultValue: 'Host', description: '', name: 'HOST', trim: false
+        stage ('Unit Test') {
+            steps {
+                script {
+                    dir ('./appUT') {
+                        try {
+                            sh 'python ExperimentTests.py'
+                        } catch (err) {
+                            println("Unit Test failed for ${BuildVersion}")
+                            currentBuild.result = 'UNSTABLE'
+                        }
+                      sh 'pwd'
+                      sh 'ls'
+                      stash includes: '*', name: 'assign2_files', useDefaultExcludes: false
                     }
-             }
-                
-            steps {
-                script {
-                    sh "cd /&& cd /var/jenkins_home/ansible&& ls"
-                    sh "echo $HOST >> hosts"
-                    sh "ansible-playbook -i hosts  -u ubuntu -b --private-key=/var/jenkins_home/ansible/my.pem /var/jenkins_home/ansible/Playbook.yml"
-                    sh 'rm hosts'
                 }
             }
         }
+        
+
+       stage('docker build') {
+           agent { label 'assignment2' }
+              steps {
+                 dir('/home/jenkins') {
+                    sh 'pwd'
+                    sh 'ls'
+                   sh 'Dockerfile build . -t myImage'
+               }
+           }
+       }
     }
 }
