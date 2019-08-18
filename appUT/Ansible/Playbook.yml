@@ -1,0 +1,14 @@
+- name: build the image
+  docker_image: >
+    name=built-by-ansible
+    tag=ex1
+    path=/
+    state=present
+
+- name: run the site in a docker container
+      docker:
+        name: site1
+        image: "built-by-ansible:ex1"
+        state: reloaded
+        publish_all_ports: yes
+
