@@ -3,7 +3,7 @@ pipeline {
       timeout(time: 30, unit: 'MINUTES')
   }
     agent {
-        label 'ora'
+        label 'master'
     }
     stages {
         stage ('Checkout') {
