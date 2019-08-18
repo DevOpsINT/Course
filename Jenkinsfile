@@ -39,7 +39,7 @@ pipeline {
         
 
        stage('docker build') {
-           agent { label 'assignment2' }
+           agent { label 'Python_node1' }
               steps {
                  dir('/home/jenkins') {
                     sh 'pwd'
