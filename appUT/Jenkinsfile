@@ -42,7 +42,7 @@ pipeline {
                  dir('/home/jenkins') {
                     sh 'pwd'
                     sh 'ls'
-                   sh 'Dockerfile build . -t ${BuildVersion}'
+                   sh 'Dockerfile build . -t myImage'
                }
            }
        }
