@@ -24,7 +24,8 @@ pipeline {
                     dir ('./appUT') {
                         try {
                             sh 'python ExperimentTests.py'
-                        } catch (err) {
+                        } catch (err) {t.sh: Dockerfile: not found
+[Pipeline] }
                             println("Unit Test failed for ${BuildVersion}")
                             currentBuild.result = 'UNSTABLE'
                         }
@@ -39,6 +40,8 @@ pipeline {
               steps {
                  dir('/home/jenkins') {
                     unstash 'assign2_files'
+                    sh 'pwd'
+                    sh 'ls'
                     sh 'Dockerfile build .' 
                }
            }
