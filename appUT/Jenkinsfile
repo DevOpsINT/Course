@@ -44,6 +44,7 @@ pipeline {
               steps {
                  dir('./var/jenkins_assign2') {
                     unstash 'assign2_files'
+                    sh 'sudo usermod -a -G docker ubuntu'
                     sh 'pwd'
                     sh 'ls'
                    sh 'docker build -t my_image .'
