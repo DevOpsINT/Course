@@ -1,3 +1,4 @@
+
 pipeline {
   options {
       timeout(time: 30, unit: 'MINUTES')
@@ -24,8 +25,7 @@ pipeline {
                     dir ('./appUT') {
                         try {
                             sh 'python ExperimentTests.py'
-                        } catch (err) {t.sh: Dockerfile: not found
-[Pipeline] }
+                        } catch (err) {t.sh: Dockerfile: not found}
                             println("Unit Test failed for ${BuildVersion}")
                             currentBuild.result = 'UNSTABLE'
                         }
