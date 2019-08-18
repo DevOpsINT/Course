@@ -45,16 +45,16 @@ pipeline {
           agent {
               label ('slave')
           }
-            steps {
-                script {
-                    dir ('/tmp/') {
-                    unstash 'Dfile' 
-                    sh "Docker build . -t app:${BuildVersion}"
+          steps {
+              script {
+                   dir ('/tmp/') {
+                   unstash 'Dfile' 
+                   sh "Docker build . -t app:${BuildVersion}"
     
-                    }
-                }  
-            }
+                   }
+              }  
+          }
  
-        }
-  }
+       }
+   }
 }
