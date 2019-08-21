@@ -64,76 +64,70 @@ pipeline
 				}
 			}
 		}
-	}
-
-	agent
-	{
-		label 'slave'
-	}
-	stages
-	{
-		stage('docker build')
+		stage('Docker build, run and test on slave')
 		{
-			steps
+			agent
 			{
-				dir('tmp')
-				{
-					script
-					{
-						unstash 'copy_to_slave'
-						try
-						{
-							sh "docker build -t ${_BuildVersion} . "
-
-							//Save docker image on slave, problem that slave disk space is limited!!!!
-							//sh "docker save ${_BuildVersion} > ${_BuildVersion}.tar"
-							//sh "ls -sh ${_BuildVersion}.tar"
-						}
-						catch (err)
-						{
-							println("docker build fail")
-							currentBuild.result = 'Fail'
-						}
-					}
-				}
+				label 'slave'
 			}
-		}
-		stage('docker run for UT')
-		{
-			steps
+			stages
 			{
-				dir('tmp')
+				stage ('Build Dokerfile')
 				{
-					script
+					steps
 					{
-						try
+						dir('tmp')
 						{
-							sh "docker run - d ${_BuildVersion}"
-							_dockerlogs = "docker logs ${_BuildVersion}"
-							echo("_dockerlogs= ${_dockerlogs}")
-							if ( _dockerlogs.toString() != "Hello world!" )
+							script
 							{
-								echo "UT on container fail"
-								currentBuild.result = 'Fail'
+								unstash 'copy_to_slave'
+								try
+								{
+									sh "docker build -t ${_BuildVersion} . "
+
+									//Save docker image on slave, problem that slave disk space is limited!!!!
+									//sh "docker save ${_BuildVersion} > ${_BuildVersion}.tar"
+									//sh "ls -sh ${_BuildVersion}.tar"
+								}
+								catch (err)
+								{
+									println("docker build fail")
+									currentBuild.result = 'Fail'
+								}
 							}
 						}
-						catch (err)
+					}
+				}
+				stage('Run docker container for UT')
+				{
+					steps
+					{
+						dir('tmp')
 						{
-							println("docker build fail")
-							currentBuild.result = 'Fail'
+							script
+							{
+								try
+								{
+									sh "docker run - d ${_BuildVersion}"
+									_dockerlogs = "docker logs ${_BuildVersion}"
+									echo("_dockerlogs= ${_dockerlogs}")
+									if ( _dockerlogs.toString() != "Hello world!" )
+									{
+										echo "UT on container fail"
+										currentBuild.result = 'Fail'
+									}
+								}
+								catch (err)
+								{
+									println("docker build fail")
+									currentBuild.result = 'Fail'
+								}
+							}
 						}
 					}
 				}
 			}
 		}
-	}
-
-	agent
-	{
-		label 'master'
-	}
-	stages
-	{
 		stage ('Copy Unit Test Files To Ansible Folder')
 		{
 			steps
