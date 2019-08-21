@@ -18,7 +18,7 @@ pipeline {
                     nextVersion = CurrentVersion + 1
                     commitIDshort = sh script:"git rev-parse HEAD | cut -c1-10", returnStdout: true
                     BuildVersion = "${CurrentVersion}_${commitIDshort}"
-                    sh'echo ${BuildVersion}'
+                    echo ${BuildVersion}
                 }
             }
         }
