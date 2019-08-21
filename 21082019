@@ -1,3 +1,21 @@
+1. build env
+- jenkins
+   container
+   data persistency
+
+ -slave
+  docker engine
+  java
+  user/permisssions etc
+ -job
+
+ 2. deployment
+
+- ansible
+  playbook
+  role
+  ansible.cfg
+  inventory
 
 watch -n 1 docker images
 
