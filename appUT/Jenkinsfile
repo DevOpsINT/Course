@@ -49,7 +49,7 @@ pipeline {
               script {
                    dir ('/tmp/') {
                    unstash 'Dfile' 
-                   sh "Docker build . -t app:${BuildVersion}"
+                   sh 'Docker build . -t app:${BuildVersion}'
     
                    }
               }  
@@ -57,4 +57,4 @@ pipeline {
  
        }
    }
-}
+
