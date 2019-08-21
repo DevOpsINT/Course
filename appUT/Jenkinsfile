@@ -17,8 +17,8 @@ pipeline {
                     CurrentVersion = CurrentVersion.trim()
                     nextVersion = CurrentVersion + 1
                     commitIDshort = sh script:"git rev-parse HEAD | cut -c1-10", returnStdout: true
-                    BuildVersion = "${CurrentVersion}_${commitIDshort} }
-              sh "echo hello+${BuildVersion}"
+                    BuildVersion = "${CurrentVersion}_${commitIDshort}
+                }
             }
         }
         stage ('Unit Test') {
@@ -26,6 +26,7 @@ pipeline {
                 script {
                     dir ('./appUT/') {
                         try {
+                            sh 'echo ${BuildVersion}'
                             sh 'python ExperimentTests.py'
                         } catch (err) {
                             println("Unit Test failed for ${BuildVersion}")
