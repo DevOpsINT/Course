@@ -46,7 +46,7 @@ pipeline {
                    unstash 'Dfile' 
                    sh 'ls'
                    sh 'pwd'
-                   sh 'docker build . -t app_${BuildVersion}'
+                   sh 'docker build . -t ${BuildVersion}'
                   }
               }  
           }
