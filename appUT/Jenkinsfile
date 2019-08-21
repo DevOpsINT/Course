@@ -41,13 +41,9 @@ pipeline {
          steps {
               script {
                   stash includes: '/root/Course/appUT/Dockerfile', name: 'Dfile'
-              }
-          }
-          steps {
-              script {
-                   dir ('/tmp/') {
-                   unstash 'Dfile' 
-                   sh 'Docker build . -t app:${BuildVersion}'
+                  dir ('/tmp/') {
+                  unstash 'Dfile' 
+                  sh 'Docker build . -t app:${BuildVersion}'
                   }
               }  
           }
