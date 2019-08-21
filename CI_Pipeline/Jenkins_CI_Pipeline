@@ -79,7 +79,7 @@ pipeline
 						unstash 'copy_to_slave'
 						try {
 							sh "docker build -t ${_BuildVersion} . "
-							sh "docker save ${_BuildVersion}"
+							//sh "docker save ${_BuildVersion}"
 						}
 						catch (err) {
 							println("docker build/save fail")
