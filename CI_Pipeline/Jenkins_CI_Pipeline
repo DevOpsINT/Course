@@ -83,7 +83,7 @@ pipeline
 								unstash 'copy_to_slave'
 								try
 								{
-									sh "docker build -t ${_BuildVersion} . "
+									sh "docker build -t DockerizeApp:${_BuildVersion} . "
 
 									//Save docker image on slave, problem that slave disk space is limited!!!!
 									//sh "docker save ${_BuildVersion} > ${_BuildVersion}.tar"
@@ -91,7 +91,7 @@ pipeline
 								}
 								catch (err)
 								{
-									println("docker build fail")
+									println("docker build DockerizeApp:${_BuildVersion} fail")
 									currentBuild.result = 'Fail'
 								}
 							}
@@ -108,8 +108,8 @@ pipeline
 							{
 								try
 								{
-									sh "docker run -d ${_BuildVersion}"
-									_dockerlogs = sh "docker logs ${_BuildVersion}:latest"
+									sh "docker run -d DockerizeApp:${_BuildVersion}"
+									_dockerlogs = sh "docker logs DockerizeApp:${_BuildVersion}"
 									echo("_dockerlogs= ${_dockerlogs}")
 									if ( _dockerlogs.toString() != "Hello world!" )
 									{
@@ -119,7 +119,8 @@ pipeline
 								}
 								catch (err)
 								{
-									println("docker build fail")
+									println("docker build DockerizeApp:${_BuildVersion} fail")
+									sh "docker rmi DockerizeApp:${_BuildVersion}"
 									currentBuild.result = 'Fail'
 								}
 							}
