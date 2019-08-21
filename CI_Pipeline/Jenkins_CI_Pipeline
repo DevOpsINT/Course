@@ -1,5 +1,6 @@
 // Variable for input
 def userInput
+def _BuildVersion
 
 pipeline 
 {
@@ -35,7 +36,6 @@ pipeline
                         _BuildVersion = "${_CurrentGitVersion}_${_CurrentCommitIdShort}"
                         _BuildVersion = _BuildVersion.trim()
                         echo("BuildVersion Is: ${_BuildVersion}")
-						sh 'ls'
 					}
 				}
 			}
