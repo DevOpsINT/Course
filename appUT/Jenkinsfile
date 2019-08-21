@@ -1,6 +1,7 @@
-def BuildVersion
-BuildVersion = 0
+
 pipeline {
+  def BuildVersion
+BuildVersion = 0
   options {
       timeout(time: 30, unit: 'MINUTES')
   }
