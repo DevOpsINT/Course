@@ -34,5 +34,14 @@ pipeline {
                 }
             }
         }
+      stage ('Build an image') {
+        steps {
+          dir('appUT') {
+            script {
+              sh "docker build . -t experiment:${BuildVersion}"
+            }
+          }
+        }
+      }
     }
 }
