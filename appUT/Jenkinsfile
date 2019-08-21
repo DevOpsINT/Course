@@ -1,7 +1,6 @@
+def BuildVersion
 
 pipeline {
-  def BuildVersion
-BuildVersion = 0
   options {
       timeout(time: 30, unit: 'MINUTES')
   }
@@ -18,9 +17,9 @@ BuildVersion = 0
                     CurrentVersion = CurrentVersion.trim()
                     nextVersion = CurrentVersion + 1
                     commitIDshort = sh script:"git rev-parse HEAD | cut -c1-10", returnStdout: true
-                    BuildVersion = "${CurrentVersion}_${commitIDshort}"
-                    echo ${BuildVersion}
+                    BuildVersion = "${CurrentVersion}_${commitIDshort}
                 }
+              sh "echo hello+${BuildVersion}"
             }
         }
         stage ('Unit Test') {
