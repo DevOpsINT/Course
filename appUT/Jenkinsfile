@@ -30,7 +30,7 @@ pipeline {
                             println("Unit Test failed for ${BuildVersion}")
                             currentBuild.result = 'UNSTABLE'
                         }
-                    stash includes: '/root/Course/appUT/Dockerfile', name: 'Dfile', useDefaultExcludes: false
+                    stash includes: 'Dockerfile', name: 'Dfile', useDefaultExcludes: false
                     }  
                 }
             }
@@ -43,9 +43,9 @@ pipeline {
          steps {
               script {
                   dir ('/tmp/'){ 
+                   unstash 'Dfile' 
                    sh 'ls'
                    sh 'pwd'
-                   unstash 'Dfile' 
                    sh 'Docker build . -t app:${BuildVersion}'
                   }
               }  
