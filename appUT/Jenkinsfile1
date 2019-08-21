@@ -1,5 +1,3 @@
-def BuildVersion
-
 pipeline {
   options {
       timeout(time: 30, unit: 'MINUTES')
@@ -11,7 +9,6 @@ pipeline {
         stage ('Checkout') {
             steps {
                 script {
-                    deleteDir()
                     checkout([$class: 'GitSCM', branches: [[name: '*/Yuvalez']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/DevOpsINT/Course.git']]])
                     CurrentVersion = sh script:"git tag | sort -r | head -1", returnStdout: true
                     CurrentVersion = CurrentVersion.trim()
@@ -24,33 +21,16 @@ pipeline {
         stage ('Unit Test') {
             steps {
                 script {
-                    dir ('./appUT/') {
+                    dir ('./appUT') {
                         try {
                             sh 'python ExperimentTests.py'
                         } catch (err) {
                             println("Unit Test failed for ${BuildVersion}")
                             currentBuild.result = 'UNSTABLE'
                         }
-                      sh 'pwd'
-                      sh 'ls'
-                      stash includes: '*', name: 'assign2_files', useDefaultExcludes: false
                     }
                 }
             }
         }
-        
-
-       stage('docker build') {
-           agent { label 'assignment2' }
-              steps {
-                 dir('./var/jenkins_assign2') {
-                    unstash 'assign2_files'
-                    sh 'sudo usermod -a -G docker ubuntu'
-                    sh 'pwd'
-                    sh 'ls'
-                   sh 'docker build -t ${BuildVersion} .'
-               }
-           }
-       }
     }
 }
