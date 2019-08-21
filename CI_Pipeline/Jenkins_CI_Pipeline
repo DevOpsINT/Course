@@ -108,7 +108,7 @@ pipeline
 							{
 								try
 								{
-									sh "docker run - d ${_BuildVersion}"
+									sh "docker run -d ${_BuildVersion}"
 									_dockerlogs = "docker logs ${_BuildVersion}"
 									echo("_dockerlogs= ${_dockerlogs}")
 									if ( _dockerlogs.toString() != "Hello world!" )
