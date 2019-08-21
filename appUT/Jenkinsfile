@@ -1,4 +1,4 @@
-BuildVersion = 0
+def BuildVersion
 
 pipeline {
   options {
