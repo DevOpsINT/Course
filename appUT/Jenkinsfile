@@ -38,7 +38,7 @@ pipeline {
         steps {
           dir('appUT') {
             script {
-              sh "docker build . -t experiment:${BuildVersion}"
+              sh "sudo docker build . -t experiment:${BuildVersion}"
             }
           }
         }
