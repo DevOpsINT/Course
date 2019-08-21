@@ -1,3 +1,4 @@
+def BuildVersion
 
 pipeline {
   options {
@@ -47,7 +48,7 @@ pipeline {
                     sh 'sudo usermod -a -G docker ubuntu'
                     sh 'pwd'
                     sh 'ls'
-                   sh 'docker build -t my_image${BuildVersion} .'
+                   sh 'docker build -t ${BuildVersion} .'
                }
            }
        }
