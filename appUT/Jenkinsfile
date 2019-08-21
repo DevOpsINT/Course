@@ -43,5 +43,17 @@ pipeline {
           }
         }
       }
+      stage ('Validate the image works') {
+        steps {
+          script {
+            try {
+             sh "sudo docker run experiment:${BuildVersion} | grep Hello"
+              println("Validation success")
+              git tag
+            } catch(err) {
+              println("Validation failed")
+              sh "docker rmi experiment:${BuildVersion}"
+               BUILD.STATUS(FAILED)
+            }
     }
 }
