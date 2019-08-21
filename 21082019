@@ -1,0 +1,14 @@
+
+watch -n 1 docker images
+
+service docker start
+
+service docker enable
+
+chkconfig docker on
+
+docker images
+
+sudo docker run -it 9404580b8c82
+
+sudo docker run 9404580b8c82 | grep Hello
