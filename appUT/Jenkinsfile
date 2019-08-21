@@ -37,10 +37,9 @@ pipeline {
           steps {
               script {
                   stash includes: '/root/Course/appUT/Dockerfile', name: 'Dfile'
-                         
               }
           }
-      }
+       }
        stage ('build slave') {
           agent {
               label ('slave')
@@ -50,11 +49,10 @@ pipeline {
                    dir ('/tmp/') {
                    unstash 'Dfile' 
                    sh 'Docker build . -t app:${BuildVersion}'
-    
-                   }
+                  }
               }  
           }
- 
-       }
+      }
    }
-
+}
+  
