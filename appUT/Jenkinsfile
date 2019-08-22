@@ -32,6 +32,7 @@ def BuildVersion
                         try {
                             sh 'echo ${BuildVersion}'
                             sh 'python ExperimentTests.py'
+                            echo("BuildVersion inside UT Is: ${_BuildVersion}")
                         } catch (err) {
                             println("Unit Test failed for ${BuildVersion}")
                             currentBuild.result = 'UNSTABLE'
@@ -50,6 +51,7 @@ def BuildVersion
               steps {
                  dir('./var/jenkins_assign2') {
                     unstash 'assign2_files'
+                   echo("BuildVersion inside docker build Is: ${_BuildVersion}")
                     sh 'sudo usermod -a -G docker ubuntu'
                     sh 'pwd'
                     sh 'ls'
