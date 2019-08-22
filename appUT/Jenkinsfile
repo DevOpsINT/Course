@@ -46,7 +46,7 @@ def BuildVersion
         }
         
 
-       stage('docker build') {
+       stage('docker build on jenkins_slave remote machine') {
            agent { label 'assignment2' }
               steps {
                script{
@@ -56,11 +56,12 @@ def BuildVersion
                     sh 'sudo usermod -a -G docker ubuntu'
                     sh 'pwd'
                     sh 'ls'
-                   	try	{
+                   	try {
 				sh "docker build -t image_version:${BuildVersion} ."
 			} catch (err)	{
-			       println("docker build Version:${BuildVersion} fail")
-		         	currentBuild.result = 'Fail'
+			       println("docker build Version:${BuildVersion} failed")
+			       sh "docker rmi Version:${BuildVersion}"
+		               currentBuild.result = 'Fail'
 		        }
                  }
               }
