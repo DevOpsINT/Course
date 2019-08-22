@@ -49,14 +49,21 @@ def BuildVersion
        stage('docker build') {
            agent { label 'assignment2' }
               steps {
+               script{
                  dir('./var/jenkins_assign2') {
                     unstash 'assign2_files'
                    echo("BuildVersion inside docker build Is: ${BuildVersion}")
                     sh 'sudo usermod -a -G docker ubuntu'
                     sh 'pwd'
                     sh 'ls'
-                    sh 'docker build -t buildVersion:${BuildVersion} .'
-               }
+                   	try	{
+								               	sh "docker build -t Version:${BuildVersion} ."
+				   			         	}		catch (err)		{
+						             			println("docker build Version:${BuildVersion} fail")
+					      			       	currentBuild.result = 'Fail'
+		   				         		}
+                 }
+              }
            }
        }
     }
