@@ -57,15 +57,15 @@ def BuildVersion
                     sh 'pwd'
                     sh 'ls'
                    	try {
-				sh "docker build -t image_version:${BuildVersion} ."
-			} catch (err)	{
+			       sh "docker build -t image_version:${BuildVersion} ."
+		      } catch (err)	{
 			       println("docker build Version:${BuildVersion} failed")
 			       sh "docker rmi Version:${BuildVersion}"
 		               currentBuild.result = 'Fail'
-		        }
+		         }
+                     }
                  }
-              }
-           }
-       }
-    }
+             }
+         }
+     }
 }
