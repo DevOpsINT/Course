@@ -2,14 +2,16 @@ pipeline {
   options {
       timeout(time: 30, unit: 'MINUTES')
   }
+ 
     agent {
-        label 'master'
+        label 'slave'
     }
     stages {
         stage ('Checkout') {
             steps {
                 script {
-                    checkout([$class: 'GitSCM', branches: [[name: '*/yossi']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/DevOpsINT/Course.git']]])
+                    deleteDir()
+                    checkout([$class: 'GitSCM', branches: [[name: '*/ora']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/DevOpsINT/Course.git']]])
                     CurrentVersion = sh script:"git tag | sort -r | head -1", returnStdout: true
                     CurrentVersion = CurrentVersion.trim()
                     nextVersion = CurrentVersion + 1
@@ -32,5 +34,26 @@ pipeline {
                 }
             }
         }
+      stage ('Build an image') {
+        steps {
+          dir('appUT') {
+            script {
+              sh "sudo docker build . -t experiment:${BuildVersion}"
+            }
+          }
+        }
+      }
+      stage ('Validate the image works') {
+        steps {
+          script {
+            try {
+             sh "sudo docker run experiment:${BuildVersion} | grep Hello"
+              println("Validation success")
+              git tag
+            } catch(err) {
+              println("Validation failed")
+              sh "docker rmi experiment:${BuildVersion}"
+               BUILD.STATUS(FAILED)
+            }
     }
 }
