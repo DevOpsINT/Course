@@ -72,12 +72,14 @@ def BuildVersion
 			steps
 			{
 			    script
-				{
+			       {
+				 dir('./var/jenkins_assign2'){
 	                          sh "docker login --username=rozdockerforever --email=rozana3343@hotmail.com"
 				  sh "docker images"
 				  sh "docker tag 19fc4279d302 rozdockerforever/image_version:image_version:${BuildVersion}"
 				  sh "docker push rozdockerforever/image_version"
-				}
+				 }
+			        }	
 			 }
 		 }
          }
