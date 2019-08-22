@@ -55,7 +55,7 @@ def BuildVersion
                     sh 'sudo usermod -a -G docker ubuntu'
                     sh 'pwd'
                     sh 'ls'
-                    sh 'docker build -t ${BuildVersion} .'
+                    sh 'docker build -t buildVersion:${BuildVersion} .'
                }
            }
        }
