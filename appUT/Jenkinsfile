@@ -21,7 +21,6 @@ pipeline {
                     echo("BuildVersion Is: ${_BuildVersion}")
 
                 }
-               sh 'echo ${BuildVersion}'
             }
         }
         stage ('Unit Test') {
