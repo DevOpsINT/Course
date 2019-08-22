@@ -1,9 +1,9 @@
-def BuildVersion
+def _BuildVersion
 
-pipeline {
-  options {
+ pipeline {
+   options {
       timeout(time: 30, unit: 'MINUTES')
-  }
+   }
     agent {
         label 'master'
     }
