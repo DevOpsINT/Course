@@ -73,7 +73,11 @@ def BuildVersion
 			{
 			    script
 			       {
+				        sh 'pwd'
+				       sh 'ls'
 				 dir('./var/jenkins_assign2/'){
+					  sh 'pwd'
+					 sh 'ls'
 	                          sh "docker login --username=rozdockerforever --email=rozana3343@hotmail.com"
 				  sh "docker images"
 				  sh "docker tag 19fc4279d302 rozdockerforever/image_version:image_version:${BuildVersion}"
