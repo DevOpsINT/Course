@@ -4,6 +4,11 @@ def BuildVersion
    options {
       timeout(time: 30, unit: 'MINUTES')
    }
+  environment {
+    registry = "rozdockerforever/image_version"
+    registryCredential = ‘dockerhub’ 
+    dockerImage = ''
+  }
     agent {
         label 'master'
     }
@@ -57,7 +62,8 @@ def BuildVersion
                     sh 'pwd'
                     sh 'ls'
                    	try {
-			       sh "docker build -t image_version:${BuildVersion} ."
+			        sh "docker build -t image_version:${BuildVersion} ."
+				dockerImage = docker.build registry + ":image_version:${BuildVersion}"
 		      } catch (err)	{
 			       println("docker build image_version:${BuildVersion} failed")
 			       sh "docker rmi image_version:${BuildVersion}"
@@ -78,13 +84,18 @@ def BuildVersion
 				 dir('./var/jenkins_assign2/'){
 					  sh 'pwd'
 					 sh 'ls'
-	                          sh "docker login --username=rozdockerforever --email=rozana3343@hotmail.com"
-				  sh "docker images"
-				  sh "docker tag 19fc4279d302 rozdockerforever/image_version:image_version:${BuildVersion}"
-				  sh "docker push rozdockerforever/image_version"
-				 }
-			        }	
-			 }
+	                       //   sh "docker login --username=rozdockerforever --email=rozana3343@hotmail.com"
+				//  sh "docker images"
+				//  sh "docker tag 19fc4279d302 registry + :${BuildVersion}"
+				//  sh "docker push rozdockerforever/image_version"
+					 
+				  docker.withRegistry( '', registryCredential ) {
+        			    dockerImage.push()
+        			  }
+					 
+				 }//dir
+			        }//script	
+			 }//steps
 		 }
          }
 }
