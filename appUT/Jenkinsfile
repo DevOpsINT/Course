@@ -6,7 +6,7 @@ def BuildVersion
    }
   environment {
     registry = "rozdockerforever/image_version"
-    registryCredential = ‘dockerhub’ 
+    registryCredential = 'dockerhub'
     dockerImage = ''
   }
     agent {
