@@ -4,6 +4,12 @@ def _BuildVersion
 
 pipeline 
 {
+	environment
+	{
+		registry = "gadigamburg/gadigamburg"
+		registryCredential = 'dockerhub'
+		dockerImage = ''
+	}
     options
     {
         timeout(time: 30, unit: 'MINUTES')
@@ -83,9 +89,9 @@ pipeline
 								unstash 'copy_to_slave'
 								try
 								{
-									sh "docker build -t dockerizeapp:${_BuildVersion} . "
+									dockerImage = sh script: "docker build -t dockerizeapp:${_BuildVersion} . ", returnStdout: true
 
-									//Save docker image on slave, problem that slave disk space is limited!!!!
+									// Save docker image on slave, problem that slave disk space is limited!!!!
 									//sh "docker save ${_BuildVersion} > ${_BuildVersion}.tar"
 									//sh "ls -sh ${_BuildVersion}.tar"
 								}
@@ -111,7 +117,6 @@ pipeline
 									sh "docker run -d --name dockerizeAppTest dockerizeapp:${_BuildVersion}"
 									_dockerlogs = sh script: "docker logs dockerizeAppTest", returnStdout: true
 									echo("_dockerlogs=${_dockerlogs}")
-									echo _dockerlogs.toString()
 									if ( _dockerlogs.toString().trim() != "Hello world!" )
 									{
 										echo "UT on container failed"
@@ -131,26 +136,33 @@ pipeline
 						}
 					}
 				}
-			}
-		}
-		stage ('Copy Unit Test Files To Ansible Folder')
-		{
-			steps
-			{
-				dir('CI_Pipeline')
+				stage ('Upload Docker Image To Docker Hub')
 				{
-					script
+					steps
 					{
-						unstash 'copy_to_master'
-						sh 'pwd'
-						sh 'ls -ltr'
-						sh 'ls ../App_UT'
-						sh 'cp -Rr ../App_UT/* files/'
-						sh 'ls files'
+						dir('tmp')
+						{
+							script
+							{
+								try
+								{
+									docker.withRegistry( '', registryCredential )
+									{
+										dockerImage.push()
+									}
+								}
+								catch (err)
+								{
+									println("Upload Docker Image: dockerizeapp:${_BuildVersion} To Docker Hub Failed")
+									currentBuild.result = 'Fail'
+								}
+							}
+						}
 					}
 				}
 			}
 		}
+
 		stage('Interactive IP Input')
 		{
 			steps
