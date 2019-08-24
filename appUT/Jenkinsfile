@@ -87,9 +87,9 @@ def BuildVersion
 					 sh 'ls'
 	               
 				 sh "docker images"
-			         sh "docker tag image_version:${BuildVersion} ${registry}:${BuildVersion}"
+			         sh "docker tag ${BuildVersion} ${registry}:${BuildVersion}"
 				  docker.withRegistry( '', registryCredential ) {
-        			     sh "docker push image_version:${BuildVersion}"
+        			     sh "docker push ${registry}:${BuildVersion}"
         		          }
 					 
 				 }//dir
