@@ -93,7 +93,7 @@ def BuildVersion
 					 
 				  docker.withRegistry( '', registryCredential ) {
         			     sh "docker push ${registry}:${BuildVersion}"
-        			//  }
+        		          }
 					 
 				 }//dir
 			        }//script	
