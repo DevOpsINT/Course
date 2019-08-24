@@ -108,7 +108,7 @@ pipeline
 							{
 								try
 								{
-									sh "docker run -d --name dockerizeAppTest dockerizeApp:${_BuildVersion}"
+									sh "docker run -d --name dockerizeAppTest dockerizeapp:${_BuildVersion}"
 									_dockerlogs = sh "docker logs dockerizeAppTest"
 									echo("_dockerlogs= ${_dockerlogs}")
 									if ( _dockerlogs.toString() != "Hello world!" )
