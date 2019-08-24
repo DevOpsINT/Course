@@ -90,7 +90,7 @@ pipeline
 								try
 								{
 									dockerImage = sh script: "docker build -t dockerizeapp:${_BuildVersion} . ", returnStdout: true
-
+echo dockerImage
 									// Save docker image on slave, problem that slave disk space is limited!!!!
 									//sh "docker save ${_BuildVersion} > ${_BuildVersion}.tar"
 									//sh "ls -sh ${_BuildVersion}.tar"
