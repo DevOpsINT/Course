@@ -25,12 +25,12 @@
 
 - name: Running the container
   docker_container:
-    name: {{ docker_hub_image }}
-    image: {{ docker_hub_image }}
+    name: "{{ docker_hub_image }}"
+    image: "{{ docker_hub_image }}"
     state: started
 
 - name: Save Docker Log Into Register
-  shell: docker logs {{ buildVersion }}
+  shell: docker logs {{ docker_hub_image }}
   register: docker_log
 
 - debug:
