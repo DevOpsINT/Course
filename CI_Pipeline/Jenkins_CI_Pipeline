@@ -113,8 +113,6 @@ pipeline
 									echo("_dockerlogs=${_dockerlogs}")
 									echo _dockerlogs.toString()
 									if ( _dockerlogs.toString() != "Hello world!" )
-																	Hello world!
-
 									{
 										echo "UT on container failed"
 										sh "docker image rmi -f dockerizeapp:${_BuildVersion}"
