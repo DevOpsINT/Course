@@ -74,7 +74,7 @@ def BuildVersion
              }
          }
 	stage('upload docker image to dockerhub') {
-		//agent { label 'assignment2' }
+		  agent { label 'assignment2' }
 			steps
 			{
 			    script
