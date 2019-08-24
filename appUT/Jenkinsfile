@@ -5,7 +5,7 @@ def BuildVersion
       timeout(time: 30, unit: 'MINUTES')
    }
   environment {
-    registry = "rozdockerforever/image_version"
+    registry = "rozdockerforever/myfirstimage"
     registryCredential = 'dockerhub'
     dockerImage = ''
   }
