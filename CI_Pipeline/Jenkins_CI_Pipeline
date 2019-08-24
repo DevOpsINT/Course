@@ -178,7 +178,7 @@ pipeline
 						[
 							string
 							(
-								defaultValue: '35.160.199.228',
+								defaultValue: '54.200.108.137',
 								description: 'IP of the machine to procced the pipeline connabds',
 								name: 'IP'
 							),
