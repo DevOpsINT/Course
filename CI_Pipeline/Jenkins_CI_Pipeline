@@ -149,7 +149,8 @@ pipeline
 								{
 									docker.withRegistry( '', registryCredential )
 									{
-										sh "docker push ${registry}:${_BuildVersion}"
+										aaa = sh script: "docker push ${registry}:${_BuildVersion}", returnStdout: true
+										echo aaa
 										sh "docker image rmi -f ${registry}:${_BuildVersion}"
 									}
 								}
