@@ -98,5 +98,21 @@ def BuildVersion
 			        }//script	
 			 }//steps
 		 }
+	    	stage('download from dockerhub') {
+		
+			steps
+			{
+			    script
+			       {
+			         dir('ansible'){
+				     docker.withRegistry( '', registryCredential ) {
+        			     sh "docker push ${registry}:${BuildVersion}"
+				     }
+        		          }
+				
+		               }
+			      
+			 }//steps
+		 }
          }
 }
