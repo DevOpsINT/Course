@@ -88,7 +88,7 @@ def BuildVersion
 	                       //   sh "docker login --username=rozdockerforever --email=rozana3343@hotmail.com"
 				 sh "docker images"
 			         sh "docker tag image_version:${BuildVersion} ${registry}:${BuildVersion}"
-				  sh "docker push ${registry}:{BuildVersion}"
+				  sh "docker push ${registry}:${BuildVersion}"
 					 //  echo("dockerImage Is: ${dockerImage}")
 					 
 			//	  docker.withRegistry( '', registryCredential ) {
