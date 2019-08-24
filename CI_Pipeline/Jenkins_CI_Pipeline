@@ -7,7 +7,7 @@ pipeline
 	environment
 	{
 		registry = "gadigamburg/dockerizeapp"
-		registryCredential = 'dockerhub'
+		registryCredential = 'docker_hub'
 		dockerImage = ''
 	}
     options
@@ -149,8 +149,6 @@ pipeline
 								{
 									docker.withRegistry( '', registryCredential )
 									{
-										aaa = sh script: "docker push ${registry}:${_BuildVersion}", returnStdout: true
-										echo aaa
 										sh "docker image rmi -f ${registry}:${_BuildVersion}"
 									}
 								}
