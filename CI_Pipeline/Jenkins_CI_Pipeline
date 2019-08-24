@@ -89,8 +89,8 @@ pipeline
 								unstash 'copy_to_slave'
 								try
 								{
-									dockerImage = sh script: "docker build -t dockerizeapp:${_BuildVersion} . ", returnStdout: true
-echo dockerImage
+									//dockerImage = sh script: "docker build -t dockerizeapp:${_BuildVersion} . ", returnStdout: true
+									dockerImage = docker.build registry dockerizeapp + ":${_BuildVersion}"
 									// Save docker image on slave, problem that slave disk space is limited!!!!
 									//sh "docker save ${_BuildVersion} > ${_BuildVersion}.tar"
 									//sh "ls -sh ${_BuildVersion}.tar"
