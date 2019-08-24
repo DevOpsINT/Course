@@ -6,7 +6,7 @@ pipeline
 {
 	environment
 	{
-		registry = "gadigamburg/gadigamburg"
+		registry = "gadigamburg/dockerizeapp"
 		registryCredential = 'dockerhub'
 		dockerImage = ''
 	}
@@ -89,7 +89,7 @@ pipeline
 								unstash 'copy_to_slave'
 								try
 								{
-									sh "docker build -t dockerizeapp:${_BuildVersion} . "
+									sh "docker build -t dockerize_app:${_BuildVersion} . "
 
 									// Save docker image on slave, problem that slave disk space is limited!!!!
 									//sh "docker save ${_BuildVersion} > ${_BuildVersion}.tar"
@@ -97,7 +97,7 @@ pipeline
 								}
 								catch (err)
 								{
-									println("docker build dockerizeapp:${_BuildVersion} failed")
+									println("docker build dockerize_app:${_BuildVersion} failed")
 									currentBuild.result = 'Fail'
 								}
 							}
@@ -114,22 +114,22 @@ pipeline
 							{
 								try
 								{
-									sh "docker run -d --name dockerizeAppTest dockerizeapp:${_BuildVersion}"
-									_dockerlogs = sh script: "docker logs dockerizeAppTest", returnStdout: true
+									sh "docker run -d --name dockerize_app dockerize_app:${_BuildVersion}"
+									_dockerlogs = sh script: "docker logs dockerize_app", returnStdout: true
 									echo("_dockerlogs=${_dockerlogs}")
 									if ( _dockerlogs.toString().trim() != "Hello world!" )
 									{
 										echo "UT on container failed"
-										sh "docker image rmi -f dockerizeapp:${_BuildVersion}"
-										sh "docker rm -f dockerizeAppTest"
+										sh "docker image rmi -f dockerize_app:${_BuildVersion}"
+										sh "docker rm -f dockerize_app"
 										currentBuild.result = 'Fail'
 									}
 								}
 								catch (err)
 								{
-									println("docker build dockerizeapp:${_BuildVersion} failed")
-									sh "docker image rmi -f dockerizeapp:${_BuildVersion}"
-									sh "docker rm -f dockerizeAppTest"
+									println("docker build dockerize_app:${_BuildVersion} failed")
+									sh "docker image rmi -f dockerize_app:${_BuildVersion}"
+									sh "docker rm -f dockerize_app"
 									currentBuild.result = 'Fail'
 								}
 							}
@@ -146,7 +146,7 @@ pipeline
 							{
 								try
 								{
-									sh "docker tag dockerizeapp:${_BuildVersion} ${registry}:${_BuildVersion}"
+									sh "docker tag dockerize_app:${_BuildVersion} ${registry}:${_BuildVersion}"
 									docker.withRegistry( 'https://registry.hub.docker.com', registryCredential )
 									{
 										sh "docker push ${registry}:${_BuildVersion}"
@@ -154,7 +154,7 @@ pipeline
 								}
 								catch (err)
 								{
-									println("Upload Docker Image: dockerizeapp:${_BuildVersion} To Docker Hub Failed")
+									println("Upload Docker Image: ${registry}:${_BuildVersion} To Docker Hub Failed")
 									currentBuild.result = 'Fail'
 								}
 							}
