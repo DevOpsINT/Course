@@ -6,44 +6,45 @@
    become: yes
 
    pre_tasks:
-    - raw: sudo apt -qy update&& sudo apt install -qy python3&& sudo apt install -qy python&& sudo apt install -qy python-pip&& sudo pip install docker-py
-    - setup:
+   - raw: sudo apt -qy update&& sudo apt install -qy python3&& sudo apt install -qy python&& sudo apt install -qy python-pip&& sudo pip install docker-py
+   - setup:
 
-- name: Install Docker
-  apt:
-    name: docker.io
-    state: present
+   tasks:
+   - name: Install Docker
+     apt:
+       name: docker.io
+       state: present
 
-- name: Stop Docker Service
-  service:
-    name: docker
-    state: stopped
+   - name: Stop Docker Service
+     service:
+       name: docker
+       state: stopped
 
-- name: Start Docker Service
-  service:
-    name: docker
-    state: started
+   - name: Start Docker Service
+     service:
+       name: docker
+       state: started
 
-- name: Running the container
-  docker_container:
-    name: "{{ docker_hub_image }}"
-    image: "{{ docker_hub_image }}"
-    state: started
+   - name: Running the container
+     docker_container:
+       name: "{{ docker_hub_image }}"
+       image: "{{ docker_hub_image }}"
+       state: started
 
-- name: Save Docker Log Into Register
-  shell: docker logs {{ docker_hub_image }}
-  register: docker_log
+   - name: Save Docker Log Into Register
+     shell: docker logs {{ docker_hub_image }}
+     register: docker_log
 
-- debug:
-    var: docker_log.stdout
+   - debug:
+       var: docker_log.stdout
 
-- set_fact:
-        stop_enabled: true
-  when: "'Hello world!' == docker_log.stdout"
+   - set_fact:
+          stop_enabled: true
+     when: "'Hello world!' == docker_log.stdout"
 
-- fail:
-    msg: "The Conteiner Log Not Equal To Check String."
-  when: "'Hello world!' != docker_log.stdout"
+   - fail:
+          msg: "The Conteiner Log Not Equal To Check String."
+     when: "'Hello world!' != docker_log.stdout"
 
 
 
