@@ -149,6 +149,7 @@ pipeline
 								{
 									docker.withRegistry( '', registryCredential )
 									{
+										sh "docker push ${registry}:${_BuildVersion}"
 										sh "docker image rmi -f ${registry}:${_BuildVersion}"
 									}
 								}
