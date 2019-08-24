@@ -89,7 +89,7 @@ pipeline
 								unstash 'copy_to_slave'
 								try
 								{
-									sh "docker build -t dockerize_app:${_BuildVersion} . "
+									sh "docker build -t ${registry}:${_BuildVersion} . "
 
 									// Save docker image on slave, problem that slave disk space is limited!!!!
 									//sh "docker save ${_BuildVersion} > ${_BuildVersion}.tar"
@@ -97,7 +97,7 @@ pipeline
 								}
 								catch (err)
 								{
-									println("docker build dockerize_app:${_BuildVersion} failed")
+									println("docker build ${registry}:${_BuildVersion} failed")
 									currentBuild.result = 'Fail'
 								}
 							}
@@ -114,22 +114,22 @@ pipeline
 							{
 								try
 								{
-									sh "docker run -d --name dockerize_app dockerize_app:${_BuildVersion}"
-									_dockerlogs = sh script: "docker logs dockerize_app", returnStdout: true
+									sh "docker run -d --name ${registry} ${registry}:${_BuildVersion}"
+									_dockerlogs = sh script: "docker logs ${registry}", returnStdout: true
 									echo("_dockerlogs=${_dockerlogs}")
 									if ( _dockerlogs.toString().trim() != "Hello world!" )
 									{
 										echo "UT on container failed"
-										sh "docker image rmi -f dockerize_app:${_BuildVersion}"
-										sh "docker rm -f dockerize_app"
+										sh "docker image rmi -f ${registry}:${_BuildVersion}}"
+										sh "docker rm -f ${registry}"
 										currentBuild.result = 'Fail'
 									}
 								}
 								catch (err)
 								{
-									println("docker build dockerize_app:${_BuildVersion} failed")
-									sh "docker image rmi -f dockerize_app:${_BuildVersion}"
-									sh "docker rm -f dockerize_app"
+									println("docker build ${registry}:${_BuildVersion} failed")
+									sh "docker image rmi -f ${registry}:${_BuildVersion}"
+									sh "docker rm -f ${registry}"
 									currentBuild.result = 'Fail'
 								}
 							}
@@ -146,7 +146,6 @@ pipeline
 							{
 								try
 								{
-									sh "docker tag dockerize_app:${_BuildVersion} ${registry}:${_BuildVersion}"
 									docker.withRegistry( '', registryCredential )
 									{
 										sh "docker push ${registry}:${_BuildVersion}"
