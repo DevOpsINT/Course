@@ -115,6 +115,7 @@ pipeline
 									{
 										echo "UT on container failed"
 										sh "docker image rmi -f dockerizeapp:${_BuildVersion}"
+										sh "docker rm -f dockerizeAppTest"
 										currentBuild.result = 'Fail'
 									}
 								}
@@ -122,6 +123,7 @@ pipeline
 								{
 									println("docker build dockerizeapp:${_BuildVersion} failed")
 									sh "docker image rmi -f dockerizeapp:${_BuildVersion}"
+									sh "docker rm -f dockerizeAppTest"
 									currentBuild.result = 'Fail'
 								}
 							}
