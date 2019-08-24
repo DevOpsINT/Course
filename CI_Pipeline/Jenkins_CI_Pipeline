@@ -89,7 +89,7 @@ pipeline
 								unstash 'copy_to_slave'
 								try
 								{
-									dockerImage = sh script: "docker build -t dockerizeapp:${_BuildVersion} . ", returnStdout: true
+									sh "docker build -t dockerizeapp:${_BuildVersion} . "
 
 									// Save docker image on slave, problem that slave disk space is limited!!!!
 									//sh "docker save ${_BuildVersion} > ${_BuildVersion}.tar"
@@ -146,9 +146,10 @@ pipeline
 							{
 								try
 								{
+									sh "docker tag dockerizeapp:${_BuildVersion} ${registry}:${_BuildVersion}"
 									docker.withRegistry( 'https://registry.hub.docker.com', registryCredential )
 									{
-										dockerImage.push()
+										sh "docker push ${registry}:${_BuildVersion}"
 									}
 								}
 								catch (err)
