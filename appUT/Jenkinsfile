@@ -62,7 +62,7 @@ def BuildVersion
                     sh 'pwd'
                     sh 'ls'
                    	try {
-			         sh " docker build -t image_version:${BuildVersion} ."
+			         //sh " docker build -t image_version:${BuildVersion} ."
 				 dockerImage = docker.image('image_version:${BuildVersion')
 				//dockerImage = docker.build(image_version:${BuildVersion}) registry + ":image_version:${BuildVersion}"
 		            } catch (err)	{
@@ -86,9 +86,9 @@ def BuildVersion
 					  sh 'pwd'
 					 sh 'ls'
 	                       //   sh "docker login --username=rozdockerforever --email=rozana3343@hotmail.com"
-				//  sh "docker images"
-			       //  sh "docker tag image_version:${BuildVersion} ${registry}:pythonimage"
-				  sh "docker push ${registry}:/image_version:${BuildVersion}"
+				 sh "docker images"
+			         sh "docker tag image_version:${BuildVersion} ${registry}:pythonimage"
+				 // sh "docker push ${registry}:/image_version:${BuildVersion}"
 					   echo("dockerImage Is: ${dockerImage}")
 					 
 				  docker.withRegistry( '', registryCredential ) {
