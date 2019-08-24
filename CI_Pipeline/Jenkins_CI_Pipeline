@@ -114,22 +114,23 @@ pipeline
 							{
 								try
 								{
-									sh "docker run -d --name ${registry} ${registry}:${_BuildVersion}"
-									_dockerlogs = sh script: "docker logs ${registry}", returnStdout: true
+									sh "docker run -d --name dockerize_app ${registry}:${_BuildVersion}"
+									_dockerlogs = sh script: "docker logs dockerize_app", returnStdout: true
 									echo("_dockerlogs=${_dockerlogs}")
 									if ( _dockerlogs.toString().trim() != "Hello world!" )
 									{
 										echo "UT on container failed"
-										sh "docker image rmi -f ${registry}:${_BuildVersion}}"
-										sh "docker rm -f ${registry}"
+										sh "docker image rmi -f ${registry}:${_BuildVersion}"
+										sh "docker rm -f dockerize_app"
 										currentBuild.result = 'Fail'
 									}
+									sh "docker rm -f dockerize_app"
 								}
 								catch (err)
 								{
-									println("docker build ${registry}:${_BuildVersion} failed")
+									println("docker run dockerize_app failed")
 									sh "docker image rmi -f ${registry}:${_BuildVersion}"
-									sh "docker rm -f ${registry}"
+									sh "docker rm -f dockerize_app"
 									currentBuild.result = 'Fail'
 								}
 							}
@@ -149,11 +150,13 @@ pipeline
 									docker.withRegistry( '', registryCredential )
 									{
 										sh "docker push ${registry}:${_BuildVersion}"
+										sh "docker image rmi -f ${registry}:${_BuildVersion}"
 									}
 								}
 								catch (err)
 								{
 									println("Upload Docker Image: ${registry}:${_BuildVersion} To Docker Hub Failed")
+									sh "docker image rmi -f ${registry}:${_BuildVersion}"
 									currentBuild.result = 'Fail'
 								}
 							}
