@@ -85,7 +85,7 @@ def BuildVersion
 				 dir('/var/jenkins_assign2/workspace/class_assignment2/appUT/'){
 					  sh 'pwd'
 					 sh 'ls'
-	                         sh "docker login rozdockerforever"
+	                         sh "docker login -u rozdockerforever"
 				 sh "docker images"
 			         sh "docker tag image_version:${BuildVersion} ${registry}:${BuildVersion}"
 				 sh "docker push ${registry}:${BuildVersion}"
