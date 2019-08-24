@@ -93,7 +93,7 @@ def BuildVersion
         		          }
 					 //removing image from aws machine
 					 
-					sh script: "docker rmi -f \$(sudo docker images | grep image_version)"
+					sh script: "docker rmi -f ${BuildVersion}"
 					sh "docker images"
 				 }//dir
 			        }//script	
