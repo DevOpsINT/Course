@@ -80,17 +80,14 @@ def BuildVersion
 			{
 			    script
 			       {
-				        sh 'pwd'
+				       sh 'pwd'
 				       sh 'ls'
 				 dir('/var/jenkins_assign2/workspace/class_assignment2/appUT/'){
-					  sh 'pwd'
+					 sh 'pwd'
 					 sh 'ls'
-	                       //  sh "docker login -u rozdockerforever"
+	               
 				 sh "docker images"
 			         sh "docker tag image_version:${BuildVersion} ${registry}:${BuildVersion}"
-				
-					 //  echo("dockerImage Is: ${dockerImage}")
-					 
 				  docker.withRegistry( '', registryCredential ) {
         			     sh "docker push ${registry}:${BuildVersion}"
         		          }
