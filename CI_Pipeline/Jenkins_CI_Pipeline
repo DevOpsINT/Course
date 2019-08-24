@@ -147,7 +147,7 @@ pipeline
 								try
 								{
 									sh "docker tag dockerize_app:${_BuildVersion} ${registry}:${_BuildVersion}"
-									docker.withRegistry( 'https://registry.hub.docker.com', registryCredential )
+									docker.withRegistry( '', registryCredential )
 									{
 										sh "docker push ${registry}:${_BuildVersion}"
 									}
