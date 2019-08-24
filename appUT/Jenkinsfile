@@ -73,15 +73,15 @@ def BuildVersion
                  }
              }
          }
-	stage('upload docker image to dockerhub')
-		{
+	stage('upload docker image to dockerhub') {
+		agent { label 'assignment2' }
 			steps
 			{
 			    script
 			       {
 				        sh 'pwd'
 				       sh 'ls'
-				 dir('./jenkins_home/workspace/class_assignment2/appUT'){
+				 dir('/var/jenkins_assign2/workspace/class_assignment2/appUT'){
 					  sh 'pwd'
 					 sh 'ls'
 	                       //   sh "docker login --username=rozdockerforever --email=rozana3343@hotmail.com"
