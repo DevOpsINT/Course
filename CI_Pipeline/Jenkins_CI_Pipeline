@@ -109,11 +109,12 @@ pipeline
 								try
 								{
 									sh "docker run -d --name dockerizeAppTest dockerizeapp:${_BuildVersion}"
-									_dockerlogs = sh "docker logs dockerizeAppTest"
+									_dockerlogs = sh "docker logs dockerizeAppTest", returnStdout: true
 									echo("_dockerlogs= ${_dockerlogs}")
 									if ( _dockerlogs.toString() != "Hello world!" )
 									{
 										echo "UT on container failed"
+										sh "docker image rmi -f dockerizeapp:${_BuildVersion}"
 										currentBuild.result = 'Fail'
 									}
 								}
