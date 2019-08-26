@@ -24,11 +24,11 @@
       name: docker
       state: started
       
-   - name: running a container
-     docker_container:
-       name: "{{ pulling_image_from_dockerhub }}"
-       image: "{{ pulling_image_from_dockerhub }}"
-       state: started
+  - name: running a container
+    docker_container:
+      name: "{{ pulling_image_from_dockerhub }}"
+      image: "{{ pulling_image_from_dockerhub }}"
+      state: started
 
    - name: Save Docker Log Into Register
      shell: docker logs {{ pulling_image_from_dockerhub }}
