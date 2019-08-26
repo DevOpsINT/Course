@@ -104,7 +104,7 @@ def BuildVersion
 			{
 			    script
 			       {
-				        sh 'cd /var/jenkins_home/ansible_jenkins.pem '
+				        sh 'cd /var/jenkins_home/ '
 				        sh 'pwd'
 					sh 'ls'
 			         dir('appUT/ansible_dir'){
