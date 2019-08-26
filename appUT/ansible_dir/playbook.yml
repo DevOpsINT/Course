@@ -31,8 +31,8 @@
       state: started
 
   - name: Save Docker Log Into Register
-     shell: "docker logs {{ pulling_image_from_dockerhub }}"
-     register: docker_log_container
+    shell: "docker logs {{ pulling_image_from_dockerhub }}"
+    register: docker_log_container
 
   - debug:
      var: docker_log_container.stdout
