@@ -22,7 +22,7 @@ pipeline
 				{
 					script
 					{
-						git credentialsId: 'DevOpsINT', url: 'https://github.com/DevOpsINT/Course.git' , branch: 'gadi'
+						git credentialsId: 'DevOpsINT', url: 'https://github.com/DevOpsINT/Course.git' , branch: 'yossi'
 
 						_CurrentGitVersion = sh script:"git tag | sort -r | head -1", returnStdout: true
                         _CurrentGitVersion = _CurrentGitVersion.trim()
@@ -159,7 +159,7 @@ pipeline
 						[
 							string
 							(
-								defaultValue: '35.160.199.228',
+								defaultValue: '3.84.49.160',
 								description: 'IP of the machine to procced the pipeline connabds',
 								name: 'IP'
 							),
