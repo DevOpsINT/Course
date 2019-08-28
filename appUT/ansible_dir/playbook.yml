@@ -7,13 +7,11 @@
   become: yes
   
 - name: Install Packages
-  apt:
     name: ['htop', 'docker.io', 'python-pip', 'python3-pip', 'software-properties-common']
     state: present
     update_cache: yes
     
 - name: Install Docker
-  apt:
     name: docker.io
     state: present
     
