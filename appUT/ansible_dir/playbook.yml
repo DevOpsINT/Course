@@ -6,23 +6,27 @@
   remote_user: ubuntu
   become: yes
   
-- name: Install Packages
-  apt:
-    name: ['htop', 'docker.io', 'python-pip', 'python3-pip', 'software-properties-common']
-    state: present
-    update_cache: yes
-    
+   tasks:
+   - name: Install Docker
+     apt:
+       name: docker.io
+       state: present
+
+- name: Stop Docker Service
+     service:
+       name: docker
+       state: stopped
+
+- name: Start Docker Service
+  service:
+   name: docker
+   state: started
+       
 - name: Install Docker
    apt:
-     name: docker.io
-     state: present
+    name: docker.io
+    state: present
     
-- name: pip install docker
-  shell: pip install docker
-
-- name: pip3 install docker
-  shell: pip3 install docker
-
 - name: Umask docker service
   shell: systemctl unmask docker &>/dev/null
 
