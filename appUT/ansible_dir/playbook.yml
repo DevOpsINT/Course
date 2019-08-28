@@ -1,53 +1,53 @@
 
--name: Rozana
- hosts: all
- gather_facts: no
- remote_user: ubuntu
- become: yes
+- name: Rozana
+  hosts: all
+  gather_facts: no
+  remote_user: ubuntu
+  become: yes
 
 
--name: Install Packages
- apt:
-  name: ['htop', 'docker.io', 'python-pip', 'python3-pip', 'software-properties-common']
-  state: present
-  update_cache: yes
-
--name: Install Docker
- apt:
-  name: docker.io
-  state: present
+- name: Install Packages
+  apt:
+    name: ['htop', 'docker.io', 'python-pip', 'python3-pip', 'software-properties-common']
+    state: present
+    update_cache: yes
     
--name: pip install docker
+- name: Install Docker
+  apt:
+    name: docker.io
+    state: present
+      
+- name: pip install docker
   shell: pip install docker
 
--name: pip3 install docker
+- name: pip3 install docker
   shell: pip3 install docker
 
--name: Umask docker service
+- name: Umask docker service
   shell: systemctl unmask docker &>/dev/null
 
--name: Start Docker Service
+- name: Start Docker Service
   service:
-  name: docker
-  state: started
-    
--name: running a container
+    name: docker
+    state: started
+      
+- name: running a container
   docker_container:
-  name: "{{ pulling_image_from_dockerhub }}"
-  image: "{{ pulling_image_from_dockerhub }}"
-  state: started
+    name: "{{ pulling_image_from_dockerhub }}"
+    image: "{{ pulling_image_from_dockerhub }}"
+    state: started
 
--name: Save Docker Log Into Register
+- name: Save Docker Log Into Register
   shell: "docker logs {{ pulling_image_from_dockerhub }}"
   register: docker_log_container
 
--debug:
+- debug:
     var: docker_log_container.stdout
 
--set_fact:
+- set_fact:
     stop_enabled: true
     when: "'Hello world!' == docker_log_container.stdout"
 
--fail:
-  msg: "The Conteiner Log Not Equal To String."
-  when: "'Hello world!' != docker_log.stdout"
+- fail:
+    msg: "The Conteiner Log Not Equal To String."
+    when: "'Hello world!' != docker_log.stdout"
