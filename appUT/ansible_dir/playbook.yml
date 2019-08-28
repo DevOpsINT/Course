@@ -4,20 +4,25 @@
   remote_user: ubuntu
   become: yes
 
-  pre_tasks: 
-  - raw: sudo apt -qy update&& sudo apt install -qy python3&& sudo apt install -qy python&& sudo apt install -qy python-pip&& sudo pip install docker-py
-  - setup:
 
-  tasks:
+- name: Install Packages
+  apt:
+    name: ['htop', 'docker.io', 'python-pip', 'python3-pip', 'software-properties-common']
+    state: present
+    update_cache: yes
   - name: Install Docker
     apt:
       name: docker.io
       state: present
+      
+  - name: pip install docker
+    shell: pip install docker
 
-  - name: Stop Docker Service
-    service:
-      name: docker
-      state: stopped
+  - name: pip3 install docker
+    shell: pip3 install docker
+
+  - name: Umask docker service
+    shell: systemctl unmask docker &>/dev/null
 
   - name: Start Docker Service
     service:
