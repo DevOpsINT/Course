@@ -5,16 +5,18 @@ pipeline {
     agent {
         label 'master'
     }
+  
     stages {
         stage ('Checkout') {
             steps {
                 script {
-                    checkout([$class: 'GitSCM', branches: [[name: '*/vered']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[url: 'https://github.com/DevOpsINT/Course.git']]])
+                    checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/vered']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '54b659e0-6047-495c-bd66-d371d1bd3ae8', url: 'https://github.com/DevOpsINT/Course.git']]]
                     CurrentVersion = sh script:"git tag | sort -r | head -1", returnStdout: true
                     CurrentVersion = CurrentVersion.trim()
                     nextVersion = CurrentVersion + 1
                     commitIDshort = sh script:"git rev-parse HEAD | cut -c1-10", returnStdout: true
                     BuildVersion = "${CurrentVersion}_${commitIDshort}"
+                    sh 'pwd'
                 }
             }
         }
@@ -28,9 +30,27 @@ pipeline {
                             println("Unit Test failed for ${BuildVersion}")
                             currentBuild.result = 'UNSTABLE'
                         }
-                    }
+                    stash includes: 'Dockerfile', name: 'Dfile', useDefaultExcludes: false
+                    }  
                 }
             }
         }
-    }
+     
+       stage ('build slave') {
+          agent {
+              label ('slave')
+          }
+         steps {
+              script {
+                  dir ('/tmp/'){ 
+                   unstash 'Dfile' 
+                   sh 'ls'
+                   sh 'pwd'
+                   sh 'docker build . -t "${BuildVersion}"'
+                  }
+              }  
+          }
+      }
+   }
 }
+  
