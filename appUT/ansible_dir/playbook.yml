@@ -1,11 +1,9 @@
-
 - name: Rozana
   hosts: all
   gather_facts: no
   remote_user: ubuntu
   become: yes
-
-
+  
 - name: Install Packages
   apt:
     name: ['htop', 'docker.io', 'python-pip', 'python3-pip', 'software-properties-common']
@@ -16,7 +14,7 @@
   apt:
     name: docker.io
     state: present
-      
+    
 - name: pip install docker
   shell: pip install docker
 
