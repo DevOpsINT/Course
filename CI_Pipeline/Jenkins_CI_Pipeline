@@ -78,7 +78,6 @@ pipeline
 					{
 							script
 							{
-								dir('tmp')
 								unstash 'copy_to_slave'
 								try
 								{
