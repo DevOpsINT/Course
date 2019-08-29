@@ -85,7 +85,7 @@ pipeline
 									sh "docker build -t DockerizeApp:${_BuildVersion} . "
 
 									//Save docker image on slave, problem that slave disk space is limited!!!!
-									//sh "docker save ${_BuildVersion} > ${_BuildVersion}.tar"
+								//sh "docker save ${_BuildVersion} > ${_BuildVersion}.tar"
 									//sh "ls -sh ${_BuildVersion}.tar"
 								}
 								catch (err)
@@ -100,8 +100,6 @@ pipeline
 				{
 					steps
 					{
-						dir('tmp')
-						{
 							script
 							{
 								try
@@ -117,12 +115,11 @@ pipeline
 								}
 								catch (err)
 								{
-									println("docker build DockerizeApp:${_BuildVersion} fail")
+									println("docker build dockerizeApp:${_BuildVersion} fail")
 									sh "docker rmi DockerizeApp:${_BuildVersion}"
 									currentBuild.result = 'Fail'
 								}
 							}
-						}
 					}
 				}
 			}
@@ -217,18 +214,18 @@ pipeline
 				{
                     script
 					{
-                        withCredentials([usernamePassword(credentialsId: 'DevOpsINT', passwordVariable: 'Password', usernameVariable: 'Username')])
+                  withCredentials([usernamePassword(credentialsId: 'b599c7a1-bf9e-4719-803f-ea9b45daa027', passwordVariable: 'Password', usernameVariable: 'Username')])
 						{
 							sh('git status')
-							sh('git config --global user.name "Gadi"')
-							sh('git config --global user.email "gadigamburg@gmail.com"')
-							sh('git checkout gadi')
+							sh('git config --global user.name "yossi")
+							sh('git config --global user.email "yossibnv@gmail.com"')
+							sh('git checkout yossi')
 							sh('git pull')
 							sh('git tag ${_BuildVersion}')
 							//sh('git add .')
 							//sh('git commit -m "Commit Tag Version: ${_BuildVersion"')
                             sh('git status')
-							sh('git push https://${Username}:${Password}@github.com/DevOpsINT/Course.git gadi ${_BuildVersion}')
+							sh('git push https://${Username}:${Password}@github.com/DevOpsINT/Course.git yossi ${_BuildVersion}')
 						}
                     }
 				}
