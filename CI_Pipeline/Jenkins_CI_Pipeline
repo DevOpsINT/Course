@@ -104,7 +104,8 @@ pipeline
 								try
 								{
 									sh "docker run -d docker-app:${_BuildVersion}"
-									_dockerlogs = sh "docker logs docker-app:${_BuildVersion}"
+									_contid=sh "docker ps -a | awk '{print \$1}' | awk 'NR==2'"
+									_dockerlogs = sh "docker logs ${_contid}"
 									echo("_dockerlogs= ${_dockerlogs}")
 									if ( _dockerlogs.toString() != "Hello world!" )
 									{
