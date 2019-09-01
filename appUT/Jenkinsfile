@@ -79,20 +79,21 @@ def BuildVersion
 			{
 			    script
 			       {
+				       sh'sudo usermod -aG docker jenkins'
 				       sh 'pwd'
 				       sh 'ls'
 				 dir('/opt/jennkins_slave/workspace/class_assignment2/appUT/'){
 					 sh 'pwd'
 					 sh 'ls'
 	               
-				 sh "sudo docker images"
-			         sh "sudo docker tag image_version:${BuildVersion} ${registry}:${BuildVersion}"
+				 sh "docker images"
+			         sh "docker tag image_version:${BuildVersion} ${registry}:${BuildVersion}"
 				  docker.withRegistry( '', registryCredential ) {
-        			     sh "sudo docker push ${registry}:${BuildVersion}"
+        			     sh "docker push ${registry}:${BuildVersion}"
         		          }
 					//removing image from aws machine
-					sh script: "sudo docker rmi -f image_version:${BuildVersion}"
-					sh "sudo docker images"
+					sh script: "docker rmi -f image_version:${BuildVersion}"
+					sh "docker images"
 				 }//dir
 			        }//script	
 			 }//steps
