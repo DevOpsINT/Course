@@ -1,0 +1,24 @@
+---
+- name: dpkg remove
+  shell: dpkg --purge metricbeat
+
+- name: Remove metricbeat directory if exists
+  file:
+    path: /etc/metricbeat
+    state: absent
+
+- name: Download and install a metricbeat agent
+  apt:
+    deb: "https://artifacts.elastic.co/downloads/beats/metricbeat/metricbeat-{{  metricbeat_version }}"
+
+- name: Copy configuration file
+  copy:
+    src: files/metricbeat.yml
+    dest: /etc/metricbeat/metricbeat.yml
+    mode: 0644
+
+- name: Start metricbeat service
+  service:
+    name: metricbeat
+    state: started
+    enabled: yes

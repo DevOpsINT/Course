@@ -1,0 +1,77 @@
+def RolesList = []
+@NonCPS
+def jsonParse(def json) {
+    new groovy.json.JsonSlurperClassic().parseText(json)
+}
+pipeline {
+    options {
+        timeout(time: 30, unit: 'MINUTES')
+    }
+    agent {
+        label 'master'
+    }
+    stages {
+        stage ('Checkout') {
+            steps {
+                script {
+                    deleteDir()
+                    checkout([$class: 'GitSCM', branches: [[name: '*/master']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'TOKEN', url: 'REPO']]])
+                    RolesList = sh script: 'ls ansible/roles', returnStdout: true
+                }
+            }
+        }
+        stage('Choose Role Version') {
+            steps {
+                script {
+                    dir ('release') {
+                        RolesList.toString()
+                        ReleaseBranch = input message: 'Role',
+                            ok: 'confirm',
+                            parameters: [choice(name: '', choices: "${RolesList}", description: '')]
+                    }
+                }
+            }
+        }
+        stage ('Choose Environments') {
+            steps {
+                script {
+                    env = input message: "Choose Environment",
+                    ok: 'This one!',
+                    parameters: [choice(name: '', choices: "${envList}", description: '')]
+                    awsRegion = sh script:"cat env.map | grep ${env} | cut -d':' -f1", returnStdout: true
+                    awsRegion = awsRegion.trim()
+                    sh "sed -i \'s/REGION_NAME/${awsRegion}/g\' ./inventory.aws_ec2.yml"
+                }
+            }
+        }
+        stage ('Instance Selector') {
+            steps {
+                script {
+                    sh "ansible-inventory -i inventory.aws_ec2.yml --graph | sed -n \'/|--@environment_${env}:/,/|--@environment_*/p\' | cut -d\'-\' -f3-90 | grep -v @ > instances.list"
+                    instancesList = sh script:"cat instances.list", returnStdout: true
+                    instancesList.toString()
+                    instanceName = input message: "Choose Instance",
+                    ok: 'This one!',
+                    parameters: [choice(name: '', choices: "${instancesList}", description: '')]
+                    def connectionMethod
+                    connectionMethod.toString()
+                    connectionMethod = input message: "Please choose connection method",
+                    ok: 'Ok',
+                    parameters: [choice(name: '', choices: ['private_ip_address', 'public_ip_address'], description: '')]
+                    sh "sed -i \'s/connection_method/${connectionMethod}/g\' ./inventory.aws_ec2.yml"
+                }
+            }
+        }
+        stage ('Deploy Services') {
+            steps {
+                script {
+                    try {
+                        sh "ansible-playbook -i inventory.aws_ec2.yml main.yml --tags=${service} --extra-vars 'service=${service} '"
+                    } catch (err) {
+                        println("[ERROR] Running Ansible for ${service} deploy")
+                    }
+                }
+            }
+        }
+    }
+}
