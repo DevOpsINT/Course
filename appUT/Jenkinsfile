@@ -79,7 +79,7 @@ def BuildVersion
 			{
 			    script
 			       {
-				       sh'sudo usermod -aG docker jenkins'
+				       sh'sudo usermod -aG docker ubuntu'
 				       sh 'pwd'
 				       sh 'ls'
 				 dir('/opt/jennkins_slave/workspace/class_assignment2/appUT/'){
