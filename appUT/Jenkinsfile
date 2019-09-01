@@ -61,12 +61,12 @@ def BuildVersion
                     sh 'pwd'
                     sh 'ls'
                    	try {
-			         sh "docker build -t image_version:${BuildVersion} ."
+			         sh "sudo docker build -t image_version:${BuildVersion} ."
 				// dockerImage = docker.image('image_version:${BuildVersion')
 				//dockerImage = docker.build(image_version:${BuildVersion}) registry + ":image_version:${BuildVersion}"
 		            } catch (err)	{
 			       println("docker build image_version:${BuildVersion} failed")
-			       sh "docker rmi image_version:${BuildVersion}"
+			       sh "sudo docker rmi image_version:${BuildVersion}"
 		               currentBuild.result = 'Fail'
 		         }
                      }
