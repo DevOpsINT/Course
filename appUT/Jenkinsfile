@@ -81,7 +81,7 @@ def BuildVersion
 			       {
 				       sh 'pwd'
 				       sh 'ls'
-				 dir('/var/jenkins_assign2/workspace/class_assignment2/appUT/'){
+				 dir('/opt/jennkins_slave/workspace/class_assignment2/appUT/'){
 					 sh 'pwd'
 					 sh 'ls'
 	               
