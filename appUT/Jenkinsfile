@@ -88,7 +88,7 @@ def BuildVersion
 				 sh "sudo docker images"
 			         sh "sudo docker tag image_version:${BuildVersion} ${registry}:${BuildVersion}"
 				  docker.withRegistry( '', registryCredential ) {
-        			     sh "docker push ${registry}:${BuildVersion}"
+        			     sh "sudo docker push ${registry}:${BuildVersion}"
         		          }
 					//removing image from aws machine
 					sh script: "sudo docker rmi -f image_version:${BuildVersion}"
