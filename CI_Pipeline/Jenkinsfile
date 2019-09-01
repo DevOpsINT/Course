@@ -1,0 +1,239 @@
+def userInput
+def _BuildVersion
+def _contid
+def _dockerlogs
+
+pipeline 
+{
+    options
+    {
+        timeout(time: 30, unit: 'MINUTES')
+    }
+	agent
+	{
+		label 'master'
+	}
+	stages
+	{
+		stage('Checkout From GIT')
+		{
+			steps
+			{
+				dir('Course')
+				{
+					script
+					{
+					git credentialsId: 'b599c7a1-bf9e-4719-803f-ea9b45daa027', url: 'https://github.com/DevOpsINT/Course.git' , branch: 'yossi'
+							
+						_CurrentGitVersion = sh script:"git tag | sort -r | head -1", returnStdout: true
+                        _CurrentGitVersion = _CurrentGitVersion.trim()
+                        echo("CurrentGitVersion Is: ${_CurrentGitVersion}")
+
+                        _NextGitVersion = _CurrentGitVersion + 1
+
+                        _CurrentCommitIdShort = sh script:"git rev-parse HEAD | cut -c1-10", returnStdout: true
+                        echo("CurrentCommitIdShort Is: ${_CurrentCommitIdShort}")
+
+                        _BuildVersion = "${_CurrentGitVersion}_${_CurrentCommitIdShort}"
+                        _BuildVersion = _BuildVersion.trim()
+                        echo("BuildVersion Is: ${_BuildVersion}")
+					}
+				}
+			}
+		}
+		stage ('Unit Test')
+		{
+			steps
+			{
+				dir('app_UT')
+				{
+					script
+					{
+						try
+						{
+							//Run UniTest
+							sh 'python ExperimentTests.py'
+						}
+						catch (err)
+						{
+							println("Unit Test failed for ${_BuildVersion}")
+							currentBuild.result = 'Fail'
+						}
+					}
+					sh 'cp -Rr ../CI_Pipeline/files/* .'
+					stash includes: '*', name: 'copy_to_slave', useDefaultExcludes: false
+				}
+			}
+		}
+		stage('Docker build, run and test on slave')
+		{
+			agent
+			{
+				label 'slave'
+			}
+			stages
+			{
+				stage ('Build Dokerfile')
+				{
+					steps
+					{
+							script
+							{
+								unstash 'copy_to_slave'
+								try
+								{
+									sh "docker build -t docker-app:${_BuildVersion} . "
+
+									//Save docker image on slave, problem that slave disk space is limited!!!!
+								//sh "docker save ${_BuildVersion} > ${_BuildVersion}.tar"
+									//sh "ls -sh ${_BuildVersion}.tar"
+								}
+								catch (err)
+								{
+									println("docker build docker-app:${_BuildVersion} fail")
+									currentBuild.result = 'Fail'
+								}
+							}
+					}
+				}
+				stage('Run docker container for UT')
+				{
+					steps
+					{
+							script
+							{
+								try
+								{
+									sh "docker run -d docker-app:${_BuildVersion}"
+							      sh "_contid=`docker ps -a | awk '{print \$1}' | awk 'NR==2'` " 
+							   	  sh "echo ${_contid}"
+								//   sh "_dockerlogs=`docker logs ${_contid}` "
+							 //    sh	"echo _dockerlogs= ${_dockerlogs}"
+								//	if ( _dockerlogs.toString() != "Hello world!" )
+							//		{
+						//				echo "UT on container fail"
+					//					currentBuild.result = 'Fail'
+				//					}
+								}
+								catch (err)
+								{
+									println("docker build dockerizeApp:${_BuildVersion} fail")
+									sh "docker rmi docker-app:${_BuildVersion}"
+									currentBuild.result = 'Fail'
+								}
+							}
+					}
+				}
+			}
+		}
+		stage ('Copy Unit Test Files To Ansible Folder')
+		{
+			steps
+			{
+				dir('CI_Pipeline')
+				{
+					script
+					{
+						unstash 'copy_to_master'
+						sh 'pwd'
+						sh 'ls -ltr'
+						sh 'ls ../App_UT'
+						sh 'cp -Rr ../App_UT/* files/'
+						sh 'ls files'
+					}
+				}
+			}
+		}
+		stage('Interactive IP Input')
+		{
+			steps
+			{
+				script
+				{
+					// Get the input
+					_userInput = input (id: '_userInput', message: 'Please Enter Remote Machine IP:',
+						parameters:
+						[
+							string
+							(
+								defaultValue: '3.84.49.160',
+								description: 'IP of the machine to procced the pipeline connabds',
+								name: 'IP'
+							),
+						]
+					)
+
+					// Echo to console
+					echo("Entered IP Is: ${_userInput}")
+				}
+			}
+		}
+		stage('Save Input Value Into Hosts File')
+		{
+			steps
+			{
+				dir('CI_Pipeline')
+				{
+					script
+					{
+						//Save _userInput value
+						sh "pwd"
+						sh "ls"
+						sh "echo $_userInput >> hosts"
+						sh "cat hosts"
+						sh "pwd"
+					}
+				}
+			}
+		}
+		stage('Run Ansible Pipeline')
+		{
+			steps
+			{
+				dir('CI_Pipeline')
+				{
+					script
+					{
+						//Run Ansible Playbook
+						sh "pwd"
+						sh "ls"
+						// Check Java Version
+						//sh "ps axufwwww | grep 'jenkins | java' - "
+						// Show PEM Content File
+						//sh "cat /var/jenkins_home/.ssh/AWS_Key_Instance1.pem"
+
+						// Run Ansible
+						sh "ansible-playbook -vvvv -i hosts -u ubuntu -b --private-key=/var/jenkins_home/.ssh/AWS_Key_Instance1.pem playbook.yml"
+					}
+				}
+			}
+		}
+/*		stage('Push Tag Version')
+		{
+        steps
+			{
+				dir('Course')
+				{
+                    script
+					{
+                  withCredentials([usernamePassword(credentialsId: 'b599c7a1-bf9e-4719-803f-ea9b45daa027', passwordVariable: 'Password', usernameVariable: 'Username')])
+						{
+							sh('git status')
+							sh('git config --global user.name "yossi")
+							sh('git config --global user.email "yossibnv@gmail.com"')
+							sh('git checkout yossi')
+							sh('git pull')
+							sh('git tag ${_BuildVersion}')
+							//sh('git add .')
+							//sh('git commit -m "Commit Tag Version: ${_BuildVersion"')
+                            sh('git status')
+							sh('git push https://${Username}:${Password}@github.com/DevOpsINT/Course.git yossi ${_BuildVersion}')
+						}
+                    }
+				}
+			}
+		}*/
+	}
+}
+
+
