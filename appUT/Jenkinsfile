@@ -85,8 +85,8 @@ def BuildVersion
 					 sh 'pwd'
 					 sh 'ls'
 	               
-				 sh "docker images"
-			         sh "docker tag image_version:${BuildVersion} ${registry}:${BuildVersion}"
+				 sh "sudo docker images"
+			         sh "sudo docker tag image_version:${BuildVersion} ${registry}:${BuildVersion}"
 				  docker.withRegistry( '', registryCredential ) {
         			     sh "docker push ${registry}:${BuildVersion}"
         		          }
