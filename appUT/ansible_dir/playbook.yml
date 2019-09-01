@@ -1,56 +1,49 @@
 ---
 
-- name: Rozana
-  hosts: all
-  gather_facts: no
-  remote_user: ubuntu
-  become: yes
-  
-- name: Install Docker
-  apt:
-   name: docker.io
-   state: present
+-  gather_facts: no
+   hosts : all
+   remote_user: ubuntu
+   become: yes
 
-- name: Stop Docker Service
+   pre_tasks:
+   - raw: sudo apt -qy update&& sudo apt install -qy python3&& sudo apt install -qy python&& sudo apt install -qy python-pip&& sudo pip install docker-py
+   - setup:
+
+   tasks:
+   - name: Install Docker
+     apt:
+       name: docker.io
+       state: present
+
+   - name: Stop Docker Service
      service:
        name: docker
        state: stopped
 
-- name: Start Docker Service
-  service:
-   name: docker
-   state: started
-       
-- name: Install Docker
-   apt:
-    name: docker.io
-    state: present
-    
-- name: Umask docker service
-  shell: systemctl unmask docker &>/dev/null
+   - name: Start Docker Service
+     service:
+       name: docker
+       state: started
 
-- name: Start Docker Service
-  service:
-    name: docker
-    state: started
-      
-- name: running a container
-  docker_container:
-    name: "{{ pulling_image_from_dockerhub }}"
-    image: "{{ pulling_image_from_dockerhub }}"
-    state: started
+   - name: Running the container
+     docker_container:
+       name: "{{ pulling_image_from_dockerhub }}"
+       image: "{{ pulling_image_from_dockerhub }}"
+       state: started
 
-- name: Save Docker Log Into Register
-  shell: "docker logs {{ pulling_image_from_dockerhub }}"
-  register: docker_log_container
+   - name: Save Docker Log Into Register
+     shell: docker logs "{{ pulling_image_from_dockerhub }}"
+     register: docker_log
 
-- debug:
-    var: docker_log_container.stdout
+   - debug:
+       var: docker_log.stdout
 
-- set_fact:
-    stop_enabled: true
-    when: "'Hello world!' == docker_log_container.stdout"
+   - set_fact:
+          stop_enabled: true
+     when: "'Hello world!' == docker_log.stdout"
 
-- fail:
-    msg: "The Conteiner Log Not Equal To String."
-    when: "'Hello world!' != docker_log.stdout"
+   - fail:
+          msg: "The Conteiner Log Not Equal To Check String."
+     when: "'Hello world!' != docker_log.stdout"
+
+
