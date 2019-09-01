@@ -28,7 +28,7 @@
    - name: Running the container
      docker_container:
        name: "{{ pulling_image_from_dockerhub }}"
-       image: "{{ image_version }}"
+       image: "{{ pulling_image_from_dockerhub }}"
        state: started
 
    - name: Save Docker Log Into Register
