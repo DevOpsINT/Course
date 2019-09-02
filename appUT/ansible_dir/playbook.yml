@@ -28,11 +28,17 @@
    - name: Pull image from dockerhub
      shell: docker pull "{{ pulling_image_from_dockerhub }}"
 
-   - name: Tag docker image
+   - name: Tag dockerhub image 
      shell: docker tag "{{ pulling_image_from_dockerhub }}" "{{myfirstimage}}"
      
+   - name: Running the container
+     docker_container:
+       name: "{{myfirstimage}}"
+       image: "{{myfirstimage}}"
+       state: started
+     
    - name: Save Docker Log Into Register
-     shell: docker logs "{{ pulling_image_from_dockerhub }}"
+     shell: docker logs "{{myfirstimage}}"
      register: docker_log
      
     - debug:
