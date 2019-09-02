@@ -41,7 +41,8 @@
      shell: docker logs "{{myfirstimage}}"
      register: docker_log
      
-   - debug:
+   - name: print debug 
+     debug:
      var: docker_log.stdout
 
 
