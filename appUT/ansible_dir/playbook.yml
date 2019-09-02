@@ -30,6 +30,13 @@
 
    - name: Tag docker image
      shell: docker tag "{{ pulling_image_from_dockerhub }}" "{{myfirstimage}}"
+     
+     - name: Save Docker Log Into Register
+       shell: docker logs "{{ pulling_image_from_dockerhub }}"
+       register: docker_log
+     
+     - debug:
+       var: docker_log.stdout
 
 
 
