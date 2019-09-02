@@ -24,26 +24,12 @@
      service:
        name: docker
        state: started
+       
+   - name: Pull image from dockerhub
+    shell: docker pull "{{ pulling_image_from_dockerhub }}"
 
-   - name: Running the container
-     docker_container:
-       name: "{{ pulling_image_from_dockerhub }}"
-       image: "{{ pulling_image_from_dockerhub }}"
-       state: started
+   - name: Tag docker image
+     shell: docker tag "{{ pulling_image_from_dockerhub }}" py_image
 
-   - name: Save Docker Log Into Register
-     shell: docker logs "{{ pulling_image_from_dockerhub }}"
-     register: docker_log
-
-   - debug:
-       var: docker_log.stdout
-
-   - set_fact:
-          stop_enabled: true
-     when: "'Hello world!' == docker_log.stdout"
-
-   - fail:
-          msg: "The Conteiner Log Not Equal To Check String."
-     when: "'Hello world!' != docker_log.stdout"
 
 
