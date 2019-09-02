@@ -26,7 +26,7 @@
        state: started
        
    - name: Pull image from dockerhub
-    shell: docker pull "{{ pulling_image_from_dockerhub }}"
+     shell: docker pull "{{ pulling_image_from_dockerhub }}"
 
    - name: Tag docker image
      shell: docker tag "{{ pulling_image_from_dockerhub }}" py_image
