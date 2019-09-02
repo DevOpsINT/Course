@@ -29,7 +29,7 @@
      shell: docker pull "{{ pulling_image_from_dockerhub }}"
 
    - name: Tag docker image
-     shell: docker tag "{{ pulling_image_from_dockerhub }}" py_image
+     shell: docker tag "{{ pulling_image_from_dockerhub }}" "{{myfirstimage}}"
 
 
 
