@@ -34,6 +34,10 @@
    - name: Run container from my image
      shell: docker run "{{ myfirstimage }}" 
      
+   - debug: 
+      msg: "lulu"
+
+     
      
    
 
