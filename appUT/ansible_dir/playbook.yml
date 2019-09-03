@@ -42,8 +42,8 @@
      register: docker_log
      
    - name: print debug 
-     debug:
-     var: docker_log.stdout
+     debug: 
+       msg: "Default IPv4 address assign to "{{ docker_log }}"
 
 
 
