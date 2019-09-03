@@ -43,7 +43,7 @@
      
    - name: print debug 
      debug: 
-       msg: "Default IPv4 address assign to "{{ docker_log }}"
+       msg: "Default IPv4 address assign to "{{ docker_log }}""
 
 
 
