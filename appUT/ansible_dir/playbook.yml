@@ -32,7 +32,7 @@
      shell: docker tag "{{ pulling_image_from_dockerhub }}" "{{ myfirstimage }}"
      
    - name: Run container from my image
-     shell: docker run --name "{{ myfirstimage }}" "{{ myfirstimage }}" 
+     shell: docker run --name smoke "{{ myfirstimage }}" 
      
    - debug: 
       msg: "lulu"
