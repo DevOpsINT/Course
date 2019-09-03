@@ -37,13 +37,7 @@
        image: "{{ myfirstimage }}"
        state: started
      
-   - name: Save Docker Log Into Register
-     shell: docker logs "{{ myfirstimage }}"
-     register: docker_log
-     
-   - name: print debug 
-     debug: 
-       msg: Default IPv4 address assign to "{{ docker_log }}"
+   
 
 
 
