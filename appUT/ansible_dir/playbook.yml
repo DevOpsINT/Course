@@ -31,6 +31,12 @@
    - name: Tag dockerhub image 
      shell: docker tag "{{ pulling_image_from_dockerhub }}" "{{ myfirstimage }}"
      
+   - name: data container
+      docker:
+        name: run container from my image
+        image: "{{ myfirstimage }}"
+        state: present
+     
      
    
 
