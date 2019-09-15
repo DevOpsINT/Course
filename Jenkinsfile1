@@ -11,8 +11,11 @@ pipeline {
                 script {
                     dir('release') {
                         deleteDir()
-                        checkout([$class: 'GitSCM', branches: [[name: '*/vered']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'DevOpsINT', url: 'https://github.com/DevOpsINT/release.git']]])    
+                        'pwd'
+                        checkout changelog: false, poll: false, scm: [$class: 'GitSCM', branches: [[name: '*/vered']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: '54b659e0-6047-495c-bd66-d371d1bd3ae8', url: 'https://github.com/DevOpsINT/Course.git']]]
+                       // checkout([$class: 'GitSCM', branches: [[name: '*/vered']], doGenerateSubmoduleConfigurations: false, extensions: [], submoduleCfg: [], userRemoteConfigs: [[credentialsId: 'DevOpsINT', url: 'https://github.com/DevOpsINT/release.git']]])    
                     }
+                    sh "pwd"
                     print("BuildVersion is production ")
                 }
             }
