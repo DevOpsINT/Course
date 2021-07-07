@@ -1,0 +1,32 @@
+---
+- hostname:
+    name: "{{ service }}-{{ play_hosts.index(inventory_hostname) + 1 }}"
+- debug: msg="{{ play_hosts.index(inventory_hostname) }}"
+- debug: msg="{{ inventory_hostname }}"
+
+- name: Get instance ID
+  shell: wget -q -O - http://169.254.169.254/latest/meta-data/instance-id
+  register: instance_id
+
+- debug:
+    var: instance_id
+
+- name: Install Packages
+  apt:
+    name: ['htop', 'docker.io', 'python-pip', 'python3-pip', 'software-properties-common']
+    state: present
+    update_cache: yes
+
+- name: pip install docker
+  shell: pip install docker
+
+- name: pip3 install docker
+  shell: pip3 install docker
+
+- name: Umask docker service
+  shell: systemctl unmask docker &>/dev/null
+
+- name: Initial start of docker service
+  service:
+    name: docker
+    state: started

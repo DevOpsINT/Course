@@ -1,0 +1,22 @@
+---
+- name: Pre Tasks
+  hosts: "service_{{ service }}"
+  gather_facts: false
+  pre_tasks:
+  - local_action: wait_for port=22 host={% if ansible_ssh_host is defined %}{{ ansible_ssh_host }}{% else %}{{ inventory_hostname }}{% endif %}
+  - raw: sudo bash -c "sudo test -e /usr/bin/python || (sudo apt -qqy update && sudo apt install -qy python python3)"
+  - setup:
+
+- name: Deploy "{{ service }}"
+  hosts: "service_{{ service }}"
+  roles:
+  - { role: "{{ service }}", become: true }
+  tags:
+  - "{{ service }}"
+
+- name: Additional Roles
+  hosts: "{{ service }}"
+  roles:
+    - { role: common-roles/load-balancer-tg, become: true }
+  tags:
+  - kibana

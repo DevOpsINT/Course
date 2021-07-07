@@ -1,0 +1,25 @@
+---
+- name: Create Directory structure
+  file:
+    path: /opt/{{ service }}_{{ stack_version }}
+    state: directory
+    mode: 0777
+
+- name: "Launch {{ service }} Container"
+  docker_container:
+    name: "{{ service }}"
+    image: "{{ service }}:{{ stack_version }}"
+    hostname: "{{ {{ service }} }}"
+    recreate: yes
+    exposed_ports:
+    - "{{ {{ service }}_port }}"
+    volumes:
+    - "/opt/{{ service }}_{{ stack_version }}:/usr/share/elasticsearch/data"
+    restart_policy:
+      unless-stopped
+    interactive:
+      no
+    network_mode:
+      host
+    state:
+      started
